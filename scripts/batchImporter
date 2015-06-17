@@ -1,0 +1,186 @@
+#!/bin/bash
+
+####
+# The BASTAS batchImporter tool.
+# This script is intended to be used minimally to do an initial 
+# import of information from a spreadsheet (CSV format).
+
+# ------ The Format String ---------
+# We have the following items
+# Route                  - R
+# Last Name (Surname)    - L
+# First Name             - F
+# Gender                 - G
+# Gift 1                 - I1
+# size 1                 - S1
+# Street Address         - A
+# Apt #                  - P
+# Street Address 2       - D
+# Home Phone             - H
+# Mobile Phone           - M
+# The format string represents the expected order of fields in the 
+# input CSV file.
+# For example, RLFGI1S1I2S2APDHM, is the default format.
+# Gift items and sizes are expected to be followed by a number
+
+# ----- Exit Codes ---------------
+# 1 - Unknown option given
+# 2 - File name not given
+# 3 - File does not exist
+
+function printUsage {
+  echo "$0 [-h] fileName"
+  echo -e "\t-h\tprint this help message"
+  echo -e "\t-s\tskip the first line"
+  echo -e "\t-f FORMAT\tformat string"
+  echo -e "The file name of a CSV file must be provided."
+}
+
+format=RLFGI1S1I2S2APDHM
+
+# parse command line arguments
+while getopts "hsf:" o; do 
+  case "${o}" in
+    h)
+      printUsage
+      exit 0
+      ;;
+    s)
+      skipFirst=1
+      ;;
+    f)
+      format=$(OPTARG)
+      ;;
+    *)
+      printUsage
+      exit 1
+      ;;
+  esac
+done
+
+# parse positional arguments
+shift $((OPTIND - 1)) # shift the positional parameters
+
+CSV=""
+if [ "$#" == "1" ]; then
+  CSV="$1"
+else
+  echo "You must provide a file name ... bailing out!"
+  printUsage
+  exit 2
+fi
+
+# ensure the given file exists
+if [ ! -f "${CSV}" ]; then
+  echo "The given file name, ${CSV}, does not exist ... bailing out!"
+  exit 3;
+fi
+
+echo "hello: $# $CSV"
+
+# =============================================
+# Map format to positions in CSV file
+index=0
+declare -a FORMAT_MAP 
+for item in `echo "$format" | sed "s/\([A-Z][0-9]*\)/\1\n/g"`; do
+  FORMAT_MAP[$index]=$item
+  index=$((index+1))
+done
+
+# ===============================================
+# Scan CSV file for preliminary check of SQL statements.
+# Reject the file if it contains any commands.
+
+# ===============================================
+# Read the input file line by line.
+ln=0
+while read line; do 
+  # store the CSV entries in an array
+  declare -a data
+  index=0
+  while read arg; do
+    data[$index]="$arg"
+    index=$((index+1))
+  done < <(echo $line | gawk -F ',' '{ for ( i=1; i <= NF; i++ ) print $i }' ) 
+  #echo "line $line"
+  #echo "data ${data[*]}"
+
+  # check if we are skipping the first line
+  if [ "$ln" == "0" ] && [ -n "$skipFirst" ] ; then
+    ln=$((ln+1))
+    continue;
+  fi
+
+  # skip lines beginning with a '#'
+  if [ -n "$(echo $line | egrep '^#.*')" ]; then
+    continue;
+  fi
+
+  # declare an array of gifts and sizes
+  declare -a GIFTS
+  declare -a SIZES
+
+  # cycle over format options and collect values
+  index=0
+  for f in `echo "${FORMAT_MAP[*]}"`; do
+    case $f in
+      R)
+	ROUTE=${data[$index]}
+ 	;;
+      L)
+	SURNAME=${data[$index]}
+	;;
+      F) 
+	FIRSTNAME=${data[$index]}
+	;;
+      G)
+	GENDER=${data[$index]}
+	;;
+      I[0-9]*)
+	ngifts=${#GIFTS[@]}
+	num=${f##I}
+	GIFTS[$num]=${data[$index]}
+	;;
+      S[0-9]*)
+	ngifts=${#SIZES[@]}
+	num=${f##S}
+	SIZES[$num]=${data[$index]}
+	;;
+      A)
+	ADDRESS1=${data[$index]}
+	;;
+      P)
+	APT=${data[$index]}
+	;;
+      D)
+	ADDRESS2=${data[$index]}
+	;;
+      H)
+	HOME_PHONE=${data[$index]}
+	;;
+      M)
+	MOBILE_PHONE=${data[$index]}
+	;; 
+      *)
+	;; 
+    esac
+    index=$((index+1))
+  done 
+
+  # check we have the data
+  echo ""
+  echo "Entry -- "
+  echo "ROUTE: $ROUTE"
+  echo "Address:  $FIRSTNAME $SURNAME"
+  echo "          $ADDRESS1 $APT"
+  echo "          $ADDRESS2"
+  echo "GIFTS: ${GIFTS[*]}"
+  echo "SIZES: ${SIZES[*]}"
+  echo "HOME_PHONE: ${HOME_PHONE}"
+  echo "MOBILE_PHONE: ${MOBILE_PHONE}"
+  echo "--"
+  echo ""
+
+  ln=$((ln+1))
+
+done < ${CSV}
