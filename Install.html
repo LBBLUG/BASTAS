@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Install BASTAS Tracking</title>
+
+    <link href="css/myown.css" rel="stylesheet">
+    <script src="js-files/install.js"></script>
+</head>
+
+<body>
+    <form action="ssideScripts/database_info.php" method="post" onSubmit="return validate_serverName()">
+        <div id="InstallInstructions">Fill out the required information below, then click Begin Setup. More steps will follow to create your initial administrator accounts as well.</div>
+        <p>
+            <div id="databaseInfo" class="main_div">
+                <div id="serv_name_info">
+                    <div id="db_server_name" name="db_server_name">Enter the server name (this is usually localhost)
+                        <br />
+                        <input type="text" id="server_name_input" name="server_name_input" required />
+                    </div>
+                </div>
+                <br />
+                <div id="serv_user_info">
+                    <div id="db_user_name">Enter the username for your MySQL / MariaDB installation
+                        <br />
+                        <input type="text" id="user_name_input" name="user_name_input" required/>
+                    </div>
+                </div>
+                <br />
+                <div id="serv_pass_info">
+                    <div id="db_pass_word">Enter the password for your MySQL / MariaDB installation
+                        <br />
+                        <input type="password" id="user_pass_input" name="user_pass_input" required />
+                    </div>
+                </div>
+            </div>
+            <p>
+                <div id="submissions">
+                    <div id="btnClearForm" class="toleft">
+                        <button id="clearForm" class="install_btn">Clear Form</button>
+                    </div>
+                    <div id="btnSubmit" class="toleft">
+                        <input type="submit" id="next_step" value="Next >>" />
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div id="warnAndErr">
+
+                </div>
+    </form>
+</body>

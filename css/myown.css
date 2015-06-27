@@ -1,0 +1,44 @@
+body {
+    width:100%;
+}
+
+.main_div {
+    margin-left: 10%;
+}
+
+input {
+    width: 300px;
+    height: 20px;
+    font-size: 16px;
+}
+
+.toright {
+    position: relative;
+    margin-left: 10%;
+    float: right;
+    align-items:center;
+}
+
+.toleft {
+    position: relative;
+    margin-left: 10%;
+    float: left;
+    align-items: center;
+}
+
+.install_btn {
+    width: 80px;
+    height: 30px;
+    background: #cccccc;
+}
+
+#warnAndErr {
+    color: red;
+    font-size: 18px;
+}
+
+#next_step {
+    width: 80px;
+    height: 30px;
+    background: #cccccc;
+}
