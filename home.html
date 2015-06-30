@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="my.App" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="my.App" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="my.App" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="Bastas.App" class="no-js"> <!--<![endif]-->
 
 <head>
     <title>
@@ -10,6 +14,8 @@
 </head>
 
 <body>
+    <!-- This div tag is replaced by the appropriate view by the AngularJS framework -->
+    <div ng-view></div>
     <div id="SelectionPage">
         SelectionPage
     
@@ -63,5 +69,14 @@
     </div>
 
 
+    <!-- AngularJs App Dependencies. These have to be in this order -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="app/app.js"></script>
 
+    <!-- These can be in any order. AngularJS framework manages loading these correctly. -->
+    <script src="app/Directives/directives.js"></script>
+    <script src="app/Services/userService.js"></script>
+    <script src="app/Controllers/controllers.js"></script>
 </body>
+</html>

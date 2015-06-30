@@ -1,0 +1,23 @@
+# DEV_README
+
+INSTRUCTIONS STILL A WORK IN PROGRESS. 
+IF YOU RUN INTO ANY PROBLEMS, PLEASE REPORT THEM ON THE GIT HUB PAGE AT: https://github.com/LBBLUG/BASTAS/issues
+
+
+1. Install Apache
+2. Install Php
+3. Install MySql
+4. Install Git
+5. Install Node.js (which includes Node and npm). Make sure npm is added to your PATH before continuing.
+6. Navigate to your repository root folder which contains the package.json file.
+7. In a command window execute "npm install". This will download all project dependencies for the web site.
+8. After that command finishes, execute "npm start". This will start a web servicer on yor localhost on port 8000. You should be able to open a browser now and navigate to http://localhost:8000/home.html where the web page will now load.
+
+
+
+/////////////////////////// INSTRUCTIONS END HERE FOR NOW ///////////////////////////////
+
+
+9.
+10. Configure MySql to have a user account for the application
+11. Add MySql server account info to the config.php file, (mysql BASTAS --user=bastas --password=Passw0rd) 
