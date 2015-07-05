@@ -315,6 +315,28 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
 
     echo "<br /><br />";
     $make->close();
+        
+// *****************************************************************        
+// Create the Configuration File to Store DB creds section 1
+// *****************************************************************
+        
+$headSection1 = "[Server Login]\n";
+$serverInfo = "ServerAddress = $db_server\n";
+$userInfo = "Username = $db_user\n";
+$passInfo = "Password = $db_passwrd\n";
+$databaseInfo = "Database = $db_name\n\n";
+
+$myfile = fopen("php/src_files/config/config.php", "w") or die("Unable to open file! Please ensure the folder php/src_files/config exists, and is writeable by the application.");
+
+fwrite($myfile, $headSection1);
+fwrite($myfile, $serverInfo);
+fwrite($myfile, $userInfo);
+fwrite($myfile, $passInfo);
+fwrite($myfile, $databaseInfo);
+
+echo "Configuration file created successfully!";
+
+fclose($myfile);
 
 
     }
