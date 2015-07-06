@@ -290,7 +290,7 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
 // Create the default base data in the tables
 // *****************************************************************
 
-    $addData = "INSERT INTO BASTAS.Permission_Type SET type='Add';";
+    $addData = "INSERT INTO Permission_Type SET type='Add';";
     $addData .= "INSERT INTO Permission_Type SET type='View';";
     $addData .= "INSERT INTO Permission_Type SET type='Edit';";
     $addData .= "INSERT INTO Permission_Type SET type='Delete';";
