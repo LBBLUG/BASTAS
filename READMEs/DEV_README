@@ -4,15 +4,19 @@ INSTRUCTIONS STILL A WORK IN PROGRESS.
 IF YOU RUN INTO ANY PROBLEMS, PLEASE REPORT THEM ON THE GIT HUB PAGE AT: https://github.com/LBBLUG/BASTAS/issues
 
 
-1. Install Apache
-2. Install Php
-3. Install MySql
-4. Install Git
-5. Install Node.js (which includes Node and npm). Make sure npm is added to your PATH before continuing.
-6. Navigate to your repository root folder which contains the package.json file.
-7. In a command window execute "npm install". This will download all project dependencies for the web site.
-8. After that command finishes, execute "npm start". This will start a web servicer on yor localhost on port 8000. You should be able to open a browser now and navigate to http://localhost:8000/home.html where the web page will now load.
-
+1. Install LAMP
+   * Install Apache
+   * Install MySql
+   * Install Php
+2. Install Git
+3. Clone down the project to the directory of your choice (git clone https://github.com/LBBLUG/BASTAS)
+4. Install nodejs (sudo apt-get install nodejs)
+5. Install npm (sudo apt-get install npm)
+6. Install nodejs-legacy (sudo apt-get install nodejs-legacy)
+7. In a command window execute "npm start". This will download all project dependencies for the web site.
+   * This now includes the install commands and get all dependencies downloaded.
+   * This will also start a php server on port localhost:8000.
+8. Navigate your browser to http://localhost:8000/install.html and run the installer.
 
 
 /////////////////////////// INSTRUCTIONS END HERE FOR NOW ///////////////////////////////

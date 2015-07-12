@@ -5,6 +5,7 @@ $db_user = $_POST['user_name_input'];
 $db_passwrd = $_POST['user_pass_input']; 
 
 $db_name="bastas";
+echo "Connecting to database...";
 
 $conn = new mysqli($db_server, $db_user, $db_passwrd);
 
@@ -296,7 +297,7 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
     $addData .= "INSERT INTO Permission_Type SET type='Delete';";
     $addData .= "INSERT INTO Permission_Type SET type='Print';";
 
-    $addData .= "INSERT INTO Permission_Group SET description='Giver';"/
+    $addData .= "INSERT INTO Permission_Group SET description='Giver';";
     $addData .= "INSERT INTO Permission_Group SET description='Users';";
     $addData .= "INSERT INTO Permission_Group SET description='Groups';";
     $addData .= "INSERT INTO Permission_Group SET description='Gifts';";

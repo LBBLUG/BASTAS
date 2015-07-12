@@ -31,7 +31,7 @@
 
     "prestart": "npm install",
 
-    "start": "http-server -a localhost -p 8000 -c-1",
+    "start": "php -S localhost:8000",
     
     "test": "echo \"Error: no test specified\" && exit 1"
   }
