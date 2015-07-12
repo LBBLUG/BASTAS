@@ -13,6 +13,7 @@ IF YOU RUN INTO ANY PROBLEMS, PLEASE REPORT THEM ON THE GIT HUB PAGE AT: https:/
 4. Install nodejs (sudo apt-get install nodejs)
 5. Install npm (sudo apt-get install npm)
 6. Install nodejs-legacy (sudo apt-get install nodejs-legacy)
+   * Not needed if running OSX or Windows 7 or later.
 7. In a command window execute "npm start". This will download all project dependencies for the web site.
    * This now includes the install commands and get all dependencies downloaded.
    * This will also start a php server on port localhost:8000.
