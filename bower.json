@@ -1,0 +1,22 @@
+{
+  "name": "BASTAS Project",
+  "version": "0.0.1",
+  "homepage": "https://github.com/LBBLUG/BASTAS",
+  "authors": [
+    "LBBLUG"
+  ],
+  "description": "Be A Santa To A Senior",
+  "main": "app/app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.1",
+    "angular-route": "~1.4.1"
+  }
+}

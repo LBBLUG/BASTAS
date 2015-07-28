@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="my.App" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="my.App" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="my.App" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="Bastas.App" class="no-js">
+<!--<![endif]-->
+
+<head>
+    <title>
+        BASTAS Home
+    </title>
+
+    <!-- next is where I put my CSS and Javascript references -->
+    <link href="css/home.css" type="text/css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- This div tag is replaced by the appropriate view by the AngularJS framework -->
+    <div ng-view></div>
+    <table class="table-fullWidth">
+        <tr id="SelectionPage">
+            <td class="fifty-col">
+                logo
+            </td>
+            <td class="loginLink-col">
+                Login
+            </td>
+        </tr>
+    </table>
+
+    <table class="table-fullWidth">
+        <tr>
+            <td class="BPhoto">
+                BPhoto
+            </td>
+        </tr>
+    </table>
+
+    <div id="Description">
+        <table id="ProjDescription" class="table-fullWidth">
+            <tr>
+                <td id="Description1" class="fifty-col">
+                    Description of the Project
+                </td>
+                <td id="Description2" class="fifty-col">
+                    Description of the Project
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div id="Steps">
+        <table id="StepInst" class="table-fullWidth">
+            <tr>
+                <td id="StepsCol">
+                    Step by step Instructions
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div id="twoPanelInfoSection">
+        <table id="twoPanel" class="table-fullWidth">
+            <tr>
+                <td id="Information" class="fifty-col">
+                    Information
+                </td>
+
+                <td id="Instructions" class="fifty-col">
+                    Instructions
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="Action">
+        <table id="actionTable" class="table-fullWidth">
+            <tr>
+                <td id="Clear" class="twnfiv-col">
+                    <button id="btnClear" type="button">Clear</button>
+                </td>
+                <td id="Cancel" class="twnfiv-col">
+                    <button id="btnCancel" type="button">Cancel</button>
+                </td>
+                <td id="Print" class="twnfiv-col">
+                    <button id="btnPrint" type="button">Print</button>
+                </td>
+                <td id="Save" class="twnfiv-col">
+                    <button id="btnSave" type="button">Save</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <!-- AngularJs App Dependencies. These have to be in this order -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="app/app.js"></script>
+
+    <!-- These can be in any order. AngularJS framework manages loading these correctly. -->
+    <script src="app/Directives/directives.js"></script>
+    <script src="app/Services/userService.js"></script>
+    <script src="app/Controllers/controllers.js"></script>
+</body>
+
+</html>
