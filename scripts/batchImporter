@@ -31,15 +31,20 @@
 function printUsage {
   echo "$0 [-h] fileName"
   echo -e "\t-h\tprint this help message"
-  echo -e "\t-s\tskip the first line"
+  echo -e "\t-s\tskip the first line of the CSV file"
   echo -e "\t-f FORMAT\tformat string"
+  echo -e "\t-o SQL options\tthe SQL options [default -u \`whoami\` -p]"
+  echo -e "\t-d dry-run, just dump the SQL commands to stdout"
+  echo -e "\t-v verbose output"
   echo -e "The file name of a CSV file must be provided."
 }
 
 format=RLFGI1S1I2S2APDHM
+SQLoptions="-u `whoami` -p"
+dryRun=""
 
 # parse command line arguments
-while getopts "hsf:" o; do 
+while getopts "hsf:o:dv" o; do 
   case "${o}" in
     h)
       printUsage
@@ -50,6 +55,15 @@ while getopts "hsf:" o; do
       ;;
     f)
       format=$(OPTARG)
+      ;;
+    o)
+      SQLoptions=$(OPTARG)
+      ;;
+    d)
+      dryRun="dryRun"
+      ;;
+    v)
+      verbose="verbose"
       ;;
     *)
       printUsage
@@ -94,6 +108,7 @@ done
 # ===============================================
 # Read the input file line by line.
 ln=0
+queue="" # create an empty SQL command queue
 while read line; do 
   # store the CSV entries in an array
   declare -a data
@@ -167,20 +182,45 @@ while read line; do
     index=$((index+1))
   done 
 
-  # check we have the data
-  echo ""
-  echo "Entry -- "
-  echo "ROUTE: $ROUTE"
-  echo "Address:  $FIRSTNAME $SURNAME"
-  echo "          $ADDRESS1 $APT"
-  echo "          $ADDRESS2"
-  echo "GIFTS: ${GIFTS[*]}"
-  echo "SIZES: ${SIZES[*]}"
-  echo "HOME_PHONE: ${HOME_PHONE}"
-  echo "MOBILE_PHONE: ${MOBILE_PHONE}"
-  echo "--"
-  echo ""
+  if [[ -n "$verbose" ]]; then
+    # CHECK we have the data
+    echo ""
+    echo "Entry -- "
+    echo "ROUTE: $ROUTE"
+    echo "Address:  $FIRSTNAME $SURNAME"
+    echo "          $ADDRESS1 $APT"
+    echo "          $ADDRESS2"
+    echo "GIFTS: ${GIFTS[*]}"
+    echo "SIZES: ${SIZES[*]}"
+    echo "HOME_PHONE: ${HOME_PHONE}"
+    echo "MOBILE_PHONE: ${MOBILE_PHONE}"
+    echo "--"
+    echo ""
+  fi
+
+  # prepare the directives for SQL server
+  # add command to SQL queue
+  queue+="INSERT INTO recipients(surname, firstname, address1, apt, address2, home_phone, mobile_phone) VALUES('$SURNAME', '$FIRSTNAME', '$ADDRESS1', '$APT', '$ADDRESS2','$HOME_PHONE', '$MOBILE_PHONE'); \n"
 
   ln=$((ln+1))
 
 done < ${CSV}
+
+
+if [[ -n "$dryRun" ]]; then
+  # ------------------------------------------ 
+  # just for fun, let's dump the SQL command queue
+  echo "-----------------------"
+  echo " Dumping the SQL command queue"
+  echo -e "$queue"
+else
+  # --------------------------------------------- 
+  # add contents to SQL database
+  echo "-------------------------"
+  echo " initiating mysql command with $SQLoptions"
+mysql $SQLoptions << EOF
+use BASTAS;
+$queue
+EOF
+
+fi
