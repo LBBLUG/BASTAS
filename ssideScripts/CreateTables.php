@@ -1,54 +1,42 @@
-<?php 
+<?php
 
-$db_server = $_POST['server_name_input']; 
-$db_user = $_POST['user_name_input']; 
-$db_passwrd = $_POST['user_pass_input']; 
 
-$db_name="bastas";
+// ************************************************************************
+// This script will create the Recipient tables if they don't already exist.
+// ************************************************************************
 
-$conn = new mysqli($db_server, $db_user, $db_passwrd);
 
-// *****************************************************************
-// Check connection ability
-// *****************************************************************
+// ************************************************************************
+// first we connect to the server and database by pulling the connection settings from
+// the config.php file.
+// ************************************************************************
 
-    if ($conn->connect_error) 
-    { 
-        die("Connection failed: " . $conn->connect_error); 
-    } else { 
-        echo "Connected successfully"; 
-        echo "<br /><br />";
-    
-// *****************************************************************    
-// If the connection ability was good, create the Database
-// *****************************************************************
-        
-    echo "Stand by ..<br />"; 
-    echo "Creating the database, tables, and prefilling important data.<br />"; 
-    echo "<br />";
-    
-    $CreateDB="CREATE DATABASE IF NOT EXISTS bastas";
-    
-    if ($conn->query($CreateDB) === TRUE) {
-        echo "Database Created Successfully!";
-    } else {
-        echo "Error Creating Database: " . $conn->error;
-        echo "<br />";
-    }
-    
+$ini_array = parse_ini_file("php/src_files/config/config.php");
+
+$ServerAddress = $ini_array['ServerName'];
+$Username = $ini_array['Username'];
+$Password = $ini_array['Password'];
+$Database = $ini_array['Database'];
+
+$make = new mysqli($ServerAddress, $Username, $Password, $Database);
+
+if ($make->connect_error) 
+{ 
+    die("Connection failed: " . $make->connect_error); 
+} else { 
+    echo "Connected successfully"; 
     echo "<br /><br />";
-    $conn->close();
+}
+
+// ************************************************************************
+// Now we will create the tables. 
+// ************************************************************************
 
 // *****************************************************************
-// Create the Notes table after creating the database
-// *****************************************************************
-        
-    echo "Creating Tables...<br />";
-    echo "<br />";
-    
-    $make = new mysqli($db_server, $db_user, $db_passwrd, $db_name);
-    
-    $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
+// Create the Givers Table
+// ***************************************************************
+
+$createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     notes_id int auto_increment primary key,
     notes varchar(500) charset utf8,
     main_id int
@@ -73,7 +61,6 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
         gender varchar(1) charset utf8,
         home_phone varchar(13) charset utf8,
         cell_phone varchar(13) charset utf8,
-        online_recip bool,
         address_id int,
         route_no varchar(10) charset utf8
         ) engine=InnoDB default charset latin1;";
@@ -96,7 +83,8 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
     description varchar(500) charset utf8,
     size varchar(20) charset utf8,
     main_id int,
-    status_id int
+    status_id int, 
+    giver_id int
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableGifts) === TRUE) {
@@ -136,7 +124,8 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
     
     $createTableGift_Status = "CREATE TABLE IF NOT EXISTS Gift_Status (
     status_id int auto_increment primary key,
-    status varchar(50) charset utf8
+    status varchar(50) charset utf8, 
+    gift_id int
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableGift_Status) === TRUE) {
@@ -145,36 +134,7 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
         echo "Error creating Gift Status table: " . $make->error;
         echo "<br />";
     }
-        
-        
-// *****************************************************************
-// Create the Givers Table
-// *****************************************************************
-    
-    $createTableGiver = "CREATE TABLE IF NOT EXISTS Giver (
-    giver_id int auto_increment primary key,
-    lastname varchar(30) charset utf8,
-    firstname varchar(30) charset utf8,
-    email varchar(150) charset utf8,
-    phone_home varchar(13) charset utf8,
-    phone_cell varchar(13) charset utf8,
-    address_street varchar(50) charset utf8,
-    apt_no varchar(10) charset utf8,
-    city varchar(50) charset utf8,
-    state varchar(2) charset utf8,
-    zip_code varchar(10) charset utf8,
-    wishes_anon boolean,
-    gift_id int
-    ) engine=InnoDB default charset latin1;";
-        
-    if ($make->query($createTableGiver) === TRUE) {
-        echo "Giver table created successfully!<br />";
-    } else {
-        echo "Error creating Giver table: " . $make->error;
-        echo "<br />";
-    }
-        
-        
+
 // *****************************************************************
 // Create the Delivery Information Table
 // *****************************************************************
@@ -192,8 +152,35 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
         echo "Error creating Delivery Information table: " . $make->error;
         echo "<br />";
     }
+
+
+// *****************************************************************
+// Create the Givers Table
+// *****************************************************************
+    
+    $createTableGiver = "CREATE TABLE IF NOT EXISTS Giver (
+    giver_id int auto_increment primary key,
+    lastname varchar(30) charset utf8,
+    firstname varchar(30) charset utf8,
+    email varchar(150) charset utf8,
+    phone_home varchar(13) charset utf8,
+    phone_cell varchar(13) charset utf8,
+    address_street varchar(50) charset utf8,
+    apt_no varchar(10) charset utf8,
+    city varchar(50) charset utf8,
+    state varchar(2) charset utf8,
+    zip_code varchar(10) charset utf8,
+    wishes_anon boolean
+    ) engine=InnoDB default charset latin1;";
         
-        
+    if ($make->query($createTableGiver) === TRUE) {
+        echo "Giver table created successfully!<br />";
+    } else {
+        echo "Error creating Giver table: " . $make->error;
+        echo "<br />";
+    }
+
+
 // *****************************************************************
 // Create the Users Table
 // *****************************************************************
@@ -205,7 +192,8 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
     company varchar(100) charset utf8,
     uname varchar(100) charset utf8,
     passw char(128),
-    email varchar(150) charset utf8
+    email varchar(150) charset utf8,
+    group_id int
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableUsers) === TRUE) {
@@ -224,7 +212,8 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
     perm_mstr_id int auto_increment primary key,
     user_id int,
     perm_type_id int,
-    perm_group_id int
+    perm_group_id int, 
+    user_group_id int
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTablePermission_Mstr) === TRUE) {
@@ -275,8 +264,7 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
     
     $createTableUser_Group = "CREATE TABLE IF NOT EXISTS User_Group (
     group_id int auto_increment primary key,
-    group_name varchar(25) charset utf8,
-    user_id int
+    group_name varchar(25) charset utf8
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableUser_Group) === TRUE) {
@@ -285,61 +273,53 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
         echo "Error creating User Group table: " . $make->error;
         echo "<br />";
     }
-        
-        
-// *****************************************************************
-// Create the default base data in the tables
-// *****************************************************************
 
-    $addData = "INSERT INTO Permission_Type SET type='Add';";
-    $addData .= "INSERT INTO Permission_Type SET type='View';";
-    $addData .= "INSERT INTO Permission_Type SET type='Edit';";
-    $addData .= "INSERT INTO Permission_Type SET type='Delete';";
-    $addData .= "INSERT INTO Permission_Type SET type='Print';";
-
-    $addData .= "INSERT INTO Permission_Group SET description='Giver';"/
-    $addData .= "INSERT INTO Permission_Group SET description='Users';";
-    $addData .= "INSERT INTO Permission_Group SET description='Groups';";
-    $addData .= "INSERT INTO Permission_Group SET description='Gifts';";
-    $addData .= "INSERT INTO Permission_Group SET description='Recipients';";
-    $addData .= "INSERT INTO Permission_Group SET description='Recipient Addresses';";
-    $addData .= "INSERT INTO Permission_Group SET description='Gift Status';";
-    $addData .= "INSERT INTO Permission_Group SET description='Delivery Info';";
-    $addData .= "INSERT INTO Permission_Group SET description='Notes';";
+// *****************************************************************
+// Create the Home Page Settings Table
+// *****************************************************************
     
-    if ($make->multi_query($addData) === TRUE) {
-        echo "Default Records have been added successfully!<br /><br />";
+    $createTableHomePage_Settings = "CREATE TABLE IF NOT EXISTS HomePage (
+    homePage_id int auto_increment primary key,
+    descriptionOne varchar(1000) charset utf8,
+    descriptionTwo varchar(1000) charset utf8,
+    backgroundPhoto varchar(255) charset utf8,
+    giver_instructions varchar(1000) charset utf8,
+    information_pane varchar(1000) charset utf8,
+    extra_information varchar(1000) charset utf8
+    ) engine=InnoDB default charset latin1;";
+        
+    if ($make->query($createTableHomePage_Settings) === TRUE) {
+        echo "Home page settings table created successfully!<br />";
     } else {
-        echo "Error adding default records: " . $make->error;
+        echo "Error creating Home Settings: " . $make->error;
+        echo "<br />";
     }
 
-
-    echo "<br /><br />";
-    $make->close();
-        
-// *****************************************************************        
-// Create the Configuration File to Store DB creds section 1
 // *****************************************************************
-        
-$headSection1 = "[Server Login]\n";
-$serverInfo = "ServerAddress = $db_server\n";
-$userInfo = "Username = $db_user\n";
-$passInfo = "Password = $db_passwrd\n";
-$databaseInfo = "Database = $db_name\n\n";
+// Create an activity Log Table
+// *****************************************************************
 
-$myfile = fopen("php/src_files/config/config.php", "w") or die("Unable to open file! Please ensure the folder php/src_files/config exists, and is writeable by the application.");
+    $createActivityLogTable = "CREATE TABLE IF NOT EXISTS ActivityLog (
+    log_id int auto_increment primary key,
+    user_id int,
+    main_id int,
+    gift_id int,
+    giver_id int,
+    delivery_id int,
+    dateOfActivity datetime NOT NULL DEFAULT Now(),
+    log_notes varchar(500),
+    ip_address varchar(20)
+    ) engine=InnoDB defautl charset latin1;";
 
-fwrite($myfile, $headSection1);
-fwrite($myfile, $serverInfo);
-fwrite($myfile, $userInfo);
-fwrite($myfile, $passInfo);
-fwrite($myfile, $databaseInfo);
-
-echo "Configuration file created successfully!";
-
-fclose($myfile);
-
-
+    if (make->query($createActivityLogTable) === TRUE) {
+        echo "Activity Log table created successfully!<br />";
+    } else {
+        echo "Error creating Activity Log table: " . $make->error;
+        echo "<br />";
     }
+
+
+echo "<br /><br />";
+    $make->close();
 
 ?>

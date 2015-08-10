@@ -21,21 +21,7 @@ if ($conn->connect_error)
     echo "<br /><br />";
 }
 
-$createrecipAndAddress = "CREATE DEFINER= '$username'@`$ServerAddress` PROCEDURE `pop_recipAndAddress`(IN lastName varchar(30), IN firstName varchar(30), IN sex varchar(1), IN h_phone varchar(13), IN c_phone varchar(13), IN onlineRecip bool, IN routeNo varchar(10), IN street varchar(50), IN apt varchar(10),  IN neigh varchar(50), IN city_name varchar(50), IN state_name varchar(2), IN zip varchar(10),IN giftNo int(11),IN giftDesc varchar(500),IN giftSize varchar(20)) BEGIN DECLARE mainId INT DEFAULT 0; INSERT INTO Recipients (lastname, firstname, gender, home_phone, cell_phone, online_recip, route_no) VALUES (lastName, firstName, sex, h_phone, c_phone, onlineRecip, routeNo); SET mainId = last_insert_id();INSERT INTO Recip_Address (street_address, apt_no, neighborhood, city, state, zip_code, main_id) VALUES (street, apt, neigh, city_name, state_name, zip, mainId); INSERT INTO Gifts (gift_no, description, size, main_id) VALUES (giftNo, giftDesc, giftSize, mainId);END;";
-
-$createGiftStatus = "CREATE DEFINER = '$username'@`$ServerAddress` PROCEDURE 'ins_giftStatusCode' (IN Status varchar(50)) BEGIN INSERT INTO Gift_Status (status) VALUES (Status);END;";
-    
-$createGivers = "CREATE DEFINER = '$username'@`$ServerAddress` PROCEDURE 'ins_giverInformation' (IN lastName varchar(30), IN firstName varchar(30), IN Email varchar(150), IN homePhone varchar(13), IN cellPhone varchar(13), IN streetAddress varchar(50), IN aptNo varchar(10), IN cityName varchar(50), IN stateName varchar(2), IN postCode varchar(10), IN wishAnon bool, IN giftId int) BEGIN INSERT INTO Giver (lastname, fistname, email, phone_home, phone_cell, address_street, apt_no, city, state, zip_code, wishes_anon, gift_id) VALUES (lastName, firstName, Email, homePhone, cellPhone, streetAddress, aptNo, cityName, stateName, postCode, wishAnon, giftId); END;";
-    
-$createNotes = "CREATE DEFINER = '$username'@`$ServerAddress` PROCEDURE 'ins_recipNotes' (IN Note varchar(500), IN mainId int) BEGIN INSERT INTO Notes (notes, main_id) VALUES (Note, mainId); END;";
-
-
-// ************************************************************************
-// Permissions and Group Permissions need to be added here.
-// ************************************************************************
-
-
-mysqli_select_db($conn, "bastas");
+$createrecipAndAddress = "CREATE PROCEDURE pop_recipAndAddress(IN lastName varchar(30), IN firstName varchar(30), IN sex varchar(1), IN h_phone varchar(13), IN c_phone varchar(13), IN routeNo varchar(10), IN street varchar(50), IN apt varchar(10),  IN neigh varchar(50), IN city_name varchar(50), IN state_name varchar(2), IN zip varchar(10)) BEGIN INSERT INTO Recipients (lastname, firstname, gender, home_phone, cell_phone, route_no) VALUES (lastName, firstName, sex, h_phone, c_phone, routeNo); INSERT INTO Recip_Address (street_address, apt_no, neighborhood, city, state, zip_code, main_id) VALUES (street, apt, neigh, city_name, state_name, zip, Last_Insert_ID()); END;";
 
 if (!$conn->query($createrecipAndAddress))
 {
@@ -43,5 +29,147 @@ if (!$conn->query($createrecipAndAddress))
 } else {
     echo "Stored procedure created pop_recipAndAddress sucessfully!";
 }
+
+// create an admin user initial
+$createAdminUser = "CREATE PROCEDURE createAdminUser(IN lastName varchar(30), IN firstName varchar(30), IN Company varchar(100), IN uName varchar(100), IN passW char(128), IN eMail varchar(150)) BEGIN INSERT INTO Users (last_name, first_name, company, uname, passw, email, group_id) VALUES (lastName, firstName, Company, uName, passW, eMail, (SELECT group_id FROM User_Group WHERE group_name = 'Admin')); END;";
+
+if (!$conn->query($createAdminUser))
+{
+    echo "Stored Procedure createion of createAdminUser failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Precdure createAdminUser created successfully!"
+}
+
+
+// create Admin Group Permissions
+$createAdminGroupPermissions = "CREATE PROCEDURE pop_createAdminGroupPermissions() BEGIN DECLARE rowNumPermType INT DEFAULT 0; DECLARE counterPermType INT DEFAULT 0; DECLARE rowNumPermGroup INT DEFAULT 0; DECLARE counterPermGroup INT DEFAULT 0; SELECT COUNT(*) FROM bastas.Permission_Type INTO rowNumPermType; SELECT COUNT(*) FROM bastas.Permission_Group INTO rowNumPermGroup; SET counterPermType=0; SET counterPermGroup=0; WHILE counterPermType<rowNumPermType DO WHILE counterPermGroup<rowNumPermGroup DO INSERT INTO bastas.Permission_Mstr (perm_type_id, perm_group_id, user_group_id) VALUES (counterPermType + 1, counterPermGroup + 1, (SELECT group_id FROM bastas.User_Group WHERE group_name = 'Admin')); SET counterPermGroup = counterPermGroup + 1; END WHILE; SET counterPermType = counterPermType + 1; SET counterPermGroup = 0; END WHILE; END;";
+
+if (!$conn->query($createAdminGroupPermissions))
+{
+    echo "Stored procedure creation of createAdminGroupPermissions failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored procedure creation of createAdminGroupPermissions Successful!";
+}
+
+
+// create procedure to simply add a new user without any permissions set
+$addUser = "CREATE PROCEDURE createUser(IN lastName varchar(30), IN firstName varchar(30), IN Company varchar(100), IN uName varchar(100), IN passW char(128), IN eMail varchar(150)) BEGIN INSERT INTO Users (last_name, first_name, company, uname, passw, email) VALUES (lastName, firstName, Company, uName, passW, eMail); END;";
+
+if (!$conn->query($addUser))
+{
+    echo "Stored procedure creation of createUser failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored procedure creation of createUser Successful!";
+}
+
+
+// create procedure to add permissions to a user
+$addPermission = "CREATE PROCEDURE addUserPermission (IN userID int, IN permTypeID int, IN permGroupID int, IN userGroupID int) BEGIN INSERT INTO Permission_Mstr (user_id, perm_type_id, perm_group_id, user_group_id) VALUES (userID, permTypeID, permGroupID, userGroupID); END;";
+
+if (!$conn->query($addPermission))
+{
+    echo "Stored procedure creation of addPermission failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Procedure creation of addPermission successful!";
+}
+
+
+// create procedure to add user group
+$addUserGroup = "CREATE PROCEDURE createUserGroup(IN groupName varchar(25)) BEGIN INSERT INTO User_Group (group_name) VALUES (groupName); END;";
+
+if (!$conn-?query($addUserGroup))
+{
+    echo "Stored procedure creation of createUserGroup failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored procedure createUserGroup created successfully!";
+}
+
+// create procedure to add a user to a group
+$addUserToGroup = "CREATE PROCEDURE addUserToGroup(IN userId int, IN groupId int) BEGIN UPDATE Users SET group_id=groupId WHERE user_id=userId; END;";
+
+if (!$conn->query($addUserToGroup))
+{
+    echo "Stored Procedure creation of addUserToGroup failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Preocdure addUserToGroup created successfully!";
+}
+
+// create procedure to change a user's group
+$changeUserGroup = "CREATE PROCEDURE changeUsersGroup(IN userId int, IN groupId int) BEGIN UPDATE Users SET group_id = groupId WHERE user_id = userId; END;";
+
+if (!$conn->query($changeUserGroup))
+{
+    echo "Stored Procedure creation of changeUserGroup failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Preocdure changeUserGroup created successfully!";
+}
+
+// create procedure to add permissions to User Group
+$addGroupPerm = "CREATE PROCEDURE addGroupPerm(IN userID int, IN permTypeID int, IN permGroupID int, IN userGroupID int) BEGIN INSERT INTO Permission_Mstr (user_id, perm_type_id, perm_group_id, user_group_id) VALUES (userID, permTypeID, permGroupID, userGroupID); END;";
+
+if (!$conn->query($addGroupPerm))
+{
+    echo "Stored procedure creation of addGroupPerm failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Procedure creation of addGroupPerm successful!";
+}
+
+
+// create procedure to add a Giver
+$addGiver = "CREATE PROCEDURE addGiver(IN lastName varchar(30), IN firstName varchar(30), IN eMail varchar(150), IN homePhone varchar(13), IN cellPhone varchar(13), IN addressStreet varchar(50), IN aptNo varchar(10), IN City varchar(50), IN State varchar(2), IN Postal varchar(10), IN wishesAnon bool) BEGIN INSERT INTO Giver (last_name, first_name, email, phone_home, phone_cell, address_street, apt_no, city, state, zip_code, wishes_anon) VALUES (lastName, firstName, eMail, homePhone, cellPhone, addressStreet, aptNo, City, State, Postal, wishesAnon); END;";
+
+if (!$conn->query($addGiver))
+{
+    echo "Stored Procedure creation of addGiver failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Procedure creation of addGiver successful!";
+}
+
+
+// create procedure to add a Gift to a Giver
+$addGiftToGiver = "CREATE PROCEDURE addGiftToGiver (IN giftID int, IN giverID int) BEGIN INSERT INTO Gifts (giver_id) VALUES (giverID) WHERE gift_id = giftID; END;";
+
+if (!$conn->query($addGiftToGiver))
+{
+    echo "Stored Procedure creation of addGiftToGiver failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Preocdure addGiftToGiver created successfully!";
+}
+
+
+// create procedure to add Gift Statuses
+$addGiftStatusCode = "CREATE PROCEDURE addGiftStatusCode (IN Status varchar(50)) BEGIN INSERT INTO Gift_Status (status) VALUES (Status); END;";
+
+if (!$conn->query($addGiftStatusCode))
+{
+    echo "Stored Procedure creation of addGiftStatusCode failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Preocdure addGiftStatusCode created successfully!";
+}
+
+// create procedure to change gift status for a gift
+$changeGiftStatus = "CREATE PROCEDURE changeGiftStatus(IN giftId int, IN statusId int) BEGIN UPDATE Gifts SET status_id=statusId
+WHERE gift_id=giftId; END;";
+
+if (!$conn->query($changeGiftStatus))
+{
+    echo "Stored Procedure creation of changeGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Preocdure changeGiftStatus created successfully!";
+}
+
+// create procedure to add Delivery Information - used when a gift is sent out for delivery
+$addDeliveryInfo = "CREATE PROCEDURE addDeliveryInfo(IN deliveryId int, IN delivererName varchar(60), IN delivererPhone varchar(10), IN giftId int) BEGIN INSERT INTO Delivery_Info (delivery_id, person_name, person_phone, gift_id) VALUES (deliveryId, delivererName, delivererPhone, giftId); END;";
+
+if (!$conn->query($addDeliveryInfo))
+{
+    echo "Stored Procedure creation of addDeliveryInfo failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Preocdure addDeliveryInfo created successfully!";
+}
+
+// pull back users and their group from database
+/*$pullUsers = "CREATE PROCEDURE getUsers(OUT user_id int, OUT lastName varchar(30), OUT firstName varchar(30), OUT Company varchar(100), OUT UserName varchar(100), OUT eMail varchar(150), OUT groupName varchar(25), OUT groupId int) BEGIN */
+
 
 ?>

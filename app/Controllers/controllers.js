@@ -18,3 +18,8 @@ angular.module('Bastas.Controllers')
 	$scope.MyProperty = 'Test String!';
   $scope.Users = userService.GetUsers();
 }]);
+
+.controller('AddUserController', ['$scope', 'userService', function($scope, userService) {
+    $scope.UserProperty = 'Add User';
+    $scope.Users = userService.AddUsers();
+}]);

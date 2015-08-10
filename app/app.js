@@ -17,6 +17,12 @@ app.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'app/Views/Home.html',
     controller: 'HomeController'
   });
+    
+// This section sends the user to the Add User window
+ $routeProvider.when('/AddUser', {
+     templateUrl: 'app/Views/AddUser.html',
+     controller: 'AddUserController'
+ });
 
 // This tells AngularJS to show the Home.html when the path is an unknown match
   $routeProvider.otherwise({redirectTo: '/Home'});
