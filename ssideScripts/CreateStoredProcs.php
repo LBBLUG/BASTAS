@@ -37,7 +37,7 @@ if (!$conn->query($createAdminUser))
 {
     echo "Stored Procedure createion of createAdminUser failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Precdure createAdminUser created successfully!"
+    echo "Stored Precdure createAdminUser created successfully!";
 }
 
 
@@ -77,7 +77,7 @@ if (!$conn->query($addPermission))
 // create procedure to add user group
 $addUserGroup = "CREATE PROCEDURE createUserGroup(IN groupName varchar(25)) BEGIN INSERT INTO User_Group (group_name) VALUES (groupName); END;";
 
-if (!$conn-?query($addUserGroup))
+if (!$conn->query($addUserGroup))
 {
     echo "Stored procedure creation of createUserGroup failed: (" . $conn->errno . ") " . $conn->error;
 } else {
@@ -169,7 +169,6 @@ if (!$conn->query($addDeliveryInfo))
 }
 
 // pull back users and their group from database
-/*$pullUsers = "CREATE PROCEDURE getUsers(OUT user_id int, OUT lastName varchar(30), OUT firstName varchar(30), OUT Company varchar(100), OUT UserName varchar(100), OUT eMail varchar(150), OUT groupName varchar(25), OUT groupId int) BEGIN */
-
+/* $getUsersandGroups = "CREATE PROCEDURE getUsersAndGroups() BEGIN SELECT */
 
 ?>

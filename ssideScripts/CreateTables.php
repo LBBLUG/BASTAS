@@ -311,7 +311,7 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ip_address varchar(20)
     ) engine=InnoDB default charset latin1;";
 
-    if (make->query($createActivityLogTable) === TRUE) {
+    if ($make->query($createActivityLogTable) === TRUE) {
         echo "Activity Log table created successfully!<br />";
     } else {
         echo "Error creating Activity Log table: " . $make->error;
