@@ -82,8 +82,7 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     gift_no int,
     description varchar(500) charset utf8,
     size varchar(20) charset utf8,
-    main_id int,
-    status_id int, 
+    main_id int, 
     giver_id int
     ) engine=InnoDB default charset latin1;";
         
@@ -125,7 +124,8 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     $createTableGift_Status = "CREATE TABLE IF NOT EXISTS Gift_Status (
     status_id int auto_increment primary key,
     status varchar(50) charset utf8, 
-    gift_id int
+    gift_id int,
+    active bool,
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableGift_Status) === TRUE) {
