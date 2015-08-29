@@ -37,7 +37,7 @@ if (!$conn->query($createAdminUser))
 {
     echo "Stored Procedure createion of createAdminUser failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Precdure createAdminUser created successfully!"
+    echo "Stored Precdure createAdminUser created successfully!";
 }
 
 
@@ -77,7 +77,7 @@ if (!$conn->query($addPermission))
 // create procedure to add user group
 $addUserGroup = "CREATE PROCEDURE createUserGroup(IN groupName varchar(25)) BEGIN INSERT INTO User_Group (group_name) VALUES (groupName); END;";
 
-if (!$conn-?query($addUserGroup))
+if (!$conn->query($addUserGroup))
 {
     echo "Stored procedure creation of createUserGroup failed: (" . $conn->errno . ") " . $conn->error;
 } else {
@@ -136,15 +136,24 @@ if (!$conn->query($addGiftToGiver))
     echo "Stored Preocdure addGiftToGiver created successfully!";
 }
 
+// create procedure to add Gift Status
+$addGiftStatus = "CREATE PROCEDURE addGiftStatus (IN Gift_ID int, IN Status varchar(50), Active bool) BEGIN INSERT INTO Gift_Status (gift_id, status, active) VALUES (Gift_ID, Status, Active); END;";
 
-// create procedure to add Gift Statuses
-$addGiftStatusCode = "CREATE PROCEDURE addGiftStatusCode (IN Status varchar(50)) BEGIN INSERT INTO Gift_Status (status) VALUES (Status); END;";
-
-if (!$conn->query($addGiftStatusCode))
+if (!$conn->query($addGiftStatus))
 {
-    echo "Stored Procedure creation of addGiftStatusCode failed: (" . $conn->errno . ") " . $conn->error;
+    echo "Stored Procedure creation of addGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Preocdure addGiftStatusCode created successfully!";
+    echo "Stored Preocdure addGiftStatus created successfully!";
+}
+
+// create procedure to adjust Gift Statuses for Gifts
+$adjustGiftStatus = "CREATE PROCEDURE adjustGiftStatus (IN Gift_ID int, IN Status varchar(50), Active bool) BEGIN UPDATE Gift_Status SET status=Status, active=0 WHERE gift_id=Gift_ID; INSERT INTO Gift_Status (gift_id, status, active) VALUES (Gift_ID, Status, Active); END;";
+
+if (!$conn->query($adjustGiftStatus))
+{
+    echo "Stored Procedure creation of adjustGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    echo "Stored Preocdure adjustGiftStatus created successfully!";
 }
 
 // create procedure to change gift status for a gift
@@ -155,7 +164,7 @@ if (!$conn->query($changeGiftStatus))
 {
     echo "Stored Procedure creation of changeGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Preocdure changeGiftStatus created successfully!";
+    echo "Stored Procedure changeGiftStatus created successfully!";
 }
 
 // create procedure to add Delivery Information - used when a gift is sent out for delivery
@@ -165,11 +174,27 @@ if (!$conn->query($addDeliveryInfo))
 {
     echo "Stored Procedure creation of addDeliveryInfo failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Preocdure addDeliveryInfo created successfully!";
+    echo "Stored Procedure addDeliveryInfo created successfully!";
 }
 
 // pull back users and their group from database
-/*$pullUsers = "CREATE PROCEDURE getUsers(OUT user_id int, OUT lastName varchar(30), OUT firstName varchar(30), OUT Company varchar(100), OUT UserName varchar(100), OUT eMail varchar(150), OUT groupName varchar(25), OUT groupId int) BEGIN */
+$getUsersAndGroups = "CREATE PROCEDURE getUsersAndGroups() BEGIN SELECT User_Group.group_name, Users.last_name, Users.first_name, Users.uname, Users.email FROM Users INNER JOIN User_Group ON User_Group.group_id=Users.group_id; END;";
 
+if (!$conn->query($getUsersAndGroups))
+{
+    echo "Stored Procedure getUsersAndGroups creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure getUsersAndGroups created successfully!";
+}
+
+// retrieve a list of recipients and gifts
+$getRecipAndGifts = "CREATE PROCEDURE getRecipAndGifts() BEGIN SELECT Gifts.gift_no, Gifts.description, Gifts.size, Recipients.lastname, Recipients.firstname, Recipients.home_phone, Recipients.cell_phone, Recipients.gender, Recipients.route_no FROM Recipients INNER JOIN Gifts ON Recipients.main_id=Gifts.main_id; END;";
+
+if (!$conn->query($getRecipAndGifts))
+{
+    echo "Stored Procedure getRecipAndGifts creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure getRecipAndGifts created successfully!";
+}
 
 ?>

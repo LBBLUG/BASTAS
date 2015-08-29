@@ -54,10 +54,10 @@ while getopts "hsf:o:dv" o; do
       skipFirst=1
       ;;
     f)
-      format=$(OPTARG)
+      format=${OPTARG}
       ;;
     o)
-      SQLoptions=$(OPTARG)
+      SQLoptions=${OPTARG}
       ;;
     d)
       dryRun="dryRun"
@@ -200,7 +200,19 @@ while read line; do
 
   # prepare the directives for SQL server
   # add command to SQL queue
-  queue+="INSERT INTO recipients(surname, firstname, address1, apt, address2, home_phone, mobile_phone) VALUES('$SURNAME', '$FIRSTNAME', '$ADDRESS1', '$APT', '$ADDRESS2','$HOME_PHONE', '$MOBILE_PHONE'); \n"
+
+  # First set of commands add the recipient and recipient address
+  # to the Recipients and Recip_Address tables respecively. 
+  queue+="INSERT INTO Recipients(lastname, firstname, gender, home_phone, cell_phone, route_no) VALUES('$SURNAME', '$FIRSTNAME', '$GENDER', '$HOME_PHONE', '$MOBILE_PHONE', '$ROUTE'); \n"
+  queue+="SET @mid = LAST_INSERT_ID();\n"
+  queue+="INSERT INTO Recip_Address(street_address, apt_no, neighborhood, main_id) VALUES('$ADDRESS1','$APT','$ADDRESS2',@mid);\n"
+
+  # Add gifts to the Gifts table
+  NGIFTS=${#GIFTS[@]}
+  for NG in `seq 0 $((NGIFTS-1))`; do 
+    queue+="INSERT INTO Gifts(gift_no,description,size,main_id) VALUES($NG,'${GIFTS[$NG]}','${SIZES[$NG]}',@mid);\n"
+  done
+  
 
   ln=$((ln+1))
 
@@ -219,7 +231,7 @@ else
   echo "-------------------------"
   echo " initiating mysql command with $SQLoptions"
 mysql $SQLoptions << EOF
-use BASTAS;
+use bastas;
 $queue
 EOF
 
