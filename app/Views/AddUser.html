@@ -21,6 +21,10 @@
     
     <div id="usersListTable">
         <!-- placeholder for the user list table -->
+        <table>
+            <tr ng-repeat="name in getUsers"><td>{{ name.firstName }}</td><td>{{ name.lastName }}</td></tr>
+        </table>
+        {{ addUser }}
     </div>
     
     <div id="actionButtons">
