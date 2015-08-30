@@ -14,9 +14,11 @@ angular.module('Bastas.Controllers')
 
 }])
 
-.controller('HomeController', ['$scope', 'userService', function($scope, userService) {
+.controller('HomeController', ['$scope', '$q', 'userService', function($scope, $q, userService) {
 	$scope.MyProperty = 'Test String!';
-  $scope.Users = userService.GetUsers();
+	userService.GetUsers().then(function(data){
+		$scope.Users = data;
+	});
 }])
 
 .controller('addUserController', ['$scope', 'userService', function($scope, userService) { 

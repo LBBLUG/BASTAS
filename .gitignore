@@ -1,0 +1,7 @@
+#Bower Components
+bower_components/
+bower_components/*
+
+#Node Stuff
+node_modules/
+node_modules/*
