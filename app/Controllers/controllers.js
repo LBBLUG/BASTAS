@@ -21,7 +21,7 @@ angular.module('Bastas.Controllers')
 	});
 }])
 
-.controller('AddUserController', ['$scope', 'userService', function($scope, userService) {
-    $scope.UserProperty = 'Add User';
-    $scope.Users = userService.AddUsers();
+.controller('addUserController', ['$scope', 'userService', function($scope, userService) { 
+    $scope.addUser = 'Add User - test to see this result!';
+    $scope.getUsers = userService.addUsers();
 }]);
