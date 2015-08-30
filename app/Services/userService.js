@@ -33,8 +33,6 @@ angular.module('Bastas.Services')
 //                console.log("getUsers completed successfully.");
 //                
 //                //break out data array / return information to use.
-//                
-//                $("#Results").append($("<div>Admin User created successfully. <br /></div>"));
 //               
 //            }
 //        });
