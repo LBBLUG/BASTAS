@@ -26,6 +26,11 @@ class DatabaseUtility
 		$Password = $ini_array['Password'];
 		$Database = $ini_array['Database'];
 
+		if (empty($ServerAddress) || empty($Database) || empty($Username)|| empty($Password))
+		{
+			die("Database configuration file not set up.");
+		}
+
 		$this->conn = new mysqli($ServerAddress, $Username, $Password, $Database);
 
 		if ($this->conn->connect_error)
@@ -38,7 +43,13 @@ class DatabaseUtility
 	public function ExecuteStoredProcedure($storedProcedureNameString, $storedProcedureParametersArray)
 	{
 		$queryString = $this->BuildQueryString($storedProcedureNameString, $storedProcedureParametersArray);
+
 		$statement = $this->conn->prepare($queryString);
+
+		if ( !$statement ) {
+		    printf('Error:</br>errno: %d,</br>error: %s', $this->conn->errno, $this->conn->error);
+		    die;
+		}
 
 		if (isset($storedProcedureParametersArray) && is_array($storedProcedureParametersArray))
 		{
@@ -143,11 +154,13 @@ class DatabaseUtility
 	}
 
 	function __destruct() {
-        $this->conn->close();
-
-       	if ($this->conn->connect_error)
+		if (isset($this->conn) && $this->conn instanceof mysqli)
 		{
-			die("Disconnect failed: " . $this->conn->connect_error);
+        	$this->conn->close();
+        	if ($this->conn->connect_error)
+			{
+				die("Disconnect failed: " . $this->conn->connect_error);
+			}
 		}
 
 		$this->connected = false; 
