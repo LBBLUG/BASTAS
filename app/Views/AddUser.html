@@ -1,35 +1,52 @@
 <!-- This form allows the additiona of new users -->
-<div id="addUserContainer">
-    <div id="userName">
-        <input type="text" id="userLastName" maxlength="30" placeholder="Last Name" />
-        <input type="text" id="userFirstname" maxlength="30" placeholder="First Name" />
+<div id="addUserContainer" class="container">
+    <div class="row">
+        <div id="last_Name" class="col-sm-6">
+            <input type="text" id="userLastName" maxlength="30" placeholder="Last Name" />
+        </div>
+        <div id="first_Name" class="col-sm-6">
+            <input type="text" id="userFirstname" maxlength="30" placeholder="First Name" />
+        </div>
     </div>
-    <div id="userCompany">
+    <div class="row">
+        <div id="userCompany" class="col-sm-12">
 
-        <input type="text" id="userCompany" maxlength="50" placeholder="Company" />
+            <input type="text" id="userCompany" maxlength="50" placeholder="Company" />
+        </div>
     </div>
-    <div id="userName">
-        <input type="text" id="username" maxlength="100" placeholder="username" />
-        <input type="password" id="password" maxlength="128" placeholder="password" />
+    <div class="row">
+        <div id="userName">
+            <input type="text" id="username" maxlength="100" placeholder="username" />
+            <input type="password" id="password" maxlength="128" placeholder="password" />
+        </div>
     </div>
-    <div id="userEmail">
-        <input type="email" id="email" maxlength="150" placeholder="email@somedomain.com" />
+    <div class="row">
+        <div id="userEmail" class="col-sm-6">
+            <input type="email" id="email" maxlength="150" placeholder="email@somedomain.com" />
+        </div>
+        <div id="userGroup" class="col-sm-6">
+            <!-- this space will be a select box to choose a user's group -->
+        </div>
     </div>
-    <div id="userGroup">
-        <!-- this space will be a select box to choose a user's group -->
-    </div>
-    
-    <div id="usersListTable">
+
+    <div id="usersListTable" class="well well-lg">
         <!-- placeholder for the user list table -->
         <table>
-            <tr ng-repeat="name in getUsers"><td>{{ name.firstName }}</td><td>{{ name.lastName }}</td></tr>
+            <tr ng-repeat="name in getUsers">
+                <td>{{ name.firstName }}</td>
+                <td>{{ name.lastName }}</td>
+            </tr>
         </table>
         {{ addUser }}
     </div>
-    
-    <div id="actionButtons">
-        <button id="addUserAction" name="addUserButton">Add User</button>
-        <button id="deleteuseerAction" name="deleteUser">Delete User</button>
+
+    <div id="actionButtons" class="row">
+        <div id="btn_add" class="col-sm-6">
+            <button id="addUserAction" name="addUserButton" class="btn btn-primary">Add User</button>
+        </div>
+        <div id="btn_delete" class="col-sm-6">
+            <button id="deleteuseerAction" name="deleteUser" class="btn btn-danger">Delete User</button>
+        </div>
     </div>
 
 </div>

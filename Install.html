@@ -4,32 +4,42 @@
     <title>Install BASTAS Tracking</title>
     <link href="css/myown.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
     <script src="js-files/install_results.js"></script>
 </head>
 
 <body>
-    <div id="mainDiv" class="mainDiv">
-        <div id="InstallPageTitle" class="HeaderSection">Be A Santa to a Senior Installer</div>
-        <div id="InstallInstructions" class="subHeaderSection">Fill out the required information below, then click Begin Setup. More steps will follow to create your initial administrator accounts as well.</div>
-        <br />
-        <br />
-        <div id="formDiv" class="formDiv">
-
+    <div id="mainDiv" class="container">
+        <div id="InstallPageTitle" class="jumbotron">
+            <h2>Be A Santa to a Senior Installer</h2></div>
+        <div id="InstallInstructions" class="row well well-sm">
+            <div id "instructions_small" class="col-sm-12">Fill out the required information below, then click Begin Setup. More steps will follow to create your initial administrator accounts as well.</div>
         </div>
+    </div>
+    <br />
+    <div id="formDiv" class="container">
 
-        <div id="submissions" class="mainDiv">
-            <div id="btnClearForm" class="toleft">
-                <button id="clearForm" class="install_btn">Clear</button>
-            </div>
-            <div id="btnSubmit" class="toleft">
-                <button id="install_step">Install</button><!-- initial page -->
-                <button id="next_step">Next >></button><!-- after initial db is created -->
-                <button id="createAdmin">Create</button><!-- used to create Admin user -->
-                <button id="finishButton">Finish</button><!-- used to take user to home after complete install -->
-            </div>
-        </div>
-        <br />
-        <br />
     </div>
 
+    <div id="submissions" class="container">
+        <div class="row">
+        <div id="btnClearForm" class="col-sm-6">
+            <button id="clearForm" class="btn btn-lg btn-warning">Clear</button>
+        </div>
+        <div id="btnSubmit" class="col-sm-6">
+            <button id="install_step" class="btn btn-lg btn-primary>Install</button><!-- initial page -->
+                <button id=" next_step " class="btn btn-lg btn-primary>Next >></button>
+            <!-- after initial db is created -->
+            <button id="createAdmin" class="btn btn-lg btn-primary">Create</button>
+            <!-- used to create Admin user -->
+            <button id="finishButton" class="btn btn-lg btn-primary">Finish</button>
+            <!-- used to take user to home after complete install -->
+        </div>
+        </div>
+    </div>
 </body>
