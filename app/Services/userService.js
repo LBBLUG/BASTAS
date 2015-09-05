@@ -36,7 +36,7 @@ angular.module('Bastas.Services')
   // I transform the successful response, unwrapping the application data
   // from the API response payload.
   function handleSuccess( response ) {
-      return( response.data );
+      return( response.data.data );
   }
 }]);
 

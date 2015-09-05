@@ -158,7 +158,7 @@ class StoredProcedureParameter
 {
 	public $ParamType;
 	public $ParamValue;
-
+	// $type is defined using the table under the "Parameters" heading at http://php.net/manual/en/mysqli-stmt.bind-param.php
 	function __construct($type, $value)
 	{
 		$this->ParamType = $type;

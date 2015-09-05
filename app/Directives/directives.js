@@ -3,11 +3,13 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('Bastas.Directives');
 
-app.directive('bodyBlock', [function() {
+app.directive('userRow', [function() {
   return {
     restrict: 'AE',
     replace: 'true',
-    templateUrl: 'js/app/Directives/bodyBlock.html'
-
+    scope: {
+        datasource: '='
+    },
+    templateUrl: 'app/Directives/userRow.html'
   };
 }])
