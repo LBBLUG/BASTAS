@@ -8,7 +8,7 @@ var app = angular.module('Bastas.App', [
   'ngRoute',
 ]);
 angular.module('Bastas.Directives', []);
-angular.module('Bastas.Controllers', []);
+angular.module('Bastas.Controllers', ['ui.bootstrap', 'ngAnimate']);
 angular.module('Bastas.Services', []);
 
 // This tells AngularJS to show the Home.html partial view when the browser

@@ -14,11 +14,12 @@ angular.module('Bastas.Controllers')
 
 }])
 
-.controller('HomeController', ['$scope', '$q', 'userService', function($scope, $q, userService) {
+.controller('HomeController', ['$scope', '$q', 'userService', 'imageService', function($scope, $q, userService, imageService) {
 	$scope.MyProperty = 'Test String!';
 	userService.GetUsers().then(function(data){
 		$scope.Users = data;
 	});
+	$scope.Images = imageService.GetCarouselImages();
 }])
 
 .controller('addUserController', ['$scope', 'userService', function($scope, userService) { 

@@ -1,6 +1,15 @@
 body {
-    width:100%;
+  padding-top: 50px;
 }
+/*.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+*/
+
+/*body {
+    width:100%;
+}*/
 
 .HeaderSection {
     font-size: 40px;

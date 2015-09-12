@@ -13,3 +13,14 @@ app.directive('userRow', [function() {
     templateUrl: 'app/Directives/userRow.html'
   };
 }])
+
+app.directive('myCarousel', [function() {
+  return {
+    restrict: 'AE',
+    replace: 'true',
+    scope: {
+        datasource: '='
+    },
+    templateUrl: 'app/Directives/carousel.html'
+  };
+}]);

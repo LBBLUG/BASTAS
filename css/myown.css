@@ -1,6 +1,15 @@
 body {
-    width:100%;
+  padding-top: 50px;
 }
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+
+/*body {
+    width:100%;
+}*/
 
 .HeaderSection {
     font-size: 40px;
@@ -9,13 +18,12 @@ body {
 
 .subHeaderSection{
     font-size: 18px;
-    margin-top:3%;
+    margin-top:7%;
 }
 
 .formDiv {
     border:1px solid #cccccc;
     border-radius: 10px;
-    padding: 5%;
 }
 
 .mainDiv {
@@ -30,7 +38,7 @@ input {
     font-size: 20px;
 }
 
-.install_btn, #next_step, #install_step, #createAdmin, #finishButton {
+.install_btn, #next_step {
     display: inline-block;
     float: left;
     width: 100px;
@@ -41,24 +49,20 @@ input {
     margin-bottom: 10%;
 }
 
-#next_step, #install_step, #createAdmin, #finishButton {
+#warnAndErr {
+    color: red;
+    font-size: 18px;
+    height: 40px;
+}
+
+#next_step {
     position: relative;
     float: right;
     background: #00ff00;
 }
 
-#submissions {
-    margin-top: 5%;
-}
-
 .fieldLabel {
     font-size: 20px;
-    margin-bottom: 2%;    
-}
-
-.results {
-    height: 40%;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    overflow-y: auto;
+    margin-top:5%;
+    margin-bottom: 5%;    
 }
