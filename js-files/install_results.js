@@ -179,7 +179,6 @@ var callAddBaseData = function () {
             console.log("Base data insert action successful.");
             $("#Results").append($("<div>Default data inserted successfully. <br /><br />Click Next below to continue.<br /></div>"));
             $("#install_step").hide();
-            alert('I should now show Next button');
             $("#next_step").show();
         }
     });
