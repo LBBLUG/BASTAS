@@ -188,7 +188,24 @@ if (!$conn->query($getUsersAndGroups))
 }
 
 // retrieve a list of recipients and gifts
-$getRecipAndGifts = "CREATE PROCEDURE getRecipAndGifts() BEGIN SELECT Gifts.gift_no, Gifts.description, Gifts.size, Recipients.lastname, Recipients.firstname, Recipients.home_phone, Recipients.cell_phone, Recipients.gender, Recipients.route_no FROM Recipients INNER JOIN Gifts ON Recipients.main_id=Gifts.main_id; END;";
+$getRecipAndGifts = "CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecipAndGifts`()
+BEGIN 
+SELECT 
+Recipients.main_id,
+Gifts.gift_no, 
+Gifts.description, 
+Gifts.size, 
+Recipients.lastname, 
+Recipients.firstname, 
+Recipients.home_phone, 
+Recipients.cell_phone, 
+Recipients.gender, 
+Recipients.route_no,
+Gifts.giver_id
+FROM Recipients 
+INNER JOIN Gifts 
+ON Recipients.main_id=Gifts.main_id; 
+END;";
 
 if (!$conn->query($getRecipAndGifts))
 {

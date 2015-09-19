@@ -12,17 +12,10 @@ angular.module('Bastas.Services')
         method: "get",
         url: "ssideScripts/getUsers.php"
     });
-    return( request.then( handleSuccess, handleError ) );
-  }
-
-  // I transform the error response, unwrapping the application dta from
-  // the API response payload.
-  function handleError( response ) {
-      // The API response from the server should be returned in a
-      // nomralized format. However, if the request was not handled by the
-      // server (or what not handles properly - ex. server error), then we
-      // may have to normalize it on our end, as best we can.
-      if (
+    return( request.then( function(success){
+      return success.data;
+    }, function(err){
+          if (
           ! angular.isObject( response.data ) ||
           ! response.data.message
           ) {
@@ -30,12 +23,7 @@ angular.module('Bastas.Services')
       }
       // Otherwise, use expected error message.
       return( $q.reject( response.data.message ) );
-  }
-
-  // I transform the successful response, unwrapping the application data
-  // from the API response payload.
-  function handleSuccess( response ) {
-      return( response.data.data );
+        } ) );
   }
 }]);
 

@@ -14,23 +14,20 @@
 			<th id="gender">
 				Gender
 			</th>
-			<th id="gift1">
-				Gift 1
+			<th id="gift">
+				Gift
 			</th>
-			<th id="gift2">
-				Gift 2
-			</th>
-			<th id="gift3">
-				Gift 3
-			</th>
-			<th id="address">
-				Address
+			<th id="gift_no">
+				Gift No.
 			</th>
 			<th id="phone">
 				Phone Number
 			</th>
 			<th id="route">
 				Route
+			</th>
+			<th id="gift_received">
+				Gift Received
 			</th>
 			<th id="complete">
 				All Gifts Received
@@ -51,17 +48,24 @@
 			<td id="gender">
 				<input type="text" ng-model="filterGender" class="form-control">
 			</td>
-			<td id="gift" colspan="3">
+			<td id="gift">
 				<input type="text" ng-model="filterGift" class="form-control">
 			</td>
-			<td id="address">
-				<input type="text" ng-model="filterAddress" class="form-control">
+			<td id="gift_no">
+				<input type="text" ng-model="filtergift_no" class="form-control">
 			</td>
 			<td id="phone">
 				<input type="text" ng-model="filterPhone" class="form-control">
 			</td>
 			<td id="route">
 				<input type="text" ng-model="filterRoute" class="form-control">
+			</td>
+			<td id="gift_received">
+				<select ng-model="filterGift_received" class="form-control">
+					<option value="">All</option>
+					<option value="false">No</option>
+					<option value="true">Yes</option>
+				</select>
 			</td>
 			<td id="complete">
 				<select ng-model="filterComplete" class="form-control">
@@ -71,9 +75,9 @@
 				</select>
 			</td>
 		</tr>
-		<tr ng-repeat="recip in recipients | stringContainsByProperty:'id':filterId | stringContainsByProperty:'firstname':filterFirstName | stringContainsByProperty:'lastname':filterLastName | stringContainsByProperty:'gender':filterGender | stringContainsByProperty:'address':filterAddress | stringContainsByProperty:'route':filterRoute | stringContainsByPropertyList:'gift1,gift2,gift3':filterGift | booleanByProperty:'complete':filterComplete" >
+		<tr ng-repeat="recip in recipients | stringContainsByProperty:'main_id':filterId | stringContainsByProperty:'firstname':filterFirstName | stringContainsByProperty:'lastname':filterLastName | stringContainsByProperty:'gender':filterGender | stringContainsByProperty:'gift_no':filtergift_no | stringContainsByProperty:'route':filterRoute | stringContainsByProperty:'gift':filterGift | booleanByProperty:'complete':filterComplete | stringContainsByProperty:'home_phone':filterPhone | booleanByProperty:'gift_received':filterGift_received" >
 			<td id="id">
-				{{recip.id}}
+				{{recip.main_id}}
 			</td>
 			<td id="firstName">
 				{{recip.firstname}}
@@ -84,23 +88,20 @@
 			<td id="gender">
 				{{recip.gender}}
 			</td>
-			<td id="gift1">
-				{{recip.gift1}}
+			<td id="gift">
+				{{recip.description}}
 			</td>
-			<td id="gift2">
-				{{recip.gift2}}
-			</td>
-			<td id="gift3">
-				{{recip.gift3}}
-			</td>
-			<td id="address">
-				{{recip.address}}
+			<td id="gift_no">
+				{{recip.gift_no}}
 			</td>
 			<td id="phone">
-				{{recip.phone}}
+				{{recip.home_phone}}
 			</td>
 			<td id="route">
-				{{recip.route}}
+				{{recip.route_no}}
+			</td>
+			<td id="gift_received">
+				{{recip.gift_received | toYesNo}}
 			</td>
 			<td id="complete">
 				{{recip.complete | toYesNo}}
