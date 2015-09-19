@@ -22,7 +22,20 @@ angular.module('Bastas.Controllers')
 	$scope.Images = imageService.GetCarouselImages();
 }])
 
-.controller('addUserController', ['$scope', 'userService', function($scope, userService) { 
+.controller('AddUserController', ['$scope', 'userService', function($scope, userService) { 
     $scope.addUser = 'Add User - test to see this result!';
     $scope.getUsers = userService.addUsers();
-}]);
+}])
+
+.controller('RecipientsController', ['$scope', 'recipientsService', function($scope, recipientsService) { 
+    recipientsService.GetRecipients().then(function(success){
+    	$scope.recipients = success.data;
+    });
+}])
+
+
+.controller('RecipientController', ['$scope', '$routeParams', 'recipientsService', function($scope, $routeParams, recipientsService) { 
+    $scope.Id = $routeParams.id;
+}])
+
+;

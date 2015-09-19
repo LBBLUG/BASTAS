@@ -1,0 +1,111 @@
+<!-- Recipients -->
+<table id="recipients" class="table table-hover">
+	<thead>
+		<tr>
+			<th id="id">
+				Id
+			</th>
+			<th id="firstName">
+				First Name
+			</th>
+			<th id="lastname">
+				Last Name
+			</th>
+			<th id="gender">
+				Gender
+			</th>
+			<th id="gift1">
+				Gift 1
+			</th>
+			<th id="gift2">
+				Gift 2
+			</th>
+			<th id="gift3">
+				Gift 3
+			</th>
+			<th id="address">
+				Address
+			</th>
+			<th id="phone">
+				Phone Number
+			</th>
+			<th id="route">
+				Route
+			</th>
+			<th id="complete">
+				All Gifts Received
+			</th>
+		</tr>	
+	</thead>
+	<tbody>
+		<tr>
+			<td id="id">
+				<input type="text" ng-model="filterId" class="form-control">
+			</td>
+			<td id="firstName">
+				<input type="text" ng-model="filterFirstName" class="form-control">
+			</td>
+			<td id="lastname">
+				<input type="text" ng-model="filterLastName" class="form-control">
+			</td>
+			<td id="gender">
+				<input type="text" ng-model="filterGender" class="form-control">
+			</td>
+			<td id="gift" colspan="3">
+				<input type="text" ng-model="filterGift" class="form-control">
+			</td>
+			<td id="address">
+				<input type="text" ng-model="filterAddress" class="form-control">
+			</td>
+			<td id="phone">
+				<input type="text" ng-model="filterPhone" class="form-control">
+			</td>
+			<td id="route">
+				<input type="text" ng-model="filterRoute" class="form-control">
+			</td>
+			<td id="complete">
+				<select ng-model="filterComplete" class="form-control">
+					<option value="">All</option>
+					<option value="false">No</option>
+					<option value="true">Yes</option>
+				</select>
+			</td>
+		</tr>
+		<tr ng-repeat="recip in recipients | stringContainsByProperty:'id':filterId | stringContainsByProperty:'firstname':filterFirstName | stringContainsByProperty:'lastname':filterLastName | stringContainsByProperty:'gender':filterGender | stringContainsByProperty:'address':filterAddress | stringContainsByProperty:'route':filterRoute | stringContainsByPropertyList:'gift1,gift2,gift3':filterGift | booleanByProperty:'complete':filterComplete" >
+			<td id="id">
+				{{recip.id}}
+			</td>
+			<td id="firstName">
+				{{recip.firstname}}
+			</td>
+			<td id="lastname">
+				{{recip.lastname}}
+			</td>
+			<td id="gender">
+				{{recip.gender}}
+			</td>
+			<td id="gift1">
+				{{recip.gift1}}
+			</td>
+			<td id="gift2">
+				{{recip.gift2}}
+			</td>
+			<td id="gift3">
+				{{recip.gift3}}
+			</td>
+			<td id="address">
+				{{recip.address}}
+			</td>
+			<td id="phone">
+				{{recip.phone}}
+			</td>
+			<td id="route">
+				{{recip.route}}
+			</td>
+			<td id="complete">
+				{{recip.complete | toYesNo}}
+			</td>
+			<td id="edit"><a ng-href="#/recipients/{{recip.id}}">Edit</a></td>
+		</tr>
+	</tbody>
+</table>
