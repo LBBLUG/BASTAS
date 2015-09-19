@@ -1,33 +1,43 @@
 <!-- This is the main form for the person wanting to choose to give a gift -->
 <div id="mainFormContainer">
     <div id="simpleInstructions">
-    
+
     </div>
-    <div id="giverInfo">
-        <div id="giverName">
-            <input type="text" id="lastName" required maxlength="30" placeholder="Last Name" />
-            <input type="text" id="firstName" required maxlength="30" placeholder="First name" />
+    <div id="giverInfo" class="container">
+        <div id="giverName" class="row">
+            <div id="columnName" class="col-sm-12">
+                <input type="text" class="form-control" id="lastName" required maxlength="30" placeholder="Last Name" />
+                <input type="text" class="form-control" id="firstName" required maxlength="30" placeholder="First name" />
+            </div>
         </div>
-        <div id="giverEmail">
-            <input type="email" id="eMail" placeholder="email@somedomain.com" />
+        <div id="giverContact" class="row">
+            <div id="columnEmail" class="col-sm-6">
+                <input type="email" class="form-control" id="eMail" placeholder="email@somedomain.com" />
+            </div>
+            <div id="giverPhones" class="col-sm-6">
+                <input type="text" class="form-control" id="homePhone" maxlength="13" placeholder="Home PHone" />
+                <input type="text" class="form-control" id="cellPhone" maxlength="13" placeholder="Cell Phone" />
+            </div>
         </div>
-        <div id="giverPhones">
-            <input type="text" id="homePhone" maxlength="13" placeholder="Home PHone" />
-            <input type="text" id="cellPhone" maxlength="13" placeholder="Cell Phone" />
+        <div id="giverAddress" class="row">
+            <div id="columnStreet" class="col-sm-12">
+                <input type="text" class="form-control" id="streetAddress" placeholder="Street Address" />
+                <input type="text" class="form-control" id="aptNo" placeholder="Apt No" />
+            </div>
         </div>
-        <div id="giverAddress">
-            <input type="text" id="streetAddress" placeholder="Street Address" />
-            <input type="text" id="aptNo" placeholder="Apt No" />
+        <div id="giverAddress2" class="row">
+            <div id="cityInfo" class="col-sm-12">
+                <label>City, State Zip:</label>
+                <br />
+                <input type="text" class="form-control" id="city" placeholder="City" />
+                <input type="text" class="form-control" id="state" maxlength="2" placeholder="ST" />
+                <input type="text" class="form-control" d="postal" maxlength="10" placeholder="Zip" />
+            </div>
         </div>
-        <div id="giverAddress2">
-            City, State  Zip:<br />
-            <input type="text" id="city" placeholder="City" />
-            <input type="text" id="state" maxlength="2" placeholder="ST" />
-            <input type="text" id="postal" maxlength="10" placeholder="Zip" />
-        </div>
-        <div id="giverAnonymous">
-            <input type="checkbox" id="wishesAnon" />
-            I wish to remain anonymous:
+        <div id="giverAnonymous" class="row">
+            <div id="anonColumn" class="col-sm-12">
+                <input type="checkbox" class="form-control" id="wishesAnon" /> I wish to remain anonymous:
+            </div>
         </div>
     </div>
 
