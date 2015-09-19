@@ -55,3 +55,23 @@ angular.module('Bastas.Controllers')
 }])
 
 ;
+.controller('addGiverController', ['$scope', 'giverService', function($scope, giverService) { 
+    $scope.addGiver = function() {
+        giverService.addGiver($scope.lastName, $scope.firstName, $scope.address, $scope.email, $scope.homePhone, $scope.cellPhone, $scope.anonymous);
+    };
+    $scope.lastName = "";
+    $scope.firstName="";
+    $scope.address = {street: "", apt: "", city: "", state: "", zip: ""};
+    $scope.email="";
+    $scope.homePhone="";
+    $scope.cellPhone="";
+    $scope.anonymous="";
+}])
+
+/*.controller('addGiverController', ['$scope', 'giverService', function($scope, giverService) {
+    $scope.addGiver = function() {
+        giverService.addGiver($scope.formData);
+    };
+}])*/
+
+;

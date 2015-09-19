@@ -74,14 +74,23 @@ $("#finishButton").hide();
     //*********************************************************
     
     $("#createAdmin").click(function() {
-        $.ajax("/ssideScripts/addAdmin.php", {
+        
+        var adminUsername = $("#admin_user_name").val();
+        var lastName = $("#admin_last_input").val();
+        var firstName = $("#admin_first_input").val();
+        var emailAdd = $("#admin_email_input").val();
+        var company = $("#admin_company_input").val();
+        var passCode = $("#admin_password_input").val();
+        
+        console.log("Inside createAdmin click function.");
+        $.ajax("ssideScripts/addAdmin.php", {
          data: {
-                admin_user_name: admin_user_name,
-                admin_last_input: admin_last_input,
-                admin_first_input: admin_first_input,
-                admin_email_input: admin_email_input,
-                admin_company_input: admin_company_input,
-                admin_password_input: admin_password_input
+                admin_user_name: adminUsername,
+                admin_last_input: lastName,
+                admin_first_input: firstName,
+                admin_email_input: emailAdd,
+                admin_company_input: company,
+                admin_password_input: passCode
             },
             type: "POST",
             beforeSend: function () {

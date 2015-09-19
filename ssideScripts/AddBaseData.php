@@ -52,6 +52,10 @@ if ($make->connect_error)
         $addData .= "INSERT INTO Permission_Group SET description='Gift Status';";
         $addData .= "INSERT INTO Permission_Group SET description='Delivery Info';";
         $addData .= "INSERT INTO Permission_Group SET description='Notes';";
+        $addData .= "INSERT INTO User_Group SET group_name='Admin';";
+        $addData .= "INSERT INTO User_Group SET group_name='PrivilegedUser';";
+        $addData .= "INSERT INTO User_Group SET group_name='ReadOnlyUser';";
+
 
         if ($make->multi_query($addData) === TRUE) {
             echo "Default Records have been added successfully!<br /><br />";
