@@ -55,8 +55,9 @@ angular.module('Bastas.Controllers')
 }])
 
 
-.controller('addGiverController', ['$scope', 'giverService', function($scope, giverService) { 
+.controller('AddGiverController', ['$scope', 'giverService', function($scope, giverService) { 
     $scope.addGiver = function() {
+        console.log("Made it to controller.js in add Giver Function");
         giverService.addGiver($scope.lastName, $scope.firstName, $scope.address, $scope.email, $scope.homePhone, $scope.cellPhone, $scope.anonymous);
     };
     $scope.lastName = "";

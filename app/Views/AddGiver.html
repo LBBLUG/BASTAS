@@ -1,44 +1,78 @@
 <!-- This is the main form for the person wanting to choose to give a gift -->
 <div id="mainFormContainer">
     <div id="simpleInstructions">
-
+        <br />
+        <br />
+        <div id="instructionRow" class="row">
+            <div id="columnInstruction" class="col-sm-12">
+            Please take a moment and fill out the form below, then click next to choose one or more gifts that you would like to provide to a senior this Christmas.
+            </div>
+        </div>
+        <br />
     </div>
     <form ng-submit="addGiver()">
-        <div id="giverInfo" class="container">
+        <div id="giverInfo">
             <div id="giverName" class="row">
-                <div id="columnName" class="col-sm-12">
+                <div id="columnLastName" class="col-sm-6">
                     <input type="text" ng-model="lastName" class="form-control" id="lastName" required maxlength="30" placeholder="Last Name" />
+                </div>
+                <div id="columnFirstName" class="col-sm-6">
                     <input type="text" ng-model="firstName" class="form-control" id="firstName" required maxlength="30" placeholder="First name" />
                 </div>
             </div>
+            <br />
             <div id="giverContact" class="row">
-                <div id="columnEmail" class="col-sm-6">
+                <div id="columnEmail" class="col-sm-4">
                     <input type="email" ng-model="email" class="form-control" id="eMail" placeholder="email@somedomain.com" />
                 </div>
-                <div id="giverPhones" class="col-sm-6">
+                <div id="giverHomePhone" class="col-sm-4">
                     <input type="phone" ng-model="homePhone" class="form-control" id="homePhone" maxlength="13" placeholder="Home PHone" />
+                </div>
+                <div id="giverCellPhone" class="col-sm-4">
                     <input type="phone" ng-model="cellPhone" class="form-control" id="cellPhone" maxlength="13" placeholder="Cell Phone" />
                 </div>
             </div>
+            <br />
             <div id="giverAddress" class="row">
-                <div id="columnStreet" class="col-sm-12">
+                <div id="columnStreet" class="col-sm-8">
                     <input type="text" ng-model="address.street" class="form-control" id="streetAddress" placeholder="Street Address" />
+                </div>
+                <div id="columnAptNo" class="col-sm-4">
                     <input type="text" ng-model="address.apt" class="form-control" id="aptNo" placeholder="Apt No" />
                 </div>
             </div>
-            <div id="giverAddress2" class="row">
-                <div id="cityInfo" class="col-sm-12">
+            <br />
+            <div id="giverAddressLabel" class="row">
+                <div id="cityInfo" class="col-sm-6">
                     <label>City, State Zip:</label>
-                    <br />
+                </div>
+            </div>
+            <div id="giverAddress2" class="row">
+                <div id="cityInfo" class="col-sm-6">
                     <input type="text" class="form-control" ng-model="address.city" id="city" placeholder="City" />
+                </div>
+                <div id="stateInfo" class="col-sm-2">
                     <input type="text" ng-model="address.state" class="form-control" id="state" maxlength="2" placeholder="ST" />
+                </div>
+                <div id="zipInfo" class="col-sm-4">
                     <input type="text" ng-model="address.zip" class="form-control" id="postal" maxlength="10" placeholder="Zip" />
                 </div>
             </div>
             <div id="giverAnonymous" class="row">
-                <div id="anonColumn" class="col-sm-12">
-                    <input type="checkbox" ng-model="anonymous" class="form-control" id="wishesAnon" /> I wish to remain anonymous:
+                <div id="anonColumn" class="col-sm-2">
+                    <input type="checkbox" ng-model="anonymous" class="form-control" id="wishesAnon" />
                 </div>
+                <div id="labelColumn" class="col-sm-10">
+                    <label>I wish to remain anonymous</label>
+                </div>
+            </div>
+        </div>
+        <div id="actionButtons" class="row">
+            <div id="buttoncol1" class="col-sm-6">
+                <button id="clearFields" class="btn btn-lg btn-warning">Clear Form</button>
+            </div>
+            <div id="buttoncol2" class="col-sm-6">
+                <button id="saveGiver" class="btn btn-lg btn-primary pull-right">Next >></button>
             </div>
         </div>
     </form>

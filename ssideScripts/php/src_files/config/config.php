@@ -1,5 +1,6 @@
 [Server Login]
-ServerName = "localhost"
-Username = "root"
-Password = "Passw0rd"
+ServerAddress = "localhost"
+Username = "bmcgonag"
+Password = "r3tr0gr4de"
 Database = "bastas"
+
