@@ -20,8 +20,10 @@ angular.module('Bastas.Services')
                        cellPhone: cellPhone,
                        anonymous: anonymous
                       }
-            });
-            console.log("right before the return.");
-            return (request.then(handleSuccess, handleError));
+            }).then(function(response){
+            	return response.data;
+            	},function (err) {
+            		return ($q.reject ('An Error occurred in giverService.'));
+            	});
         }
     }]);
