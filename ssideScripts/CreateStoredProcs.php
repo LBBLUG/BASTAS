@@ -116,7 +116,7 @@ if (!$conn->query($addGroupPerm))
 
 
 // create procedure to add a Giver
-$addGiver = "CREATE PROCEDURE addGiver(IN lastName varchar(30), IN firstName varchar(30), IN eMail varchar(150), IN homePhone varchar(13), IN cellPhone varchar(13), IN addressStreet varchar(50), IN aptNo varchar(10), IN City varchar(50), IN State varchar(2), IN Postal varchar(10), IN wishesAnon bool) BEGIN INSERT INTO Giver (last_name, first_name, email, phone_home, phone_cell, address_street, apt_no, city, state, zip_code, wishes_anon) VALUES (lastName, firstName, eMail, homePhone, cellPhone, addressStreet, aptNo, City, State, Postal, wishesAnon); END;";
+$addGiver = "CREATE PROCEDURE addGiver(IN lastName varchar(30), IN firstName varchar(30), IN eMail varchar(150), IN homePhone varchar(13), IN cellPhone varchar(13), IN addressStreet varchar(50), IN aptNo varchar(10), IN City varchar(50), IN State varchar(2), IN Postal varchar(10), IN wishesAnon bool) BEGIN INSERT INTO Giver (lastname, firstname, email, phone_home, phone_cell, address_street, apt_no, city, state, zip_code, wishes_anon) VALUES (lastName, firstName, eMail, homePhone, cellPhone, addressStreet, aptNo, City, State, Postal, wishesAnon); END;";
 
 if (!$conn->query($addGiver))
 {

@@ -21,7 +21,7 @@ class DatabaseUtility
 	function __construct()
 	{
 		$ini_array = parse_ini_file("php/src_files/config/config.php");
-		$ServerAddress = $ini_array['ServerName'];
+		$ServerAddress = $ini_array['ServerAddress'];
 		$Username = $ini_array['Username'];
 		$Password = $ini_array['Password'];
 		$Database = $ini_array['Database'];
