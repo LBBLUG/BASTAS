@@ -1,9 +1,7 @@
 <?php
-
     require_once("databaseUtilities.php");
 
     $databaseUtil = new DatabaseUtility();
-
 
     $postdata = file_get_contents("php://input");
 
@@ -41,4 +39,5 @@
 
     http_response_code(201);
     echo json_encode(array("data" => $resultSet));
+
 ?>

@@ -188,7 +188,7 @@ if (!$conn->query($getUsersAndGroups))
 }
 
 // retrieve a list of recipients and gifts
-$getRecipAndGifts = "CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecipAndGifts`()
+$getRecipAndGifts = "CREATE PROCEDURE `getRecipAndGifts`()
 BEGIN 
 SELECT 
 Recipients.main_id,

@@ -87,9 +87,9 @@ angular.module('Bastas.Controllers')
         }, function(err){
             alert("Error in RecipientController: " + err);
         });
-
     });
 }])
+
 
 .controller('RecipientController', ['$scope', '$routeParams', 'recipientsService', function($scope, $routeParams, recipientsService) { 
     recipientsService.GetRecipient($routeParams.id).then(function(success){
@@ -100,9 +100,7 @@ angular.module('Bastas.Controllers')
 
 .controller('AddGiverController', ['$scope', 'giverService', function($scope, giverService) { 
     $scope.addGiver = function() {
-        console.log("Made it to controller.js in add Giver Function");
-        var result = giverService.addGiver($scope.lastName, $scope.firstName, $scope.address, $scope.email, $scope.homePhone, $scope.cellPhone, $scope.anonymous);
-        alert(result);
+        giverService.addGiver($scope.lastName, $scope.firstName, $scope.address, $scope.email, $scope.homePhone, $scope.cellPhone, $scope.anonymous);
     };
     $scope.lastName = "";
     $scope.firstName="";
@@ -113,10 +111,6 @@ angular.module('Bastas.Controllers')
     $scope.anonymous="";
 }])
 
-/*.controller('addGiverController', ['$scope', 'giverService', function($scope, giverService) {
-    $scope.addGiver = function() {
-        giverService.addGiver($scope.formData);
-    };
-}])*/
+
 
 ;
