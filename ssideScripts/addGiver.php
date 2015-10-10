@@ -24,11 +24,29 @@
 	@$cellPhone = $request->cellPhone;
 	@$anonymous = $request->anonymous; 
 
+<<<<<<< HEAD
 	echo("----Above resultSet----");
     
     $resultSet = $databaseUtil->ExecuteStoredProcedure("addGiver", $lastName, $firstName, $email, $homePhone, $cellPhone, $streetAddress, $aptNo, $city, $state, $zip, $anonymous);
 
     echo("Street name: " . $streetAddress);
+=======
+    $postdata = file_get_contents("php://input");
+	$request = json_decode($postdata);
+	@$lastName = $request->lastName;
+	@$firstName = $request->firstName;
+	@$streetAddress = $request->address.street;
+	@$aptNo = $request->address.apt;
+	@$city = $request->address.city;
+	@$state = $request->address.state;
+	@$zip = $request->address.zip;
+	@$email = $request->email;
+	@$homePhone = $request->homePhone;
+	@$cellPhone = $request->cellPhone;
+	@$anonymous = $request->anonymous;
+    
+    $resultSet = $databaseUtil->ExecuteStoredProcedure("addGiver()", $lastName, $firstName, $email, $homePhone, $cellPhone, $streetAddress, $aptNo, $city, $state, $zip, $anonymous);
+>>>>>>> origin/master
 
     echo json_encode(array("data" => $resultSet));
     
