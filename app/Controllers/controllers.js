@@ -31,32 +31,40 @@ angular.module('Bastas.Controllers')
     $scope.RunFilter = function(){
         // Function that is run after each filter field edit. 
         $scope.filteredRecipients = $scope.recipients;
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "size", $scope.filterSize);
         $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "main_id", $scope.filterId);
         $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "route_no", $scope.filterRoute);
         $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "firstname", $scope.filterFirstName);
         $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "lastname", $scope.filterLastName);
         $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "gender", $scope.filterGender);
         $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "description", $scope.filterGift);
-        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "size", $scope.filterSize);
         $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "home_phone", $scope.filterPhone);
+        $scope.filteredRecipients = $filter('booleanByProperty')($scope.filteredRecipients, "complete", $scope.filterComplete);
+        $scope.filteredRecipients = $filter('booleanByProperty')($scope.filteredRecipients, "gift_received", $scope.filterGiftReceived);
         $scope.GiftCount = $scope.filteredRecipients.length;
 
         // We do all of this just so we can get a count of people. We are esentially doing a group by on main_id.
-        var tempArg;
-        $scope.PeopleCount = $scope.filteredRecipients.reduce(function(previousValue, currentValue, index, array){
-            if(!tempArg)
+        var tempArg = [];
+        var arrayIndex = 0;
+        $scope.filteredRecipients.forEach(function(currentValue, index, array){
+            if(tempArg[String(currentValue.main_id) + "_"] !== undefined)
             {
-                tempArg = [];
-                return 0;
+                tempArg[tempArg[String(currentValue.main_id) + "_"]]++;
+                return;
             }
-            if(tempArg[String(currentValue.main_id) + "_"])
-            {
-                tempArg[String(currentValue.main_id) + "_"]++;
-                return previousValue + 1;
-            }
-            tempArg[String(currentValue.main_id) + "_"] = 1;
-            return previousValue;
+            tempArg[String(currentValue.main_id) + "_"] = arrayIndex;
+            tempArg[arrayIndex] = 1;
+            arrayIndex++;
         });
+        if (tempArg)
+        {
+            $scope.PeopleCount = tempArg.length;
+        }
+        else
+        {
+            $scope.PeopleCount = 0;
+        }
+
 
     };
     recipientsService.GetRecipients().then(function(success){

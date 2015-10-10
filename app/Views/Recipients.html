@@ -6,15 +6,15 @@
     </div>
     <div class="col-xs-4">
         <label>Show Recieved Gifts:</label>
-		<select ng-model="filterGift_received" class="form-control">
+		<select ng-model="filterGiftReceived" ng-change="RunFilter()" class="form-control">
 			<option value="">All</option>
 			<option value="false">No</option>
 			<option value="true">Yes</option>
 		</select>
     </div>
     <div class="col-xs-4">
-		<label>Show Recieved Gifts:</label>
-		<select ng-model="filterGift_received" class="form-control">
+		<label>Show Recieved All Gifts:</label>
+		<select ng-model="filterComplete" ng-change="RunFilter()" class="form-control">
 			<option value="">All</option>
 			<option value="false">No</option>
 			<option value="true">Yes</option>
@@ -35,27 +35,27 @@
 			</th>
 			<th id="firstName">
 				First Name
-				<input type="text" ng-model="filterFirstName" ng-change="RunFilter" class="form-control"></br>
+				<input type="text" ng-model="filterFirstName" ng-change="RunFilter()" class="form-control"></br>
 			</th>
 			<th id="lastname">
 				Last Name
-				<input type="text" ng-model="filterLastName" ng-change="RunFilter" class="form-control"></br>
+				<input type="text" ng-model="filterLastName" ng-change="RunFilter()" class="form-control"></br>
 			</th>
 			<th id="gender">
 				Gender
-				<input type="text" ng-model="filterGender" ng-change="RunFilter" class="form-control"></br>
+				<input type="text" ng-model="filterGender" ng-change="RunFilter()" class="form-control"></br>
 			</th>
 			<th id="gift">
 				Gift
-				<input type="text" ng-model="filterGift" ng-change="RunFilter" class="form-control"></br>
+				<input type="text" ng-model="filterGift" ng-change="RunFilter()" class="form-control"></br>
 			</th>
 			<th id="size">
 				Gift Details
-				<input type="text" ng-model="filterSize" ng-change="RunFilter" class="form-control"></br>
+				<input type="text" ng-model="filterSize" ng-change="RunFilter()" class="form-control"></br>
 			</th>
 			<th id="phone">
 				Phone Number
-				<input type="text" ng-model="filterPhone" ng-change="RunFilter" class="form-control"></br>
+				<input type="text" ng-model="filterPhone" ng-change="RunFilter()" class="form-control"></br>
 			</th>
 			<th></th>
 		</tr>	

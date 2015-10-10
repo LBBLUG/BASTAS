@@ -20,11 +20,25 @@
 	@$homePhone = $request->homePhone;
 	@$cellPhone = $request->cellPhone;
 	@$anonymous = $request->anonymous;
-
-	echo "PostData: " . $postdata;
     
-    $resultSet = $databaseUtil->ExecuteStoredProcedure("addGiver", $lastName, $firstName, $email, $homePhone, $cellPhone, $streetAddress, $aptNo, $city, $state, $zip, $anonymous);
+    $resultSet = $databaseUtil->ExecuteStoredProcedure("addGiver", 
+    	new StoredProcedureParameter("s", $lastName), 
+    	new StoredProcedureParameter("s", $firstName), 
+    	new StoredProcedureParameter("s", $email), 
+    	new StoredProcedureParameter("s", $homePhone), 
+    	new StoredProcedureParameter("s", $cellPhone), 
+    	new StoredProcedureParameter("s", $streetAddress), 
+    	new StoredProcedureParameter("s", $aptNo), 
+    	new StoredProcedureParameter("s", $city), 
+    	new StoredProcedureParameter("s", $state), 
+    	new StoredProcedureParameter("s", $zip), 
+    	new StoredProcedureParameter("i", $anonymous)); // boolearn converts to int in SQL 
 
-    echo json_encode(array("data" => $resultSet));
+    if ($databaseUtil->GetExceptionOccured()) {
+    	http_response_code(500);
+    	echo $databaseUtil->GetExceptionMessage();
+    }
+
     http_response_code(201);
+    echo json_encode(array("data" => $resultSet));
 ?>

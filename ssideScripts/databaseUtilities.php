@@ -18,10 +18,16 @@ class DatabaseUtility
 	private $conn;
 	private $connected;
 	private $exceptionOccured;
+	private $exceptionMessage;
 
 	public function GetExceptionOccured()
 	{
-		return $exceptionOccured;
+		return $this->exceptionOccured;
+	}
+
+	public function GetExceptionMessage()
+	{
+		return $this->exceptionMessage;
 	}
 
 	function __construct()
@@ -46,49 +52,87 @@ class DatabaseUtility
 		
 		if ($this->conn->connect_error)
 		{
-			//die("Connection failed: " . $this->conn->connect_error);
-			echo "Connection failed: " . $this->conn->connect_error;
+			$this->exceptionMessage =  "Connection failed: " . $this->conn->connect_error;
 			$this->exceptionOccured = true;
 			return;
 		}
 		$this->connected = true;
 	}
 
-	public function ExecuteStoredProcedure($storedProcedureNameString, $storedProcedureParametersArray)
+	public function ExecuteStoredProcedure($storedProcedureNameString)
 	{
+		$storedProcedureParametersArray = array_slice(func_get_args(), 1);
+
+		// Validated parameters supplied.
+		if (isset($storedProcedureParametersArray) && 
+			is_array($storedProcedureParametersArray) && 
+			count($storedProcedureParametersArray) > 0) 
+		{
+			foreach ($storedProcedureParametersArray as $value) {
+				if (!$value instanceof StoredProcedureParameter) {
+					$this->exceptionOccured = true;
+					$this->exceptionMessage = "The stored procedure parameters passed into ExecuteStoredProcedure must be of type 'StoredProcedureParameter'.";
+					return null;
+				}
+			}
+		}
+
+		if(!isset($storedProcedureNameString) || substr($storedProcedureNameString, -strlen("()")) === "()")
+		{
+			$this->exceptionOccured = true;
+			$this->exceptionMessage = "The stored procedure name in ExecuteStoredProcedure is required and must not end with '()'.";
+			return null;
+		}
+
 		$queryString = $this->BuildQueryString($storedProcedureNameString, $storedProcedureParametersArray);
 
 		$statement = $this->conn->prepare($queryString);
 
 		if ( !$statement ) {
-		    printf('Error:</br>errno: %d,</br>error: %s', $this->conn->errno, $this->conn->error);
+		    $this->exceptionMessage = "Error:</br>errno: " . $this->conn->errno . ",</br>error: " . $this->conn->error;
 			$this->exceptionOccured = true;
-		    return;
-		    //die;
+		    return null;
 		}
 
-		if (isset($storedProcedureParametersArray) && is_array($storedProcedureParametersArray))
+		if (isset($storedProcedureParametersArray) &&
+			is_array($storedProcedureParametersArray) && 
+			count($storedProcedureParametersArray) > 0)
 		{
 			$refArrayParamValues = array();
 			$refArrayParamOne = "";
-			foreach ($storedProcedureParametersArray as $param) {
+			foreach ($storedProcedureParametersArray as $param) 
+			{
 				$refArrayParamOne = $refArrayParamOne . $param->ParamType;
 			}
 
-			foreach ($storedProcedureParametersArray as $param) {
-				array_push($refArrayParamValues, $param->ParamValue);
+			// Set first param by ref
+			$refArrayParamValues[0] = &$refArrayParamOne;
+
+			$i = 1;
+			foreach ($storedProcedureParametersArray as $param) 
+			{
+				$refArrayParamValues[$i] = &$param->ParamValue;
+				$i++;
 			}
 			// This is kind of magic. We use reflection here so we can pass 
 			// in a dynamic number of stored precedure parameters 
 			// This trick is brought to you by http://php.net/manual/en/mysqli-stmt.bind-param.php
 			$ref    = new ReflectionClass('mysqli_stmt'); 
-			$refArr = array_merge(array($refArrayParamOne), $refArrayParamValues);
 			$method = $ref->getMethod("bind_param"); 
-			$method->invokeArgs($statement,$refArr);
+			$method->invokeArgs($statement, $refArrayParamValues);
+			//call_user_func_array(array($statement, 'bind_param'), $this->refValues($refArr));
 		}
 
 		// Execute the procedure like normal
 		$statement->execute();
+
+		// See if the statement executed without error.
+		if (isset($statement->error) && $statement->error !== "")
+		{
+			$this->exceptionMessage = "Error:</br>error: " . $statement->error;
+			$this->exceptionOccured = true;
+			return null;
+		}
 
 		// Convert statement into an array of arrays so we can use this 
 		// outside of this method and close this statement object.
@@ -136,7 +180,7 @@ class DatabaseUtility
 		// Found in comment section of http://php.net/manual/en/mysqli-stmt.bind-result.php
 	    $array = array();
 	    
-	    if($result instanceof mysqli_stmt)
+	    if($result instanceof mysqli_stmt && $result->field_count > 0)
 	    {
 	        $result->store_result();
 	        
@@ -176,8 +220,8 @@ class DatabaseUtility
         	if ($this->conn->connect_error)
 			{
 				$this->exceptionOccured = true;
-				echo "Disconnect failed: " . $this->conn->connect_error;
-				//die("Disconnect failed: " . $this->conn->connect_error);
+				$this->exceptionMessage = "Disconnect failed: " . $this->conn->connect_error;
+				return;
 			}
 		}
 
@@ -192,6 +236,17 @@ class StoredProcedureParameter
 	// $type is defined using the table under the "Parameters" heading at http://php.net/manual/en/mysqli-stmt.bind-param.php
 	function __construct($type, $value)
 	{
+		// i	corresponding variable has type integer
+		// d	corresponding variable has type double
+		// s	corresponding variable has type string
+		// b	corresponding variable is a blob and will be sent in packets
+		if ($type !== "i" && 
+			$type !== "d" && 
+			$type !== "s" && 
+			$type !== "b") 
+		{
+			throw new Exception("StoredProcedureParameter's constuctor's first parameter must be a 'i', 'd', 's', or 'b'.", 1);
+		}
 		$this->ParamType = $type;
 		$this->ParamValue = $value;
 	}
