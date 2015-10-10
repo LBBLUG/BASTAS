@@ -20,8 +20,10 @@ class DatabaseUtility
 
 	function __construct()
 	{
+		mysqli_report(MYSQLI_REPORT_STRICT);
+
 		$ini_array = parse_ini_file("php/src_files/config/config.php");
-		$ServerAddress = $ini_array['ServerName'];
+		$ServerAddress = $ini_array['ServerAddress'];
 		$Username = $ini_array['Username'];
 		$Password = $ini_array['Password'];
 		$Database = $ini_array['Database'];
@@ -47,7 +49,7 @@ class DatabaseUtility
 		$statement = $this->conn->prepare($queryString);
 
 		if ( !$statement ) {
-		    printf('Error:</br>errno: %d,</br>error: %s', $this->conn->errno, $this->conn->error);
+		    echo('Error:</br>errno: %d,</br>error: %s', $this->conn->errno, $this->conn->error);
 		    die;
 		}
 
