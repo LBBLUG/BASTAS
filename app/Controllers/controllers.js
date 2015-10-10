@@ -27,9 +27,41 @@ angular.module('Bastas.Controllers')
     $scope.getUsers = userService.addUsers();
 }])
 
-.controller('RecipientsController', ['$scope', 'recipientsService', function($scope, recipientsService) { 
+.controller('RecipientsController', ['$scope', 'recipientsService', '$filter', function($scope, recipientsService, $filter) { 
+    $scope.RunFilter = function(){
+        // Function that is run after each filter field edit. 
+        $scope.filteredRecipients = $scope.recipients;
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "main_id", $scope.filterId);
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "route_no", $scope.filterRoute);
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "firstname", $scope.filterFirstName);
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "lastname", $scope.filterLastName);
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "gender", $scope.filterGender);
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "description", $scope.filterGift);
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "size", $scope.filterSize);
+        $scope.filteredRecipients = $filter('stringContainsByProperty')($scope.filteredRecipients, "home_phone", $scope.filterPhone);
+        $scope.GiftCount = $scope.filteredRecipients.length;
+
+        // We do all of this just so we can get a count of people. We are esentially doing a group by on main_id.
+        var tempArg;
+        $scope.PeopleCount = $scope.filteredRecipients.reduce(function(previousValue, currentValue, index, array){
+            if(!tempArg)
+            {
+                tempArg = [];
+                return 0;
+            }
+            if(tempArg[String(currentValue.main_id) + "_"])
+            {
+                tempArg[String(currentValue.main_id) + "_"]++;
+                return previousValue + 1;
+            }
+            tempArg[String(currentValue.main_id) + "_"] = 1;
+            return previousValue;
+        });
+
+    };
     recipientsService.GetRecipients().then(function(success){
     	$scope.recipients = success.data;
+        $scope.RunFilter();
         $scope.recipients.forEach(function(value, index, arr){
             // Create a new property on each object in the collection called "complete"
             // The property compares the count of gifts that have a giver_id that is not null to the max gift_no
@@ -44,13 +76,16 @@ angular.module('Bastas.Controllers')
 
             // This creates a new property that indicates if the gift has been recieved.
             value.gift_received = $.isNumeric(value.giver_id);
+        }, function(err){
+            alert("Error in RecipientController: " + err);
         });
+
     });
 }])
 
 .controller('RecipientController', ['$scope', '$routeParams', 'recipientsService', function($scope, $routeParams, recipientsService) { 
     recipientsService.GetRecipient($routeParams.id).then(function(success){
-        $scope.recipients = success.data;
+        $scope.recipient_id = success.data;
     });
 }])
 
@@ -58,7 +93,8 @@ angular.module('Bastas.Controllers')
 .controller('AddGiverController', ['$scope', 'giverService', function($scope, giverService) { 
     $scope.addGiver = function() {
         console.log("Made it to controller.js in add Giver Function");
-        giverService.addGiver($scope.lastName, $scope.firstName, $scope.address, $scope.email, $scope.homePhone, $scope.cellPhone, $scope.anonymous);
+        var result = giverService.addGiver($scope.lastName, $scope.firstName, $scope.address, $scope.email, $scope.homePhone, $scope.cellPhone, $scope.anonymous);
+        alert(result);
     };
     $scope.lastName = "";
     $scope.firstName="";

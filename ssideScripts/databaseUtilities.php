@@ -17,9 +17,19 @@ class DatabaseUtility
 {
 	private $conn;
 	private $connected;
+	private $exceptionOccured;
+
+	public function GetExceptionOccured()
+	{
+		return $exceptionOccured;
+	}
 
 	function __construct()
 	{
+		mysqli_report(MYSQLI_REPORT_STRICT);
+		$this->connected = false;
+		$this->exceptionOccured = false;
+
 		$ini_array = parse_ini_file("php/src_files/config/config.php");
 		$ServerAddress = $ini_array['ServerAddress'];
 		$Username = $ini_array['Username'];
@@ -28,14 +38,18 @@ class DatabaseUtility
 
 		if (empty($ServerAddress) || empty($Database) || empty($Username)|| empty($Password))
 		{
-			die("Database configuration file not set up.");
+			echo "Database configuration file not set up.";
+			//die("Database configuration file not set up.");
 		}
 
 		$this->conn = new mysqli($ServerAddress, $Username, $Password, $Database);
-
+		
 		if ($this->conn->connect_error)
 		{
-			die("Connection failed: " . $this->conn->connect_error);
+			//die("Connection failed: " . $this->conn->connect_error);
+			echo "Connection failed: " . $this->conn->connect_error;
+			$this->exceptionOccured = true;
+			return;
 		}
 		$this->connected = true;
 	}
@@ -48,7 +62,9 @@ class DatabaseUtility
 
 		if ( !$statement ) {
 		    printf('Error:</br>errno: %d,</br>error: %s', $this->conn->errno, $this->conn->error);
-		    die;
+			$this->exceptionOccured = true;
+		    return;
+		    //die;
 		}
 
 		if (isset($storedProcedureParametersArray) && is_array($storedProcedureParametersArray))
@@ -159,7 +175,9 @@ class DatabaseUtility
         	$this->conn->close();
         	if ($this->conn->connect_error)
 			{
-				die("Disconnect failed: " . $this->conn->connect_error);
+				$this->exceptionOccured = true;
+				echo "Disconnect failed: " . $this->conn->connect_error;
+				//die("Disconnect failed: " . $this->conn->connect_error);
 			}
 		}
 

@@ -10,7 +10,7 @@ angular.module('Bastas.Filters')
       }
       var output = [];
       input.forEach(function(value, index, arr){
-        if (!value[propertyName] || String(value[propertyName].toLowerCase()).indexOf(searchString.toLowerCase()) > -1)
+        if (!value[propertyName] || String(value[propertyName]).toLowerCase().indexOf(searchString.toLowerCase()) > -1)
         {
           output.push(value);
         }
@@ -30,7 +30,7 @@ angular.module('Bastas.Filters')
       var propertyList = propertyNameList.split(',')
       input.forEach(function(inputValue, inputIndex, inputArr){
         propertyList.forEach(function(propValue, propIndex, propArr){
-          if (!inputValue[propValue] || String(inputValue[propValue].toLowerCase()).indexOf(searchString.toLowerCase()) > -1)
+          if (!inputValue[propValue] || String(inputValue[propValue]).toLowerCase().indexOf(searchString.toLowerCase()) > -1)
           {
             output.push(inputValue);
           }

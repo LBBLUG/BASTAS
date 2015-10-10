@@ -1,83 +1,72 @@
 <!-- Recipients -->
-<table id="recipients" class="table table-hover">
+<div class="row">
+    <div class="col-xs-4">
+		<strong>Total People in Grid:</strong> {{PeopleCount}}</br>
+		<strong>Total gifts in Grid:</strong> {{GiftCount}}
+    </div>
+    <div class="col-xs-4">
+        <label>Show Recieved Gifts:</label>
+		<select ng-model="filterGift_received" class="form-control">
+			<option value="">All</option>
+			<option value="false">No</option>
+			<option value="true">Yes</option>
+		</select>
+    </div>
+    <div class="col-xs-4">
+		<label>Show Recieved Gifts:</label>
+		<select ng-model="filterGift_received" class="form-control">
+			<option value="">All</option>
+			<option value="false">No</option>
+			<option value="true">Yes</option>
+		</select>
+    </div>
+</div>
+<hr>
+<table id="recipients" class="table table-hover" >
 	<thead>
 		<tr>
 			<th id="id">
 				Id
-			</th>
-			<th id="firstName">
-				First Name
-			</th>
-			<th id="lastname">
-				Last Name
-			</th>
-			<th id="gender">
-				Gender
-			</th>
-			<th id="gift">
-				Gift
-			</th>
-			<th id="gift_no">
-				Gift No.
-			</th>
-			<th id="phone">
-				Phone Number
+				<input type="text" ng-model="filterId" ng-change="RunFilter()" class="form-control"></br>
 			</th>
 			<th id="route">
 				Route
+				<input type="text" ng-model="filterRoute" ng-change="RunFilter()" class="form-control"></br>
 			</th>
-			<th id="gift_received">
-				Gift Received
+			<th id="firstName">
+				First Name
+				<input type="text" ng-model="filterFirstName" ng-change="RunFilter" class="form-control"></br>
 			</th>
-			<th id="complete">
-				All Gifts Received
+			<th id="lastname">
+				Last Name
+				<input type="text" ng-model="filterLastName" ng-change="RunFilter" class="form-control"></br>
 			</th>
+			<th id="gender">
+				Gender
+				<input type="text" ng-model="filterGender" ng-change="RunFilter" class="form-control"></br>
+			</th>
+			<th id="gift">
+				Gift
+				<input type="text" ng-model="filterGift" ng-change="RunFilter" class="form-control"></br>
+			</th>
+			<th id="size">
+				Gift Details
+				<input type="text" ng-model="filterSize" ng-change="RunFilter" class="form-control"></br>
+			</th>
+			<th id="phone">
+				Phone Number
+				<input type="text" ng-model="filterPhone" ng-change="RunFilter" class="form-control"></br>
+			</th>
+			<th></th>
 		</tr>	
 	</thead>
 	<tbody>
-		<tr>
-			<td id="id">
-				<input type="text" ng-model="filterId" class="form-control">
-			</td>
-			<td id="firstName">
-				<input type="text" ng-model="filterFirstName" class="form-control">
-			</td>
-			<td id="lastname">
-				<input type="text" ng-model="filterLastName" class="form-control">
-			</td>
-			<td id="gender">
-				<input type="text" ng-model="filterGender" class="form-control">
-			</td>
-			<td id="gift">
-				<input type="text" ng-model="filterGift" class="form-control">
-			</td>
-			<td id="gift_no">
-				<input type="text" ng-model="filtergift_no" class="form-control">
-			</td>
-			<td id="phone">
-				<input type="text" ng-model="filterPhone" class="form-control">
-			</td>
-			<td id="route">
-				<input type="text" ng-model="filterRoute" class="form-control">
-			</td>
-			<td id="gift_received">
-				<select ng-model="filterGift_received" class="form-control">
-					<option value="">All</option>
-					<option value="false">No</option>
-					<option value="true">Yes</option>
-				</select>
-			</td>
-			<td id="complete">
-				<select ng-model="filterComplete" class="form-control">
-					<option value="">All</option>
-					<option value="false">No</option>
-					<option value="true">Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr ng-repeat="recip in recipients | stringContainsByProperty:'main_id':filterId | stringContainsByProperty:'firstname':filterFirstName | stringContainsByProperty:'lastname':filterLastName | stringContainsByProperty:'gender':filterGender | stringContainsByProperty:'gift_no':filtergift_no | stringContainsByProperty:'route':filterRoute | stringContainsByProperty:'gift':filterGift | booleanByProperty:'complete':filterComplete | stringContainsByProperty:'home_phone':filterPhone | booleanByProperty:'gift_received':filterGift_received" >
+		<tr ng-repeat="recip in filteredRecipients" >
 			<td id="id">
 				{{recip.main_id}}
+			</td>
+			<td id="route">
+				{{recip.route_no}}
 			</td>
 			<td id="firstName">
 				{{recip.firstname}}
@@ -91,22 +80,13 @@
 			<td id="gift">
 				{{recip.description}}
 			</td>
-			<td id="gift_no">
-				{{recip.gift_no}}
+			<td id="size">
+				{{recip.size}}
 			</td>
 			<td id="phone">
 				{{recip.home_phone}}
 			</td>
-			<td id="route">
-				{{recip.route_no}}
-			</td>
-			<td id="gift_received">
-				{{recip.gift_received | toYesNo}}
-			</td>
-			<td id="complete">
-				{{recip.complete | toYesNo}}
-			</td>
-			<td id="edit"><a ng-href="#/recipients/{{recip.id}}">Edit</a></td>
+			<td id="edit"><a ng-href="#/recipients/{{recip.main_id}}">Edit</a></td>
 		</tr>
 	</tbody>
 </table>

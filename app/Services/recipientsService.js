@@ -4,6 +4,7 @@ angular.module('Bastas.Services')
 .service('recipientsService', ['$http', '$q', function($http, $q) {
   return({
         GetRecipients: GetRecipientsDelegate,
+        GetRecipient: GetRecipientDelegate,
         SaveRecipient: SaveRecipientDelegate
     });
   
@@ -19,10 +20,33 @@ angular.module('Bastas.Services')
           ! angular.isObject( response.data ) ||
           ! response.data.message
           ) {
-          return( $q.reject( "An unknown error occurred." ) );
-      }
-      // Otherwise, use expected error message.
-      return( $q.reject( response.data.message ) );
+            return( $q.reject( "An unknown error occurred." ) );
+          }   
+          // Otherwise, use expected error message.
+          return( $q.reject( response.data.message ) );
+        });
+    return request;
+
+  }
+
+
+  function GetRecipientDelegate()
+  {
+    var request = $http({
+            method: "GET",
+            url: "ssideScripts/getRecipients.php"
+        }).then(function(response){
+          //return response.data;
+          return {data: 1};
+        }, function(err){
+          if (
+          ! angular.isObject( response.data ) ||
+          ! response.data.message
+          ) {
+            return( $q.reject( "An unknown error occurred." ) );
+          }   
+          // Otherwise, use expected error message.
+          return( $q.reject( response.data.message ) );
         });
     return request;
 
