@@ -148,6 +148,7 @@ class DatabaseUtility
 		$queryString = "CALL " . $storedProcedureNameString . "(";
 		if (isset($storedProcedureParametersArray) && is_array($storedProcedureParametersArray))
 		{
+			$i = 0;
 			for ($i; $i < count($storedProcedureParametersArray); $i++)
 			{
 				$queryString = $queryString . "?";

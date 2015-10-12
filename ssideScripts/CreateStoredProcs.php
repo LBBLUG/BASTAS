@@ -214,4 +214,45 @@ if (!$conn->query($getRecipAndGifts))
     echo "Stored Procedure getRecipAndGifts created successfully!";
 }
 
+
+// retrieve a recipients and gifts
+$getRecipient = "CREATE PROCEDURE `getRecipient`(IN recipientId int)
+BEGIN 
+SELECT 
+r.main_id, -- Recipient Key
+r.lastname, 
+r.firstname, 
+r.home_phone, 
+r.cell_phone, 
+r.gender, 
+r.route_no,
+-- Gift info
+g.gift_no, 
+g.description, 
+g.size, 
+g.giver_id,
+-- Address info
+ra.recip_address_id,
+ra.street_address, 
+ra.apt_no,
+ra.neighborhood, 
+ra.city, 
+ra.state, 
+ra.zip_code
+FROM Recipients r
+INNER JOIN Gifts g
+ON r.main_id=g.main_id
+INNER JOIN Recip_Address ra
+ON r.address_id=ra.recip_address_id
+WHERE
+r.main_id = recipientId;
+END;";
+
+if (!$conn->query($getRecipient))
+{
+    echo "Stored Procedure getRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure getRecipient created successfully!";
+}
+
 ?>

@@ -92,9 +92,26 @@ angular.module('Bastas.Controllers')
 
 
 .controller('RecipientController', ['$scope', '$routeParams', 'recipientsService', function($scope, $routeParams, recipientsService) { 
-    recipientsService.GetRecipient($routeParams.id).then(function(success){
-        $scope.recipient_id = success.data;
-    });
+    $scope.Save = function(){
+        // recipientsService.SaveRecipient();
+    };
+
+    if ($routeParams.id !== undefined) 
+    {
+        recipientsService.GetRecipient($routeParams.id).then(function(success){
+            var gifts = success.data;
+            var personInfo = gifts[0];
+
+            $scope.personId = personInfo.main_id;
+            $scope.firstName = personInfo.firstname;
+            $scope.lastName = personInfo.lastname;
+            $scope.homePhone = personInfo.home_phone;
+            $scope.cellPhone = personInfo.cell_phone;
+            $scope.gender = personInfo.gender;
+            $scope.routeNo = personInfo.route_no;
+
+        });
+    }
 }])
 
 

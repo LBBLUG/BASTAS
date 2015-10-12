@@ -30,14 +30,14 @@ angular.module('Bastas.Services')
   }
 
 
-  function GetRecipientDelegate()
+  function GetRecipientDelegate(recordId)
   {
     var request = $http({
             method: "GET",
-            url: "ssideScripts/getRecipients.php"
+            url: "ssideScripts/getRecipient.php?id=" + recordId
         }).then(function(response){
           //return response.data;
-          return {data: 1};
+          return response.data;
         }, function(err){
           if (
           ! angular.isObject( response.data ) ||
