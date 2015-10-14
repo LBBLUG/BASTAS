@@ -111,10 +111,14 @@ angular.module('Bastas.Controllers')
     };
 
     $scope.AddRow = function(){
+        var temp = $scope.gifts.length;
         var gift = {
             giftId: "",
             description: "",
-            details: ""
+            details: "",
+            DeleteRow: function(){
+                deleteRow(temp);
+            }
         };
         $scope.gifts.push(gift);
     }
@@ -159,7 +163,7 @@ angular.module('Bastas.Controllers')
                 gift.details = currentValue.size;
                 gift.DeleteRow = function(){
                     deleteRow(index);
-                }
+                };
                 $scope.gifts.push(gift);
             });
 
