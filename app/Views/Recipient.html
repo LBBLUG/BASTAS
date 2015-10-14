@@ -1,79 +1,93 @@
 <!-- This is the main form for creating a new recipeint and editing existing ones -->
-<div id="mainFormContainer" style="padding: 30px 30px 30px 30px">
+<div id="mainFormContainer" style="margin: 30px 0px 30px 0px">
     <form ng-submit="Save()">
         <div id="recipientInfo">
-            <div id="name" class="row">
-                <div id="lastName" class="col-sm-6">
-                    <input type="text" ng-model="lastName" class="form-control" id="lastName" required maxlength="30" placeholder="Last Name" />
+            <div id="name" class="row-fluid">
+        		<h3>Profile</h3>
+                <div id="lastName" class="col-sm-4">
+	                <label>Last Name:</label>
+                    <input type="text" ng-model="personInfo.lastName" class="form-control" id="lastName" required maxlength="30" placeholder="Last Name" />
                 </div>
-                <div id="firstName" class="col-sm-6">
-                    <input type="text" ng-model="firstName" class="form-control" id="firstName" required maxlength="30" placeholder="First name" />
+                <div id="firstName" class="col-sm-4">
+	                <label class="">First Name:</label>
+                    <input type="text" ng-model="personInfo.firstName" class="form-control" id="firstName" required maxlength="30" placeholder="First name" />
                 </div>
-                <div id="route" class="col-sm-6">
-                    <input type="text" ng-model="route" class="form-control" id="route" required maxlength="30" placeholder="Route Number" />
-                </div>
-                <div id="gender" class="col-sm-6">
-                    <input type="text" ng-model="gender" class="form-control" id="gender" required maxlength="30" placeholder="Gender" />
+                <div id="gender" class="col-sm-4">
+	                <label class="">Middle Name:</label>
+                    <input type="text" ng-model="personInfo.gender" class="form-control" id="gender" required maxlength="30" placeholder="Gender" />
                 </div>
             </div>
-            <br />
-            <div id="contactInfo" class="row">
-                <div id="email" class="col-sm-4">
-                    <input type="email" ng-model="email" class="form-control" id="eMail" placeholder="email@somedomain.com" />
+            <div id="contactInfo" class="row-fluid">
+        		<h3>Contact Info</h3>
+                <div id="route" class="col-sm-4">
+	                <label class="">Route:</label>
+                    <input type="text" ng-model="personInfo.route" class="form-control" id="route" required maxlength="30" placeholder="Route Number" />
                 </div>
                 <div id="homePhone" class="col-sm-4">
-                    <input type="phone" ng-model="homePhone" class="form-control" id="homePhone" maxlength="13" placeholder="Home Phone" />
+	                <label class="">Home Phone:</label>
+                    <input type="phone" ng-model="personInfo.homePhone" class="form-control" id="homePhone" maxlength="13" placeholder="Home Phone" />
                 </div>
                 <div id="cellPhone" class="col-sm-4">
-                    <input type="phone" ng-model="cellPhone" class="form-control" id="cellPhone" maxlength="13" placeholder="Cell Phone" />
+	                <label class="">Cell Phone:</label>
+                    <input type="phone" ng-model="personInfo.cellPhone" class="form-control" id="cellPhone" maxlength="13" placeholder="Cell Phone" />
                 </div>
             </div>
-            <br />
-            <div id="addressInfo" class="row">
-                <div id="street" class="col-sm-8">
+            <div id="addressInfo" class="row-fluid">
+        		<h3>Address</h3>
+                <div id="street" class="col-sm-6">
+	                <label class="">Block and Street Name:</label>
                     <input type="text" ng-model="address.street" class="form-control" id="streetAddress" placeholder="Street Address" />
                 </div>
-                <div id="aptNo" class="col-sm-4">
+                <div id="aptNo" class="col-sm-6">
+	                <label class="">Apt:</label>
                     <input type="text" ng-model="address.apt" class="form-control" id="aptNo" placeholder="Apt No" />
                 </div>
-            </div>
-            <br />
-            <div id="addressLabel" class="row">
-                <div id="cityInfo" class="col-sm-6">
-                    <label>City, State Zip:</label>
-                </div>
-            </div>
-            <div id="addressInfo2" class="row">
-                <div id="city" class="col-sm-6">
+                <div id="city" class="col-sm-4">
+	                <label class="">City:</label>
                     <input type="text" class="form-control" ng-model="address.city" id="city" placeholder="City" />
                 </div>
-                <div id="state" class="col-sm-2">
+                <div id="state" class="col-sm-4">
+	                <label class="">State:</label>
                     <input type="text" ng-model="address.state" class="form-control" id="state" maxlength="2" placeholder="ST" />
                 </div>
                 <div id="zip" class="col-sm-4">
+	                <label class="">Zip Code:</label>
                     <input type="text" ng-model="address.zip" class="form-control" id="postal" maxlength="10" placeholder="Zip" />
                 </div>
             </div>
-            <div id="gifts" class="row">
-            	<div ng-repeat="gift in gifts">
-	                <div id="number" class="col-sm-2">
-	                    <input type="text" ng-model="gift.number" class="form-control" id="giftNumber" maxlength="10" placeholder="Gift Number" />
-	                </div>
-	                <div id="description" class="col-sm-2">
-	                    <input type="text" ng-model="gift.description" class="form-control" id="size" maxlength="10" placeholder="Gift description" />
-	                </div>
-	                <div id="size" class="col-sm-10">
-	                    <input type="text" ng-model="gift.size" class="form-control" id="size" maxlength="10" placeholder="Size or other info about the gift" />
-	                </div>
-	            </div>
+            <div id="gifts" class="row-fluid" >
+            	<h3><span style="padding-top: 30px">Gifts</span></h3>
+            	<div class="span12">
+	            	<div ng-repeat="gift in gifts" class="row-fluid">
+		                <div id="number" class="col-sm-3">
+		                	<label>Gift Number:</label>
+		                    <input type="text" ng-model="gift.giftId" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
+		                </div>
+		                <div id="description" class="col-sm-5">
+		                	<label>Gift Description:</label>
+		                    <input type="text" ng-model="gift.description" class="form-control" id="size" maxlength="500" placeholder="Gift description" />
+		                </div>
+		                <div id="size" class="col-sm-3">
+		                	<label>Size / Details:</label>
+		                    <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
+		                </div>
+		                <div class="col-sm-1">
+			                <button id="deleteRow" ng-click="gift.DeleteRow()" class="btn"  style="margin-top: 25px" >Delete</button>
+			            </div>
+		            </div>
+		        </div>
+            </div>
+            <div class="row" style="">
+                <button id="addRow" ng-click="AddRow()" class="col-sm-1 btn">Add</button>
+                <div class="col-sm-11"></div>
             </div>
         </div>
-        <div id="actionButtons" class="row">
-            <div id="buttoncol1" class="col-sm-6">
+        <div id="actionButtons" class="row-fluid">
+            <div id="btnCancel" class="col-sm-6" style="padding-top: 50px">
                 <button id="clearFields" class="btn btn-lg btn-warning">Cancel</button>
             </div>
-            <div id="buttoncol2" class="col-sm-6">
-                <button id="saveGiver" class="btn btn-lg btn-primary pull-right">Save</button>
+            <div id="btnSave" class="col-sm-6" style="padding-top: 50px; padding-bottom: 200px">
+                <button type="submit" ng-click="Save()" id="saveGiver" class="btn btn-lg btn-primary pull-right">Save</button>
             </div>
         </div>
     </form>

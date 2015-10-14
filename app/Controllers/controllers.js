@@ -91,10 +91,42 @@ angular.module('Bastas.Controllers')
 }])
 
 
-.controller('RecipientController', ['$scope', '$routeParams', 'recipientsService', function($scope, $routeParams, recipientsService) { 
+.controller('RecipientController', ['$scope', 
+    '$routeParams', 
+    'recipientsService', 
+    'giftService',
+    'addressService',
+    function($scope, $routeParams, recipientsService, giftService, addressService) { 
     $scope.Save = function(){
-        // recipientsService.SaveRecipient();
+        // Save Person
+        var recipientId = recipientsService.SaveRecipient($scope.personInfo);
+
+        // Save Address
+        addressService.SaveAddress($scope.address, recipientId);
+
+        // Save Gifts
+        $scope.gifts.forEach(function(currentItem, index, array){
+            giftService.SaveGift(currentItem, recipientId);
+        })
     };
+
+    $scope.AddRow = function(){
+        var gift = {
+            giftId: "",
+            description: "",
+            details: ""
+        };
+        $scope.gifts.push(gift);
+    }
+
+    var deleteRow = function(index){
+        $scope.gifts.splice(index, 1);
+        $scope.gifts.forEach(function(currentItem, index, array){
+            currentItem.DeleteRow = function(){
+                deleteRow(index);
+            };
+        });
+    }
 
     if ($routeParams.id !== undefined) 
     {
@@ -102,13 +134,34 @@ angular.module('Bastas.Controllers')
             var gifts = success.data;
             var personInfo = gifts[0];
 
-            $scope.personId = personInfo.main_id;
-            $scope.firstName = personInfo.firstname;
-            $scope.lastName = personInfo.lastname;
-            $scope.homePhone = personInfo.home_phone;
-            $scope.cellPhone = personInfo.cell_phone;
-            $scope.gender = personInfo.gender;
-            $scope.routeNo = personInfo.route_no;
+            $scope.personInfo = {};
+            $scope.personInfo.personId = personInfo.main_id;
+            $scope.personInfo.firstName = personInfo.firstname;
+            $scope.personInfo.lastName = personInfo.lastname;
+            $scope.personInfo.homePhone = personInfo.home_phone;
+            $scope.personInfo.cellPhone = personInfo.cell_phone;
+            $scope.personInfo.gender = personInfo.gender;
+            $scope.personInfo.routeNo = personInfo.route_no;
+
+            $scope.address = {};
+            $scope.address.addressId = personInfo.recip_address_id
+            $scope.address.street = personInfo.street_address;
+            $scope.address.apt = personInfo.apt_no;
+            $scope.address.city = personInfo.city;
+            $scope.address.state = personInfo.state;
+            $scope.address.zip = personInfo.zip_code;
+
+            $scope.gifts = [];
+            gifts.forEach(function(currentValue, index, array){
+                var gift = {};
+                gift.giftId = currentValue.gift_no;
+                gift.description = currentValue.description;
+                gift.details = currentValue.size;
+                gift.DeleteRow = function(){
+                    deleteRow(index);
+                }
+                $scope.gifts.push(gift);
+            });
 
         });
     }
