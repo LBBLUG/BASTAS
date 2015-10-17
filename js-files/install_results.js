@@ -115,20 +115,6 @@ $("#finishButton").hide();
         });
     });
 
-    $("#finishButton").click(function() {
-       $.ajax("home.html", {
-           beforeSend: function () {
-            console.log("Sending user to home screen.");
-        },
-        error: function () {
-            console.log("An error occurred while sending user to home.");
-        },
-        success: function () {
-            console.log("User successfully sent to home.");
-        }
-       });
-    });
-
 });
 
 

@@ -21,7 +21,25 @@ if ($conn->connect_error)
     echo "<br /><br />";
 }
 
-$createrecipAndAddress = "CREATE PROCEDURE pop_recipAndAddress(IN lastName varchar(30), IN firstName varchar(30), IN sex varchar(1), IN h_phone varchar(13), IN c_phone varchar(13), IN routeNo varchar(10), IN street varchar(50), IN apt varchar(10),  IN neigh varchar(50), IN city_name varchar(50), IN state_name varchar(2), IN zip varchar(10)) BEGIN INSERT INTO Recipients (lastname, firstname, gender, home_phone, cell_phone, route_no) VALUES (lastName, firstName, sex, h_phone, c_phone, routeNo); INSERT INTO Recip_Address (street_address, apt_no, neighborhood, city, state, zip_code, main_id) VALUES (street, apt, neigh, city_name, state_name, zip, Last_Insert_ID()); END;";
+$createrecipAndAddress = "CREATE PROCEDURE pop_recipAndAddress(
+IN lastName varchar(30),
+IN firstName varchar(30),
+IN sex varchar(1),
+IN h_phone varchar(13),
+IN c_phone varchar(13),
+IN routeNo varchar(10),
+IN street varchar(50),
+IN apt varchar(10),
+IN neigh varchar(50),
+IN city_name varchar(50),
+IN state_name varchar(2),
+IN zip varchar(10))
+BEGIN
+INSERT INTO Recipients (lastname, firstname, gender, home_phone, cell_phone, route_no)
+VALUES (lastName, firstName, sex, h_phone, c_phone, routeNo);
+INSERT INTO Recip_Address (street_address, apt_no, neighborhood, city, state, zip_code, main_id)
+VALUES (street, apt, neigh, city_name, state_name, zip, Last_Insert_ID());
+END;";
 
 if (!$conn->query($createrecipAndAddress))
 {
@@ -31,7 +49,17 @@ if (!$conn->query($createrecipAndAddress))
 }
 
 // create an admin user initial
-$createAdminUser = "CREATE PROCEDURE createAdminUser(IN lastName varchar(30), IN firstName varchar(30), IN Company varchar(100), IN uName varchar(100), IN passW char(128), IN eMail varchar(150)) BEGIN INSERT INTO Users (last_name, first_name, company, uname, passw, email, group_id) VALUES (lastName, firstName, Company, uName, passW, eMail, (SELECT group_id FROM User_Group WHERE group_name = 'Admin')); END;";
+$createAdminUser = "CREATE PROCEDURE createAdminUser(
+IN lastName varchar(30),
+IN firstName varchar(30),
+IN Company varchar(100),
+IN uName varchar(100),
+IN passW char(128),
+IN eMail varchar(150))
+BEGIN
+INSERT INTO Users (last_name, first_name, company, uname, passw, email, group_id) 
+VALUES (lastName, firstName, Company, uName, passW, eMail, (SELECT group_id FROM User_Group WHERE group_name = 'Admin'));
+END;";
 
 if (!$conn->query($createAdminUser))
 {
@@ -42,7 +70,29 @@ if (!$conn->query($createAdminUser))
 
 
 // create Admin Group Permissions
-$createAdminGroupPermissions = "CREATE PROCEDURE pop_createAdminGroupPermissions() BEGIN DECLARE rowNumPermType INT DEFAULT 0; DECLARE counterPermType INT DEFAULT 0; DECLARE rowNumPermGroup INT DEFAULT 0; DECLARE counterPermGroup INT DEFAULT 0; SELECT COUNT(*) FROM bastas.Permission_Type INTO rowNumPermType; SELECT COUNT(*) FROM bastas.Permission_Group INTO rowNumPermGroup; SET counterPermType=0; SET counterPermGroup=0; WHILE counterPermType<rowNumPermType DO WHILE counterPermGroup<rowNumPermGroup DO INSERT INTO bastas.Permission_Mstr (perm_type_id, perm_group_id, user_group_id) VALUES (counterPermType + 1, counterPermGroup + 1, (SELECT group_id FROM bastas.User_Group WHERE group_name = 'Admin')); SET counterPermGroup = counterPermGroup + 1; END WHILE; SET counterPermType = counterPermType + 1; SET counterPermGroup = 0; END WHILE; END;";
+$createAdminGroupPermissions = "CREATE PROCEDURE pop_createAdminGroupPermissions()
+BEGIN
+DECLARE rowNumPermType INT DEFAULT 0;
+DECLARE counterPermType INT DEFAULT 0;
+DECLARE rowNumPermGroup INT DEFAULT 0;
+DECLARE counterPermGroup INT DEFAULT 0;
+SELECT COUNT(*)
+FROM bastas.Permission_Type
+INTO rowNumPermType;
+SELECT COUNT(*)
+FROM bastas.Permission_Group
+INTO rowNumPermGroup;
+SET counterPermType=0;
+SET counterPermGroup=0;
+WHILE counterPermType<rowNumPermType
+DO WHILE counterPermGroup<rowNumPermGroup
+DO INSERT INTO bastas.Permission_Mstr (perm_type_id, perm_group_id, user_group_id)
+VALUES (counterPermType + 1, counterPermGroup + 1, (SELECT group_id FROM bastas.User_Group WHERE group_name = 'Admin'));
+SET counterPermGroup = counterPermGroup + 1;
+END WHILE;
+SET counterPermType = counterPermType + 1;
+SET counterPermGroup = 0; END WHILE;
+END;";
 
 if (!$conn->query($createAdminGroupPermissions))
 {
@@ -53,7 +103,17 @@ if (!$conn->query($createAdminGroupPermissions))
 
 
 // create procedure to simply add a new user without any permissions set
-$addUser = "CREATE PROCEDURE createUser(IN lastName varchar(30), IN firstName varchar(30), IN Company varchar(100), IN uName varchar(100), IN passW char(128), IN eMail varchar(150)) BEGIN INSERT INTO Users (last_name, first_name, company, uname, passw, email) VALUES (lastName, firstName, Company, uName, passW, eMail); END;";
+$addUser = "CREATE PROCEDURE createUser(
+IN lastName varchar(30),
+IN firstName varchar(30),
+Company varchar(100),
+IN uName varchar(100),
+IN passW char(128),
+IN eMail varchar(150))
+BEGIN
+INSERT INTO Users (last_name, first_name, company, uname, passw, email)
+VALUES (lastName, firstName, Company, uName, passW, eMail);
+END;";
 
 if (!$conn->query($addUser))
 {
@@ -64,7 +124,15 @@ if (!$conn->query($addUser))
 
 
 // create procedure to add permissions to a user
-$addPermission = "CREATE PROCEDURE addUserPermission (IN userID int, IN permTypeID int, IN permGroupID int, IN userGroupID int) BEGIN INSERT INTO Permission_Mstr (user_id, perm_type_id, perm_group_id, user_group_id) VALUES (userID, permTypeID, permGroupID, userGroupID); END;";
+$addPermission = "CREATE PROCEDURE addUserPermission(
+IN userID int,
+IN permTypeID int,
+IN permGroupID int,
+IN userGroupID int)
+BEGIN
+INSERT INTO Permission_Mstr (user_id, perm_type_id, perm_group_id, user_group_id)
+VALUES (userID, permTypeID, permGroupID, userGroupID);
+END;";
 
 if (!$conn->query($addPermission))
 {
@@ -75,7 +143,12 @@ if (!$conn->query($addPermission))
 
 
 // create procedure to add user group
-$addUserGroup = "CREATE PROCEDURE createUserGroup(IN groupName varchar(25)) BEGIN INSERT INTO User_Group (group_name) VALUES (groupName); END;";
+$addUserGroup = "CREATE PROCEDURE createUserGroup(
+IN groupName varchar(25))
+BEGIN
+INSERT INTO User_Group (group_name)
+VALUES (groupName);
+END;";
 
 if (!$conn->query($addUserGroup))
 {
@@ -85,7 +158,14 @@ if (!$conn->query($addUserGroup))
 }
 
 // create procedure to add a user to a group
-$addUserToGroup = "CREATE PROCEDURE addUserToGroup(IN userId int, IN groupId int) BEGIN UPDATE Users SET group_id=groupId WHERE user_id=userId; END;";
+$addUserToGroup = "CREATE PROCEDURE addUserToGroup(
+IN userId int,
+IN groupId int)
+BEGIN
+UPDATE Users
+SET group_id=groupId
+WHERE user_id=userId;
+END;";
 
 if (!$conn->query($addUserToGroup))
 {
@@ -95,7 +175,14 @@ if (!$conn->query($addUserToGroup))
 }
 
 // create procedure to change a user's group
-$changeUserGroup = "CREATE PROCEDURE changeUsersGroup(IN userId int, IN groupId int) BEGIN UPDATE Users SET group_id = groupId WHERE user_id = userId; END;";
+$changeUserGroup = "CREATE PROCEDURE changeUsersGroup(
+IN userId int,
+IN groupId int)
+BEGIN
+UPDATE Users
+SET group_id = groupId
+WHERE user_id = userId;
+END;";
 
 if (!$conn->query($changeUserGroup))
 {
@@ -105,7 +192,15 @@ if (!$conn->query($changeUserGroup))
 }
 
 // create procedure to add permissions to User Group
-$addGroupPerm = "CREATE PROCEDURE addGroupPerm(IN userID int, IN permTypeID int, IN permGroupID int, IN userGroupID int) BEGIN INSERT INTO Permission_Mstr (user_id, perm_type_id, perm_group_id, user_group_id) VALUES (userID, permTypeID, permGroupID, userGroupID); END;";
+$addGroupPerm = "CREATE PROCEDURE addGroupPerm(
+IN userID int,
+IN permTypeID int,
+IN permGroupID int,
+IN userGroupID int)
+BEGIN
+INSERT INTO Permission_Mstr (user_id, perm_type_id, perm_group_id, user_group_id)
+VALUES (userID, permTypeID, permGroupID, userGroupID);
+END;";
 
 if (!$conn->query($addGroupPerm))
 {
@@ -116,7 +211,23 @@ if (!$conn->query($addGroupPerm))
 
 
 // create procedure to add a Giver
-$addGiver = "CREATE PROCEDURE addGiver(IN lastName varchar(30), IN firstName varchar(30), IN eMail varchar(150), IN homePhone varchar(13), IN cellPhone varchar(13), IN addressStreet varchar(50), IN aptNo varchar(10), IN City varchar(50), IN State varchar(2), IN Postal varchar(10), IN wishesAnon bool) BEGIN INSERT INTO Giver (lastname, firstname, email, phone_home, phone_cell, address_street, apt_no, city, state, zip_code, wishes_anon) VALUES (lastName, firstName, eMail, homePhone, cellPhone, addressStreet, aptNo, City, State, Postal, wishesAnon); END;";
+$addGiver = "CREATE PROCEDURE addGiver(
+IN lastName varchar(30),
+IN firstName varchar(30),
+IN eMail varchar(150),
+IN homePhone varchar(13),
+IN cellPhone varchar(13),
+IN addressStreet varchar(50),
+IN aptNo varchar(10),
+IN City varchar(50),
+IN State varchar(2),
+IN Postal varchar(10),
+IN wishesAnon bool)
+BEGIN
+INSERT INTO Giver (lastname, firstname, email, phone_home, phone_cell, address_street, apt_no, city, state, zip_code, wishes_anon)
+VALUES (lastName, firstName, eMail, homePhone, cellPhone, addressStreet, aptNo, City, State, Postal, wishesAnon);
+SELECT LAST_INSERT_ID();
+END;";
 
 if (!$conn->query($addGiver))
 {
@@ -137,7 +248,14 @@ if (!$conn->query($addGiftToGiver))
 }
 
 // create procedure to add Gift Status
-$addGiftStatus = "CREATE PROCEDURE addGiftStatus (IN Gift_ID int, IN Status varchar(50), Active bool) BEGIN INSERT INTO Gift_Status (gift_id, status, active) VALUES (Gift_ID, Status, Active); END;";
+$addGiftStatus = "CREATE PROCEDURE addGiftStatus(
+IN Gift_ID int, 
+IN Status varchar(50),
+Active bool)
+BEGIN
+INSERT INTO Gift_Status (gift_id, status, active)
+VALUES (Gift_ID, Status, Active);
+END;";
 
 if (!$conn->query($addGiftStatus))
 {
@@ -147,7 +265,17 @@ if (!$conn->query($addGiftStatus))
 }
 
 // create procedure to adjust Gift Statuses for Gifts
-$adjustGiftStatus = "CREATE PROCEDURE adjustGiftStatus (IN Gift_ID int, IN Status varchar(50), Active bool) BEGIN UPDATE Gift_Status SET status=Status, active=0 WHERE gift_id=Gift_ID; INSERT INTO Gift_Status (gift_id, status, active) VALUES (Gift_ID, Status, Active); END;";
+$adjustGiftStatus = "CREATE PROCEDURE adjustGiftStatus(
+IN Gift_ID int,
+IN Status varchar(50),
+Active bool)
+BEGIN
+UPDATE Gift_Status
+SET status=Status, active=0
+WHERE gift_id=Gift_ID;
+INSERT INTO Gift_Status (gift_id, status, active)
+VALUES (Gift_ID, Status, Active);
+END;";
 
 if (!$conn->query($adjustGiftStatus))
 {
@@ -157,8 +285,14 @@ if (!$conn->query($adjustGiftStatus))
 }
 
 // create procedure to change gift status for a gift
-$changeGiftStatus = "CREATE PROCEDURE changeGiftStatus(IN giftId int, IN statusId int) BEGIN UPDATE Gifts SET status_id=statusId
-WHERE gift_id=giftId; END;";
+$changeGiftStatus = "CREATE PROCEDURE changeGiftStatus(
+IN giftId int,
+IN statusId int)
+BEGIN
+UPDATE Gifts
+SET status_id=statusId
+WHERE gift_id=giftId;
+END;";
 
 if (!$conn->query($changeGiftStatus))
 {
@@ -168,7 +302,15 @@ if (!$conn->query($changeGiftStatus))
 }
 
 // create procedure to add Delivery Information - used when a gift is sent out for delivery
-$addDeliveryInfo = "CREATE PROCEDURE addDeliveryInfo(IN deliveryId int, IN delivererName varchar(60), IN delivererPhone varchar(10), IN giftId int) BEGIN INSERT INTO Delivery_Info (delivery_id, person_name, person_phone, gift_id) VALUES (deliveryId, delivererName, delivererPhone, giftId); END;";
+$addDeliveryInfo = "CREATE PROCEDURE addDeliveryInfo(
+IN deliveryId int,
+IN delivererName varchar(60),
+IN delivererPhone varchar(10),
+IN giftId int)
+BEGIN
+INSERT INTO Delivery_Info (delivery_id, person_name, person_phone, gift_id)
+VALUES (deliveryId, delivererName, delivererPhone, giftId);
+END;";
 
 if (!$conn->query($addDeliveryInfo))
 {
@@ -178,7 +320,19 @@ if (!$conn->query($addDeliveryInfo))
 }
 
 // pull back users and their group from database
-$getUsersAndGroups = "CREATE PROCEDURE getUsersAndGroups() BEGIN SELECT User_Group.group_name, Users.last_name, Users.first_name, Users.uname, Users.email FROM Users INNER JOIN User_Group ON User_Group.group_id=Users.group_id; END;";
+$getUsersAndGroups = "CREATE PROCEDURE getUsersAndGroups()
+BEGIN
+SELECT
+User_Group.group_name,
+Users.last_name,
+Users.first_name,
+Users.uname,
+Users.email
+FROM Users
+INNER JOIN
+User_Group
+ON User_Group.group_id=Users.group_id;
+END;";
 
 if (!$conn->query($getUsersAndGroups))
 {
