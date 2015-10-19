@@ -409,4 +409,24 @@ if (!$conn->query($getRecipient))
     echo "Stored Procedure getRecipient created successfully!";
 }
 
+$updateGift = "CREATE PROCEDURE `updateGift` (IN giftId int, IN giftNo int, IN giftDescription varchar(500), IN giftSize varchar(20), IN mainId int, IN giverId int)
+BEGIN
+    UPDATE `gifts`
+    SET
+    gift_no = giftNo,
+    description = giftDescription,
+    size = giftSize,
+    main_id = mainId,
+    giver_id = giverId
+WHERE
+    gift_id = giftNo;
+END;"
+
+if (!$conn->query($updateGift))
+{
+    echo "Stored Procedure updateGift creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure updateGift created successfully!";
+}
+
 ?>

@@ -8,6 +8,10 @@ angular.module('Bastas.Services')
 
   function SaveGiftDelegate(gift, recipientId)
   {
+    $http({
+            method: "POST",
+            url: "ssideScripts/getRecipient.php?id=" + recordId,
+            )
     
   }
 
