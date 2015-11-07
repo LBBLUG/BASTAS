@@ -7,6 +7,7 @@ $databaseUtil = new DatabaseUtility();
 $postdata = file_get_contents("php://input");
 
 $address = json_decode($postdata);
+
 if (!isset($address->Id) || empty($address->Id))
 {
 	$resultSet = $databaseUtil->ExecuteStoredProcedure("createAddress",

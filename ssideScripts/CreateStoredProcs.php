@@ -349,14 +349,6 @@ r.home_phone,
 r.cell_phone, 
 r.gender, 
 r.route_no,
--- Gift info
-g.gift_no, 
-g.description, 
-g.size, 
-g.giver_id,
-g.gift_pulled,
-g.gift_received,
-g.gift_delivered,
 -- Address info
 ra.recip_address_id,
 ra.street_address, 
@@ -366,10 +358,8 @@ ra.city,
 ra.state, 
 ra.zip_code
 FROM Recipients r
-INNER JOIN Gifts g
-ON r.main_id=g.main_id
 INNER JOIN Recip_Address ra
-ON r.address_id=ra.recip_address_id
+ON r.main_id=ra.main_id
 WHERE
 r.main_id = recipientId;
 END;";
@@ -387,7 +377,10 @@ $updateGift = "CREATE PROCEDURE `updateGift`(
     IN giftDescription varchar(500), 
     IN giftSize varchar(20), 
     IN mainId int, 
-    IN giverId int)
+    IN giverId int,
+    IN giftPulled bit,
+    IN giftRecvd bit,
+    IN giftDelivered bit)
 BEGIN
     UPDATE `gifts`
     SET
@@ -429,7 +422,7 @@ BEGIN
             route_no = routeNo
     WHERE main_id = id;
     SELECT id AS Id;
-END;"
+END;";
 
 if (!$conn->query($updateRecipient))
 {
@@ -458,7 +451,7 @@ BEGIN
             main_id = recipientId
     WHERE recip_address_id = id;
     SELECT id AS Id;
-END;"
+END;";
 
 if (!$conn->query($updateAddress))
 {
@@ -492,7 +485,7 @@ BEGIN
     routeNo,
     NULL);
     SELECT LAST_INSERT_ID() AS Id;
-END;"
+END;";
 
 if (!$conn->query($createRecipient))
 {
@@ -506,7 +499,7 @@ BEGIN
     DELETE FROM `Gifts`
     WHERE gift_id = giftId;
     SELECT giftId AS Id;
-END;"
+END;";
 
 if (!$conn->query($deleteGift))
 {
@@ -545,7 +538,7 @@ BEGIN
         recipientId
     );
     SELECT LAST_INSERT_ID() AS Id;
-END;"
+END;";
 
 if (!$conn->query($createAddress))
 {
@@ -579,13 +572,36 @@ BEGIN
     );
 
     SELECT LAST_INSERT_ID() AS Id;
-END;"
+END;";
 
 if (!$conn->query($createGift))
 {
     echo "Stored Procedure createGift creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     echo "Stored Procedure createGift created successfully!";
+}
+
+$getGifts = "CREATE PROCEDURE `getGifts`(IN recipientId int)
+BEGIN
+    SELECT 
+    gift_id,
+    gift_no,
+    description,
+    size,
+    main_id,
+    giver_id,
+    gift_pulled,
+    gift_received,
+    gift_delivered
+    FROM Gifts
+    WHERE main_id = recipientId;
+END";
+
+if (!$conn->query($getGifts))
+{
+    echo "Stored Procedure getGifts creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure getGifts created successfully!";
 }
 
 ?>

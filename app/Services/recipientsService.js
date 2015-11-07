@@ -17,13 +17,13 @@ angular.module('Bastas.Services')
           return response.data;
         }, function(err){
           if (
-          ! angular.isObject( response.data ) ||
-          ! response.data.message
+          ! angular.isObject( err.data ) ||
+          ! err.data.message
           ) {
             return( $q.reject( "An unknown error occurred." ) );
           }   
           // Otherwise, use expected error message.
-          return( $q.reject( response.data.message ) );
+          return( $q.reject( err.data.message ) );
         });
     return request;
 
@@ -37,16 +37,16 @@ angular.module('Bastas.Services')
             url: "ssideScripts/getRecipient.php?id=" + recordId
         }).then(function(response){
           //return response.data;
-          return response.data;
+          return response.data.data;
         }, function(err){
           if (
-          ! angular.isObject( response.data ) ||
-          ! response.data.message
+          ! angular.isObject( err.data ) ||
+          ! err.data.message
           ) {
             return( $q.reject( "An unknown error occurred." ) );
           }   
           // Otherwise, use expected error message.
-          return( $q.reject( response.data.message ) );
+          return( $q.reject( err.data.message ) );
         });
     return request;
   }
@@ -61,7 +61,7 @@ angular.module('Bastas.Services')
                     lastName: recipient.lastName,
                     firstName: recipient.firstName,
                     gender: recipient.gender,
-                    route: recipient.routeNo,
+                    route: recipient.route,
                     homePhone: recipient.homePhone,
                     cellPhone: recipient.cellPhone
                   }
@@ -69,13 +69,13 @@ angular.module('Bastas.Services')
           return response.data.data[0];
         }, function(err){
           if (
-          ! angular.isObject( response.data ) ||
-          ! response.data.message
+          ! angular.isObject( err.data ) ||
+          ! err.data.message
           ) {
             return( $q.reject( "An unknown error occurred." ) );
           }   
           // Otherwise, use expected error message.
-          return( $q.reject( response.data.message ) );
+          return( $q.reject( err.data.message ) );
         });
     return request;
   }

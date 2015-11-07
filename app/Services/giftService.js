@@ -3,9 +3,30 @@
 angular.module('Bastas.Services')   
 .service('giftService', ['$http', '$q', function($http, $q) {
   return({
+        GetGiftsByRecipientId: GetGiftsByRecipientIdDelegate,
         SaveGift: SaveGiftDelegate,
         DeleteGift: DeleteGiftDelegate
     });
+
+  function GetGiftsByRecipientIdDelegate(recipientId)
+  {
+    var request = $http({
+            method: "GET",
+            url: "ssideScripts/getGifts.php?recipientId=" + recipientId
+        }).then(function(response){
+          return response.data.data;
+        }, function(err){
+          if (
+          ! angular.isObject( err.data ) ||
+          ! err.data.message
+          ) {
+            return( $q.reject( "An unknown error occurred." ) );
+          }   
+          // Otherwise, use expected error message.
+          return( $q.reject( err.data.message ) );
+        });
+    return request;
+  }
 
   function SaveGiftDelegate(gift, recipientId)
   {
@@ -24,13 +45,13 @@ angular.module('Bastas.Services')
           return response.data.data[0];
         }, function(err){
           if (
-          ! angular.isObject( response.data ) ||
-          ! response.data.message
+          ! angular.isObject( err.data ) ||
+          ! err.data.message
           ) {
             return( $q.reject( "An unknown error occurred." ) );
           }   
           // Otherwise, use expected error message.
-          return( $q.reject( response.data.message ) );
+          return( $q.reject( err.data.message ) );
         });
     return request;
   }
@@ -47,13 +68,13 @@ angular.module('Bastas.Services')
           return response.data.data[0];
         }, function(err){
           if (
-          ! angular.isObject( response.data ) ||
-          ! response.data.message
+          ! angular.isObject( err.data ) ||
+          ! err.data.message
           ) {
             return( $q.reject( "An unknown error occurred." ) );
           }   
           // Otherwise, use expected error message.
-          return( $q.reject( response.data.message ) );
+          return( $q.reject( err.data.message ) );
         });
     return request;
   }

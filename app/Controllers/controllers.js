@@ -16,9 +16,9 @@ angular.module('Bastas.Controllers')
 
 .controller('HomeController', ['$scope', '$q', 'userService', 'imageService', function($scope, $q, userService, imageService) {
 	$scope.MyProperty = 'Test String!';
-	userService.GetUsers().then(function(data){
+	/*userService.GetUsers().then(function(data){
 		$scope.Users = data;
-	});
+	});*/
 	$scope.Images = imageService.GetCarouselImages();
 }])
 
@@ -106,6 +106,20 @@ angular.module('Bastas.Controllers')
         };
 
         $scope.Save = function(){
+            var modelIsValid = false;
+            $scope.gifts.forEach(function(currentItem, index, array){
+                if (!currentItem.isDeleted)
+                {
+                    modelIsValid = true;
+                }
+            });
+
+            if(!modelIsValid)
+            {
+                alert("At least one gift is required per recipient. Please add a gift.");
+                return;
+            }
+
             // Save Person
             recipientsService.SaveRecipient($scope.personInfo).then(function(data){
                 // Save Address
@@ -154,9 +168,8 @@ angular.module('Bastas.Controllers')
         $scope.gifts = [];
         if ($routeParams.id !== undefined && $routeParams.id !== "new") 
         {
-            recipientsService.GetRecipient($routeParams.id).then(function(success){
-                var gifts = success.data;
-                var personInfo = gifts[0];
+            recipientsService.GetRecipient($routeParams.id).then(function(data){
+                var personInfo = data[0];
 
                 $scope.personInfo.personId = personInfo.main_id;
                 $scope.personInfo.firstName = personInfo.firstname;
@@ -173,6 +186,10 @@ angular.module('Bastas.Controllers')
                 $scope.address.city = personInfo.city;
                 $scope.address.state = personInfo.state;
                 $scope.address.zip = personInfo.zip_code;
+            });
+            
+            giftService.GetGiftsByRecipientId($routeParams.id).then(function(data){
+                var gifts = data;
 
                 gifts.forEach(function(currentValue, index, array){
                     var gift = {};
@@ -181,11 +198,13 @@ angular.module('Bastas.Controllers')
                     gift.description = currentValue.description;
                     gift.details = currentValue.size;
                     gift.giverId = currentValue.giver_id;
+                    gift.isPulled = currentValue.gift_pulled;
+                    gift.isReceived = currentValue.gift_received;
+                    gift.isDelivered = currentValue.gift_delivered;
                     gift.isDeleted = false;
                     $scope.gifts.push(gift);
                 });
-
-            });
+            })
         };
 
 
