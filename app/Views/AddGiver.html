@@ -1,17 +1,17 @@
 <!-- This is the main form for the person wanting to choose to give a gift -->
 <div id="mainFormContainer">
-    <div id="simpleInstructions">
+    <div id="simpleInstructions" class="container">
         <br />
         <br />
         <div id="instructionRow" class="row">
             <div id="columnInstruction" class="col-sm-12">
-            Please take a moment and fill out the form below, then click next to choose one or more gifts that you would like to provide to a senior this Christmas.
+                Please take a moment and fill out the form below, then click next to choose one or more gifts that you would like to provide to a senior this Christmas.
             </div>
         </div>
         <br />
     </div>
     <form ng-submit="addGiver()">
-        <div id="giverInfo">
+        <div id="giverInfo" class="container">
             <div id="giverName" class="row">
                 <div id="columnLastName" class="col-sm-6">
                     <input type="text" ng-model="lastName" class="form-control" id="lastName" required maxlength="30" placeholder="Last Name" />
@@ -59,20 +59,19 @@
                 </div>
             </div>
             <div id="giverAnonymous" class="row">
-                <div id="anonColumn" class="col-sm-2">
-                    <input type="checkbox" ng-model="anonymous" class="form-control" id="wishesAnon" />
-                </div>
-                <div id="labelColumn" class="col-sm-10">
-                    <label>I wish to remain anonymous</label>
+                <div id="anonColumn" class="col-sm-12">
+                    <label><input type="checkbox" ng-model="anonymous" class="form-control" id="wishesAnon" />I wish to remain anonymous</label>
                 </div>
             </div>
         </div>
-        <div id="actionButtons" class="row">
-            <div id="buttoncol1" class="col-sm-6">
-                <button id="clearFields" class="btn btn-lg btn-warning">Clear Form</button>
-            </div>
-            <div id="buttoncol2" class="col-sm-6">
-                <button id="saveGiver" class="btn btn-lg btn-primary pull-right">Next >></button>
+        <div id="actionButtonsContainer" class="container">
+            <div id="actionButtons" class="row">
+                <div id="buttoncol1" class="col-sm-6">
+                    <button id="clearFields" class="btn btn-lg btn-warning">Clear Form</button>
+                </div>
+                <div id="buttoncol2" class="col-sm-6">
+                    <button id="saveGiver" class="btn btn-lg btn-primary pull-right">Next >></button>
+                </div>
             </div>
         </div>
     </form>

@@ -1,41 +1,45 @@
 <!-- This is the main form for creating a new recipeint and editing existing ones -->
 <div id="mainFormContainer" style="margin: 30px 0px 30px 0px">
     <form ng-submit="Save()">
-        <div id="recipientInfo">
+        <div id="recipientInfo" class="container">
             <div id="name" class="row-fluid">
-        		<h3>Profile</h3>
+                <h3>Profile</h3>
                 <div id="lastName" class="col-sm-4">
-	                <label>Last Name:</label>
+                    <label>Last Name:</label>
                     <input type="text" ng-model="personInfo.lastName" class="form-control" id="lastName" maxlength="30" placeholder="Last Name" />
                 </div>
                 <div id="firstName" class="col-sm-4">
-	                <label class="">First Name:</label>
+                    <label class="">First Name:</label>
                     <input type="text" ng-model="personInfo.firstName" class="form-control" id="firstName" maxlength="30" placeholder="First name" />
                 </div>
                 <div id="gender" class="col-sm-4">
-	                <label class="">Gender:</label>
+                    <label class="">Gender:</label>
                     <input type="text" ng-model="personInfo.gender" class="form-control" id="gender" maxlength="30" placeholder="Gender" />
                 </div>
             </div>
+        </div>
+        <div id="contactInfoContainer" class="container">
             <div id="contactInfo" class="row-fluid">
-        		<h3>Contact Info</h3>
+                <h3>Contact Info</h3>
                 <div id="route" class="col-sm-4">
-	                <label class="">Route:</label>
-                    <input type="text" ng-model="personInfo.route" class="form-control" id="route"  maxlength="30" placeholder="Route Number" />
+                    <label class="">Route:</label>
+                    <input type="text" ng-model="personInfo.route" class="form-control" id="route" maxlength="30" placeholder="Route Number" />
                 </div>
                 <div id="homePhone" class="col-sm-4">
-	                <label class="">Home Phone:</label>
+                    <label class="">Home Phone:</label>
                     <input type="phone" ng-model="personInfo.homePhone" class="form-control" id="homePhone" maxlength="13" placeholder="Home Phone" />
                 </div>
                 <div id="cellPhone" class="col-sm-4">
-	                <label class="">Cell Phone:</label>
+                    <label class="">Cell Phone:</label>
                     <input type="phone" ng-model="personInfo.cellPhone" class="form-control" id="cellPhone" maxlength="13" placeholder="Cell Phone" />
                 </div>
             </div>
+        </div>
+        <div id="addresssInfoContainer" class="container">
             <div id="addressInfo" class="row-fluid">
-        		<h3>Address</h3>
+                <h3>Address</h3>
                 <div id="street" class="col-sm-6">
-	                <label class="">Block and Street Name:</label>
+                    <label class="">Block and Street Name:</label>
                     <input type="text" ng-model="address.street" class="form-control" id="streetAddress" placeholder="Street Address" />
                 </div>
                 <div id="aptNo" class="col-sm-3">
@@ -47,46 +51,51 @@
                     <input type="text" ng-model="address.neighborhood" class="form-control" id="neighborhood" placeholder="Neighborhood" />
                 </div>
                 <div id="city" class="col-sm-4">
-	                <label class="">City:</label>
+                    <label class="">City:</label>
                     <input type="text" class="form-control" ng-model="address.city" id="city" placeholder="City" />
                 </div>
                 <div id="state" class="col-sm-4">
-	                <label class="">State:</label>
+                    <label class="">State:</label>
                     <input type="text" ng-model="address.state" class="form-control" id="state" maxlength="2" placeholder="ST" />
                 </div>
                 <div id="zip" class="col-sm-4">
-	                <label class="">Zip Code:</label>
+                    <label class="">Zip Code:</label>
                     <input type="text" ng-model="address.zip" class="form-control" id="postal" maxlength="10" placeholder="Zip" />
                 </div>
             </div>
-            <div id="gifts" class="row-fluid" >
-            	<h3><span style="padding-top: 30px">Gifts</span></h3>
-            	<div class="span12">
-	            	<div ng-repeat="gift in gifts" class="row-fluid">
-		                <div id="number" class="col-sm-3">
-		                	<label>Gift Number:</label>
-		                    <input type="text" ng-model="gift.giftNo" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
-		                </div>
-		                <div id="description" class="col-sm-5">
-		                	<label>Gift Description:</label>
-		                    <input type="text" ng-model="gift.description" class="form-control" id="size" maxlength="500" placeholder="Gift description" />
-		                </div>
-		                <div id="size" class="col-sm-3">
-		                	<label>Size / Details:</label>
-		                    <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
-		                </div>
-		                <div class="col-sm-1">
-			                <button type="button" id="deleteRow" ng-click="gift.DeleteRow()" class="btn"  style="margin-top: 25px" >Delete</button>
-			            </div>
-		            </div>
-		        </div>
+        </div>
+        <div id="giftsContainer" class="container">
+            <div id="gifts" class="row-fluid">
+                <h3><span style="padding-top: 30px">Gifts</span></h3>
+                <div class="span12">
+                    <div ng-repeat="gift in gifts" class="row-fluid">
+                        <div id="number" class="col-sm-3">
+                            <label>Gift Number:</label>
+                            <input type="text" ng-model="gift.giftNo" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
+                        </div>
+                        <div id="description" class="col-sm-5">
+                            <label>Gift Description:</label>
+                            <input type="text" ng-model="gift.description" class="form-control" id="size" maxlength="500" placeholder="Gift description" />
+                        </div>
+                        <div id="size" class="col-sm-3">
+                            <label>Size / Details:</label>
+                            <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" id="deleteRow" ng-click="gift.DeleteRow()" class="btn" style="margin-top: 25px">Delete</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div id="addContainer" class="container">
             <div class="row-fluid" style="margin-top: 5px;">
                 <div id="addBtnCol" class="col-sm-12">
                     <button type="button" id="addRow" ng-click="AddRow()" class="btn">Add</button>
                 </div>
             </div>
-
+        </div>
+        <div id="actionButtonsContainer" class="container">
             <div id="actionButtons" class="row" style="margin-top: 5px;">
                 <div id="btnCancel" class="col-sm-6">
                     <button type="button" id="clearFields" ng-click="Cancel()" class="btn btn-lg btn-warning">Cancel</button>
@@ -96,7 +105,6 @@
                 </div>
             </div>
         </div>
-        
+
     </form>
 </div>
-
