@@ -248,57 +248,23 @@ if (!$conn->query($addGiftToGiver))
 }
 
 // create procedure to add Gift Status
-$addGiftStatus = "CREATE PROCEDURE addGiftStatus(
-IN Gift_ID int, 
-IN Status varchar(50),
-Active bool)
+$changeGiftStatus = "CREATE PROCEDURE changeGiftStatus(
+IN giftID int,
+IN gifrPulled bit,
+IN giftRecvd bit, 
+IN giftDelivered bit)
 BEGIN
-INSERT INTO Gift_Status (gift_id, status, active)
-VALUES (Gift_ID, Status, Active);
+UPDATE Gifts
+SET gift_pulled = giftPulled, gift_received = giftRecvd, gift_delivered = gift_delivered
+WHERE gift_id = giftId;
 END;";
+
 
 if (!$conn->query($addGiftStatus))
 {
-    echo "Stored Procedure creation of addGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
-} else {
-    echo "Stored Preocdure addGiftStatus created successfully!";
-}
-
-// create procedure to adjust Gift Statuses for Gifts
-$adjustGiftStatus = "CREATE PROCEDURE adjustGiftStatus(
-IN Gift_ID int,
-IN Status varchar(50),
-Active bool)
-BEGIN
-UPDATE Gift_Status
-SET status=Status, active=0
-WHERE gift_id=Gift_ID;
-INSERT INTO Gift_Status (gift_id, status, active)
-VALUES (Gift_ID, Status, Active);
-END;";
-
-if (!$conn->query($adjustGiftStatus))
-{
-    echo "Stored Procedure creation of adjustGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
-} else {
-    echo "Stored Preocdure adjustGiftStatus created successfully!";
-}
-
-// create procedure to change gift status for a gift
-$changeGiftStatus = "CREATE PROCEDURE changeGiftStatus(
-IN giftId int,
-IN statusId int)
-BEGIN
-UPDATE Gifts
-SET status_id=statusId
-WHERE gift_id=giftId;
-END;";
-
-if (!$conn->query($changeGiftStatus))
-{
     echo "Stored Procedure creation of changeGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Procedure changeGiftStatus created successfully!";
+    echo "Stored Preocdure changeGiftStatus created successfully!";
 }
 
 // create procedure to add Delivery Information - used when a gift is sent out for delivery
@@ -349,6 +315,9 @@ Recipients.main_id,
 Gifts.gift_no, 
 Gifts.description, 
 Gifts.size, 
+Gifts.gift_pulled,
+Gifts.gift_received,
+Gifts.gift_delivered,
 Recipients.lastname, 
 Recipients.firstname, 
 Recipients.home_phone, 
@@ -385,6 +354,9 @@ g.gift_no,
 g.description, 
 g.size, 
 g.giver_id,
+g.gift_pulled,
+g.gift_received,
+g.gift_delivered,
 -- Address info
 ra.recip_address_id,
 ra.street_address, 
@@ -409,18 +381,21 @@ if (!$conn->query($getRecipient))
     echo "Stored Procedure getRecipient created successfully!";
 }
 
-$updateGift = "CREATE PROCEDURE `updateGift` (IN giftId int, IN giftNo int, IN giftDescription varchar(500), IN giftSize varchar(20), IN mainId int, IN giverId int)
+$updateGift = "CREATE PROCEDURE `updateGift` (IN giftId int, IN giftPulled bit, IN giftRecvd bit, IN giftDelivered bit, IN giftNo int, IN giftDescription varchar(500), IN giftSize varchar(20), IN mainId int, IN giverId int)
 BEGIN
     UPDATE `gifts`
     SET
     gift_no = giftNo,
     description = giftDescription,
     size = giftSize,
+    gift_pulled = giftPulled,
+    gift_received = giftRecvd,
+    gift_delivered = giftDelivered,
     main_id = mainId,
     giver_id = giverId
 WHERE
     gift_id = giftNo;
-END;"
+END;";
 
 if (!$conn->query($updateGift))
 {
