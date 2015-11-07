@@ -82,6 +82,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     gift_no int,
     description varchar(500) charset utf8,
     size varchar(20) charset utf8,
+    gift_pulled bit,
+    gift_received bit, 
+    gift_delivered bit,
     main_id int, 
     giver_id int
     ) engine=InnoDB default charset latin1;";
@@ -115,25 +118,7 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
         echo "Error creating Recipient Address table: " . $make->error;
         echo "<br />";
     }
-        
 
-// *****************************************************************
-// Create the Gift Status Table
-// *****************************************************************
-    
-    $createTableGift_Status = "CREATE TABLE IF NOT EXISTS Gift_Status (
-    status_id int auto_increment primary key,
-    status varchar(50) charset utf8, 
-    gift_id int,
-    active bool,
-    ) engine=InnoDB default charset latin1;";
-        
-    if ($make->query($createTableGift_Status) === TRUE) {
-        echo "Gift Status table created successfully!<br />";
-    } else {
-        echo "Error creating Gift Status table: " . $make->error;
-        echo "<br />";
-    }
 
 // *****************************************************************
 // Create the Delivery Information Table
