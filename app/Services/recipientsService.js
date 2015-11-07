@@ -66,7 +66,6 @@ angular.module('Bastas.Services')
                     cellPhone: recipient.cellPhone
                   }
         }).then(function(response){
-          //return response.data;
           return response.data.data[0];
         }, function(err){
           if (

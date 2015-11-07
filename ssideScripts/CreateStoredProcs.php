@@ -381,7 +381,7 @@ if (!$conn->query($getRecipient))
     echo "Stored Procedure getRecipient created successfully!";
 }
 
-$updateGift = "CREATE PROCEDURE `updateGift` (
+$updateGift = "CREATE PROCEDURE `updateGift`(
     IN giftId int, 
     IN giftNo int, 
     IN giftDescription varchar(500), 
@@ -499,6 +499,93 @@ if (!$conn->query($createRecipient))
     echo "Stored Procedure createRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     echo "Stored Procedure createRecipient created successfully!";
+}
+
+$deleteGift = "CREATE PROCEDURE `deleteGift`(IN giftId int)
+BEGIN
+    DELETE FROM `Gifts`
+    WHERE gift_id = giftId;
+    SELECT giftId AS Id;
+END;"
+
+if (!$conn->query($deleteGift))
+{
+    echo "Stored Procedure deleteGift creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure deleteGift created successfully!";
+}
+
+$createAddress = "CREATE PROCEDURE `createAddress`(
+    IN streetAddress varchar(50), 
+    IN aptNumber varchar(50), 
+    IN neighborhood varchar(50), 
+    IN city varchar(50), 
+    IN state varchar(2), 
+    IN zipCode varchar(10), 
+    IN recipientId int)
+BEGIN
+    INSERT INTO `Recip_Address`
+    (
+        street_address,
+        apt_no,
+        neighborhood,
+        city,
+        state,
+        zip_code,
+        main_id
+    )
+    VALUES
+    (
+        streetAddress,
+        aptNumber,
+        neighborhood, 
+        city, 
+        state, 
+        zipCode,
+        recipientId
+    );
+    SELECT LAST_INSERT_ID() AS Id;
+END;"
+
+if (!$conn->query($createAddress))
+{
+    echo "Stored Procedure createAddress creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure createAddress created successfully!";
+}
+
+$createGift = "CREATE PROCEDURE `createGift`(
+    IN giftNo int, 
+    IN giftDescription varchar(500), 
+    IN giftSize varchar(20), 
+    IN mainId int, 
+    IN giverId int)
+BEGIN
+    INSERT INTO `gifts`
+    (
+        gift_no,
+        description,
+        size,
+        main_id,
+        giver_id
+    )
+    VALUES
+    (
+        giftNo,
+        giftDescription,
+        giftSize,
+        mainId,
+        giverId
+    );
+
+    SELECT LAST_INSERT_ID() AS Id;
+END;"
+
+if (!$conn->query($createGift))
+{
+    echo "Stored Procedure createGift creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure createGift created successfully!";
 }
 
 ?>

@@ -63,6 +63,7 @@
                     <input type="text" ng-model="address.zip" class="form-control" id="postal" maxlength="10" placeholder="Zip" />
                 </div>
             </div>
+
         </div>
         <div id="giftsContainer" class="container">
             <div id="gifts" class="row-fluid">
@@ -81,11 +82,12 @@
                             <label>Size / Details:</label>
                             <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
                         </div>
-                        <div class="col-sm-1">
-                            <button type="button" id="deleteRow" ng-click="gift.DeleteRow()" class="btn" style="margin-top: 25px">Delete</button>
-                        </div>
-                    </div>
-                </div>
+		                <div class="col-sm-1">
+			                <button type="button" id="deleteRow" ng-click="DeleteRow(gift.giftId)" class="btn"  style="margin-top: 25px" >Delete</button>
+			            </div>
+		            </div>
+		        </div>
+>>>>>>> origin/master
             </div>
         </div>
         <div id="addContainer" class="container">

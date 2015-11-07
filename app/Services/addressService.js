@@ -22,7 +22,6 @@ angular.module('Bastas.Services')
                     recipientId: recipientId
                   }
         }).then(function(response){
-          //return response.data;
           return response.data.data[0];
         }, function(err){
           if (
