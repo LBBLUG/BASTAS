@@ -247,7 +247,7 @@ if (!$conn->query($addGiftToGiver))
     echo "Stored Preocdure addGiftToGiver created successfully!";
 }
 
-// create procedure to add Gift Status
+// create procedure to change Gift Status
 $changeGiftStatus = "CREATE PROCEDURE changeGiftStatus(
 IN giftID int,
 IN gifrPulled bit,
@@ -260,7 +260,7 @@ WHERE gift_id = giftId;
 END;";
 
 
-if (!$conn->query($addGiftStatus))
+if (!$conn->query($changeGiftStatus))
 {
     echo "Stored Procedure creation of changeGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
 } else {
