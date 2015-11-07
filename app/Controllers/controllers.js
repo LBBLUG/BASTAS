@@ -67,6 +67,7 @@ angular.module('Bastas.Controllers')
 
 
     };
+
     recipientsService.GetRecipients().then(function(success){
     	$scope.recipients = success.data;
         $scope.RunFilter();
@@ -96,79 +97,95 @@ angular.module('Bastas.Controllers')
     'recipientsService', 
     'giftService',
     'addressService',
-    function($scope, $routeParams, recipientsService, giftService, addressService) { 
-    $scope.Save = function(){
-        // Save Person
-        var recipientId = recipientsService.SaveRecipient($scope.personInfo);
+    '$location',
+    function($scope, $routeParams, recipientsService, giftService, addressService, $location) { 
 
-        // Save Address
-        addressService.SaveAddress($scope.address, recipientId);
-
-        // Save Gifts
-        $scope.gifts.forEach(function(currentItem, index, array){
-            giftService.SaveGift(currentItem, recipientId);
-        })
-    };
-
-    $scope.AddRow = function(){
-        var temp = $scope.gifts.length;
-        var gift = {
-            giftId: "",
-            description: "",
-            details: "",
-            DeleteRow: function(){
-                deleteRow(temp);
-            }
+        $scope.Cancel = function()
+        {
+            $location.path("/recipients");
         };
-        $scope.gifts.push(gift);
-    }
 
-    var deleteRow = function(index){
-        $scope.gifts.splice(index, 1);
-        $scope.gifts.forEach(function(currentItem, index, array){
-            currentItem.DeleteRow = function(){
-                deleteRow(index);
+        $scope.Save = function(){
+            // Save Person
+            recipientsService.SaveRecipient($scope.personInfo).then(function(data){
+                // Save Address
+                addressService.SaveAddress($scope.address, data.Id);
+
+                // Save Gifts
+                $scope.gifts.forEach(function(currentItem, index, array){
+                    giftService.SaveGift(currentItem, data.Id);
+                });
+
+                $location.path("/recipients");
+            })
+
+
+        };
+
+        $scope.AddRow = function(){
+            var temp = $scope.gifts.length;
+            var gift = {
+                giftId: "",
+                description: "",
+                details: "",
+                DeleteRow: function(){
+                    deleteRow(temp);
+                }
             };
-        });
-    }
+            $scope.gifts.push(gift);
+        };
 
-    if ($routeParams.id !== undefined) 
-    {
-        recipientsService.GetRecipient($routeParams.id).then(function(success){
-            var gifts = success.data;
-            var personInfo = gifts[0];
-
-            $scope.personInfo = {};
-            $scope.personInfo.personId = personInfo.main_id;
-            $scope.personInfo.firstName = personInfo.firstname;
-            $scope.personInfo.lastName = personInfo.lastname;
-            $scope.personInfo.homePhone = personInfo.home_phone;
-            $scope.personInfo.cellPhone = personInfo.cell_phone;
-            $scope.personInfo.gender = personInfo.gender;
-            $scope.personInfo.routeNo = personInfo.route_no;
-
-            $scope.address = {};
-            $scope.address.addressId = personInfo.recip_address_id
-            $scope.address.street = personInfo.street_address;
-            $scope.address.apt = personInfo.apt_no;
-            $scope.address.city = personInfo.city;
-            $scope.address.state = personInfo.state;
-            $scope.address.zip = personInfo.zip_code;
-
-            $scope.gifts = [];
-            gifts.forEach(function(currentValue, index, array){
-                var gift = {};
-                gift.giftId = currentValue.gift_no;
-                gift.description = currentValue.description;
-                gift.details = currentValue.size;
-                gift.DeleteRow = function(){
+        var deleteRow = function(index){
+            $scope.gifts.splice(index, 1);
+            $scope.gifts.forEach(function(currentItem, index, array){
+                currentItem.DeleteRow = function(){
                     deleteRow(index);
                 };
-                $scope.gifts.push(gift);
             });
+        };
 
-        });
-    }
+        if ($routeParams.id !== undefined) 
+        {
+            recipientsService.GetRecipient($routeParams.id).then(function(success){
+                var gifts = success.data;
+                var personInfo = gifts[0];
+
+                $scope.personInfo = {};
+                $scope.personInfo.personId = personInfo.main_id;
+                $scope.personInfo.firstName = personInfo.firstname;
+                $scope.personInfo.lastName = personInfo.lastname;
+                $scope.personInfo.homePhone = personInfo.home_phone;
+                $scope.personInfo.cellPhone = personInfo.cell_phone;
+                $scope.personInfo.gender = personInfo.gender;
+                $scope.personInfo.routeNo = personInfo.route_no;
+
+                $scope.address = {};
+                $scope.address.addressId = personInfo.recip_address_id
+                $scope.address.street = personInfo.street_address;
+                $scope.address.apt = personInfo.apt_no;
+                $scope.address.neighborhood = personInfo.neighborhood;
+                $scope.address.city = personInfo.city;
+                $scope.address.state = personInfo.state;
+                $scope.address.zip = personInfo.zip_code;
+
+                $scope.gifts = [];
+                gifts.forEach(function(currentValue, index, array){
+                    var gift = {};
+                    gift.giftId = currentValue.gift_id;
+                    gift.giftNo = currentValue.gift_no;
+                    gift.description = currentValue.description;
+                    gift.details = currentValue.size;
+                    gift.giverId = currentValue.giver_id
+                    gift.DeleteRow = function(){
+                        deleteRow(index);
+                    };
+                    $scope.gifts.push(gift);
+                });
+
+            });
+        };
+
+
 }])
 
 

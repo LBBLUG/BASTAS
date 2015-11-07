@@ -6,22 +6,22 @@
         		<h3>Profile</h3>
                 <div id="lastName" class="col-sm-4">
 	                <label>Last Name:</label>
-                    <input type="text" ng-model="personInfo.lastName" class="form-control" id="lastName" required maxlength="30" placeholder="Last Name" />
+                    <input type="text" ng-model="personInfo.lastName" class="form-control" id="lastName" maxlength="30" placeholder="Last Name" />
                 </div>
                 <div id="firstName" class="col-sm-4">
 	                <label class="">First Name:</label>
-                    <input type="text" ng-model="personInfo.firstName" class="form-control" id="firstName" required maxlength="30" placeholder="First name" />
+                    <input type="text" ng-model="personInfo.firstName" class="form-control" id="firstName" maxlength="30" placeholder="First name" />
                 </div>
                 <div id="gender" class="col-sm-4">
-	                <label class="">Middle Name:</label>
-                    <input type="text" ng-model="personInfo.gender" class="form-control" id="gender" required maxlength="30" placeholder="Gender" />
+	                <label class="">Gender:</label>
+                    <input type="text" ng-model="personInfo.gender" class="form-control" id="gender" maxlength="30" placeholder="Gender" />
                 </div>
             </div>
             <div id="contactInfo" class="row-fluid">
         		<h3>Contact Info</h3>
                 <div id="route" class="col-sm-4">
 	                <label class="">Route:</label>
-                    <input type="text" ng-model="personInfo.route" class="form-control" id="route" required maxlength="30" placeholder="Route Number" />
+                    <input type="text" ng-model="personInfo.route" class="form-control" id="route"  maxlength="30" placeholder="Route Number" />
                 </div>
                 <div id="homePhone" class="col-sm-4">
 	                <label class="">Home Phone:</label>
@@ -38,9 +38,13 @@
 	                <label class="">Block and Street Name:</label>
                     <input type="text" ng-model="address.street" class="form-control" id="streetAddress" placeholder="Street Address" />
                 </div>
-                <div id="aptNo" class="col-sm-6">
-	                <label class="">Apt:</label>
+                <div id="aptNo" class="col-sm-3">
+                    <label class="">Apt:</label>
                     <input type="text" ng-model="address.apt" class="form-control" id="aptNo" placeholder="Apt No" />
+                </div>
+                <div id="neighborhood" class="col-sm-3">
+                    <label class="">Neighborhood:</label>
+                    <input type="text" ng-model="address.neighborhood" class="form-control" id="neighborhood" placeholder="Neighborhood" />
                 </div>
                 <div id="city" class="col-sm-4">
 	                <label class="">City:</label>
@@ -61,7 +65,7 @@
 	            	<div ng-repeat="gift in gifts" class="row-fluid">
 		                <div id="number" class="col-sm-3">
 		                	<label>Gift Number:</label>
-		                    <input type="text" ng-model="gift.giftId" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
+		                    <input type="text" ng-model="gift.giftNo" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
 		                </div>
 		                <div id="description" class="col-sm-5">
 		                	<label>Gift Description:</label>
@@ -72,22 +76,22 @@
 		                    <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
 		                </div>
 		                <div class="col-sm-1">
-			                <button id="deleteRow" ng-click="gift.DeleteRow()" class="btn"  style="margin-top: 25px" >Delete</button>
+			                <button type="button" id="deleteRow" ng-click="gift.DeleteRow()" class="btn"  style="margin-top: 25px" >Delete</button>
 			            </div>
 		            </div>
 		        </div>
             </div>
             <div class="row" style="">
-                <button id="addRow" ng-click="AddRow()" class="col-sm-1 btn">Add</button>
+                <button type="button" id="addRow" ng-click="AddRow()" class="col-sm-1 btn">Add</button>
                 <div class="col-sm-11"></div>
             </div>
         </div>
         <div id="actionButtons" class="row-fluid">
             <div id="btnCancel" class="col-sm-6" style="padding-top: 50px">
-                <button id="clearFields" class="btn btn-lg btn-warning">Cancel</button>
+                <button type="button" id="clearFields" ng-click="Cancel()" class="btn btn-lg btn-warning">Cancel</button>
             </div>
             <div id="btnSave" class="col-sm-6" style="padding-top: 50px; padding-bottom: 200px">
-                <button type="submit" ng-click="Save()" id="saveGiver" class="btn btn-lg btn-primary pull-right">Save</button>
+                <button type="button" ng-click="Save()" id="saveGiver" class="btn btn-lg btn-primary pull-right">Save</button>
             </div>
         </div>
     </form>

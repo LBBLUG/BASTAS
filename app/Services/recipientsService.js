@@ -53,7 +53,32 @@ angular.module('Bastas.Services')
 
   function SaveRecipientDelegate(recipient)
   {
-    
+    var request = $http({
+            method: "POST",
+            url: "ssideScripts/saveRecipient.php",
+            data: {
+                    id: recipient.personId,
+                    lastName: recipient.lastName,
+                    firstName: recipient.firstName,
+                    gender: recipient.gender,
+                    route: recipient.routeNo,
+                    homePhone: recipient.homePhone,
+                    cellPhone: recipient.cellPhone
+                  }
+        }).then(function(response){
+          //return response.data;
+          return response.data.data[0];
+        }, function(err){
+          if (
+          ! angular.isObject( response.data ) ||
+          ! response.data.message
+          ) {
+            return( $q.reject( "An unknown error occurred." ) );
+          }   
+          // Otherwise, use expected error message.
+          return( $q.reject( response.data.message ) );
+        });
+    return request;
   }
 
   // // I transform the error response, unwrapping the application dta from

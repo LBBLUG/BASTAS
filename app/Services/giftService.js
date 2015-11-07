@@ -8,10 +8,31 @@ angular.module('Bastas.Services')
 
   function SaveGiftDelegate(gift, recipientId)
   {
-    $http({
+    var request = $http({
             method: "POST",
-            url: "ssideScripts/getRecipient.php?id=" + recordId,
-            )
+            url: "ssideScripts/saveGift.php",
+            data: {
+                    giftId: gift.giftId,
+                    giftNo: gift.giftNo,
+                    giftDescription: gift.description,
+                    giftSize: gift.details,
+                    mainId: recipientId,
+                    giverId: gift.giverId
+                  }
+        }).then(function(response){
+          //return response.data;
+          return response.data;
+        }, function(err){
+          if (
+          ! angular.isObject( response.data ) ||
+          ! response.data.message
+          ) {
+            return( $q.reject( "An unknown error occurred." ) );
+          }   
+          // Otherwise, use expected error message.
+          return( $q.reject( response.data.message ) );
+        });
+    return request;
     
   }
 

@@ -409,7 +409,13 @@ if (!$conn->query($getRecipient))
     echo "Stored Procedure getRecipient created successfully!";
 }
 
-$updateGift = "CREATE PROCEDURE `updateGift` (IN giftId int, IN giftNo int, IN giftDescription varchar(500), IN giftSize varchar(20), IN mainId int, IN giverId int)
+$updateGift = "CREATE PROCEDURE `updateGift` (
+    IN giftId int, 
+    IN giftNo int, 
+    IN giftDescription varchar(500), 
+    IN giftSize varchar(20), 
+    IN mainId int, 
+    IN giverId int)
 BEGIN
     UPDATE `gifts`
     SET
@@ -427,6 +433,97 @@ if (!$conn->query($updateGift))
     echo "Stored Procedure updateGift creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     echo "Stored Procedure updateGift created successfully!";
+}
+
+
+$updateRecipient = "CREATE PROCEDURE `updateRecipient`(
+    IN id int,
+    IN lastName varchar(30), 
+    IN firstName varchar(30), 
+    IN sex varchar(1), 
+    IN h_phone varchar(13), 
+    IN c_phone varchar(13), 
+    IN routeNo varchar(10))
+BEGIN
+    UPDATE `bastas`.`Recipients`
+    SET lastname = lastName,
+            firstname = firstname,
+            gender = sex,
+            home_phone = h_phone,
+            cell_phone = c_phone,
+            route_no = routeNo
+    WHERE main_id = id;
+    SELECT id AS Id;
+END;"
+
+if (!$conn->query($updateRecipient))
+{
+    echo "Stored Procedure updateRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure updateRecipient created successfully!";
+}
+
+$updateAddress = "CREATE PROCEDURE `updateAddress`(
+    IN id int, 
+    IN streetAddress varchar(50), 
+    IN aptNumber varchar(50), 
+    IN neighborhood varchar(50), 
+    IN city varchar(50), 
+    IN state varchar(2), 
+    IN zipCode varchar(10), 
+    IN recipientId int)
+BEGIN
+    UPDATE `Recip_Address`
+    SET street_address = streetAddress,
+            apt_no = aptNumber,
+            neighborhood = neighborhood, 
+            city = city, 
+            state = state, 
+            zip_code = zipCode,
+            main_id = recipientId
+    WHERE recip_address_id = id;
+    SELECT id AS Id;
+END;"
+
+if (!$conn->query($updateAddress))
+{
+    echo "Stored Procedure updateAddress creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure updateAddress created successfully!";
+}
+
+$createRecipient = "CREATE PROCEDURE `createRecipient`(
+    IN lastName varchar(30), 
+    IN firstName varchar(30), 
+    IN sex varchar(1), 
+    IN h_phone varchar(13), 
+    IN c_phone varchar(13), 
+    IN routeNo varchar(10))
+BEGIN
+    INSERT `bastas`.`Recipients`
+    (lastname,
+    firstname,
+    gender,
+    home_phone,
+    cell_phone,
+    route_no,
+    address_id)
+    VALUES 
+    (lastName,
+    firstname,
+    sex,
+    h_phone,
+    c_phone,
+    routeNo,
+    NULL);
+    SELECT LAST_INSERT_ID() AS Id;
+END;"
+
+if (!$conn->query($createRecipient))
+{
+    echo "Stored Procedure createRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
+} else {
+    echo "Stored Procedure createRecipient created successfully!";
 }
 
 ?>
