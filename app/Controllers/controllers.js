@@ -157,7 +157,7 @@ angular.module('Bastas.Controllers')
                 $scope.personInfo.homePhone = personInfo.home_phone;
                 $scope.personInfo.cellPhone = personInfo.cell_phone;
                 $scope.personInfo.gender = personInfo.gender;
-                $scope.personInfo.routeNo = personInfo.route_no;
+                $scope.personInfo.route = personInfo.route_no;
 
                 $scope.address = {};
                 $scope.address.addressId = personInfo.recip_address_id
