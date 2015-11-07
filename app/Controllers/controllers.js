@@ -113,7 +113,14 @@ angular.module('Bastas.Controllers')
 
                 // Save Gifts
                 $scope.gifts.forEach(function(currentItem, index, array){
-                    giftService.SaveGift(currentItem, data.Id);
+                    if (currentItem.isDeleted)
+                    {
+                        giftService.DeleteGift(currentItem.giftId);
+                    }
+                    else
+                    {
+                        giftService.SaveGift(currentItem, data.Id);
+                    }
                 });
 
                 $location.path("/recipients");
@@ -123,34 +130,34 @@ angular.module('Bastas.Controllers')
         };
 
         $scope.AddRow = function(){
-            var temp = $scope.gifts.length;
             var gift = {
                 giftId: "",
                 description: "",
                 details: "",
-                DeleteRow: function(){
-                    deleteRow(temp);
-                }
+                isDeleted: false
             };
             $scope.gifts.push(gift);
         };
 
-        var deleteRow = function(index){
-            $scope.gifts.splice(index, 1);
-            $scope.gifts.forEach(function(currentItem, index, array){
-                currentItem.DeleteRow = function(){
-                    deleteRow(index);
+        $scope.DeleteRow = function(id){
+            $scope.gifts.forEach(function(currentValue, index, array){
+                if (currentValue.giftId === id)
+                {
+                    currentValue.isDeleted = true;
+                    return;
                 };
             });
         };
 
-        if ($routeParams.id !== undefined) 
+        $scope.personInfo = {};
+        $scope.address = {};
+        $scope.gifts = [];
+        if ($routeParams.id !== undefined && $routeParams.id !== "new") 
         {
             recipientsService.GetRecipient($routeParams.id).then(function(success){
                 var gifts = success.data;
                 var personInfo = gifts[0];
 
-                $scope.personInfo = {};
                 $scope.personInfo.personId = personInfo.main_id;
                 $scope.personInfo.firstName = personInfo.firstname;
                 $scope.personInfo.lastName = personInfo.lastname;
@@ -159,7 +166,6 @@ angular.module('Bastas.Controllers')
                 $scope.personInfo.gender = personInfo.gender;
                 $scope.personInfo.routeNo = personInfo.route_no;
 
-                $scope.address = {};
                 $scope.address.addressId = personInfo.recip_address_id
                 $scope.address.street = personInfo.street_address;
                 $scope.address.apt = personInfo.apt_no;
@@ -168,17 +174,14 @@ angular.module('Bastas.Controllers')
                 $scope.address.state = personInfo.state;
                 $scope.address.zip = personInfo.zip_code;
 
-                $scope.gifts = [];
                 gifts.forEach(function(currentValue, index, array){
                     var gift = {};
                     gift.giftId = currentValue.gift_id;
                     gift.giftNo = currentValue.gift_no;
                     gift.description = currentValue.description;
                     gift.details = currentValue.size;
-                    gift.giverId = currentValue.giver_id
-                    gift.DeleteRow = function(){
-                        deleteRow(index);
-                    };
+                    gift.giverId = currentValue.giver_id;
+                    gift.isDeleted = false;
                     $scope.gifts.push(gift);
                 });
 

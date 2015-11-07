@@ -31,6 +31,11 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     controller: 'RecipientController',
     caseInsensitiveMatch: true
   })
+  .when('/Recipients/new', {
+    templateUrl: 'app/Views/Recipient.html',
+    controller: 'RecipientController',
+    caseInsensitiveMatch: true
+  })
   .when('/gift-giver', {
      // This section sends the user to the Add User window
      templateUrl: 'app/Views/AddGiver.html',

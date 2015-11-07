@@ -8,17 +8,27 @@ $postdata = file_get_contents("php://input");
 
 $gift = json_decode($postdata);
 
-var_dump($gift);
-
-$resultSet = $databaseUtil->ExecuteStoredProcedure("updateGift",
-	new StoredProcedureParameter("i", $gift->giftId),
-	new StoredProcedureParameter("i", $gift->giftNo),
-	new StoredProcedureParameter("i", $gift->giftDescription),
-	new StoredProcedureParameter("i", $gift->giftSize),
-	new StoredProcedureParameter("i", $gift->mainId),
-	new StoredProcedureParameter("i", $gift->giverId)
-	);
-
+if (!isset($gift->giftId) || empty($gift->giftId))
+{
+	$resultSet = $databaseUtil->ExecuteStoredProcedure("createGift",
+		new StoredProcedureParameter("i", $gift->giftNo),
+		new StoredProcedureParameter("s", $gift->giftDescription),
+		new StoredProcedureParameter("s", $gift->giftSize),
+		new StoredProcedureParameter("i", $gift->mainId),
+		new StoredProcedureParameter("i", $gift->giverId)
+		);
+}
+else
+{
+	$resultSet = $databaseUtil->ExecuteStoredProcedure("updateGift",
+		new StoredProcedureParameter("i", $gift->giftId),
+		new StoredProcedureParameter("i", $gift->giftNo),
+		new StoredProcedureParameter("s", $gift->giftDescription),
+		new StoredProcedureParameter("s", $gift->giftSize),
+		new StoredProcedureParameter("i", $gift->mainId),
+		new StoredProcedureParameter("i", $gift->giverId)
+		);
+}
 if ($databaseUtil->GetExceptionOccured()) 
 {
 	http_response_code(500);

@@ -62,7 +62,7 @@
             <div id="gifts" class="row-fluid" >
             	<h3><span style="padding-top: 30px">Gifts</span></h3>
             	<div class="span12">
-	            	<div ng-repeat="gift in gifts" class="row-fluid">
+	            	<div ng-repeat="gift in gifts | filter:{isDeleted:'false'}" class="row-fluid">
 		                <div id="number" class="col-sm-3">
 		                	<label>Gift Number:</label>
 		                    <input type="text" ng-model="gift.giftNo" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
@@ -76,7 +76,7 @@
 		                    <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
 		                </div>
 		                <div class="col-sm-1">
-			                <button type="button" id="deleteRow" ng-click="gift.DeleteRow()" class="btn"  style="margin-top: 25px" >Delete</button>
+			                <button type="button" id="deleteRow" ng-click="DeleteRow(gift.giftId)" class="btn"  style="margin-top: 25px" >Delete</button>
 			            </div>
 		            </div>
 		        </div>
