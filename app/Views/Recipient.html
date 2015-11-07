@@ -81,19 +81,22 @@
 		            </div>
 		        </div>
             </div>
-            <div class="row" style="">
-                <button type="button" id="addRow" ng-click="AddRow()" class="col-sm-1 btn">Add</button>
-                <div class="col-sm-11"></div>
+            <div class="row-fluid" style="margin-top: 5px;">
+                <div id="addBtnCol" class="col-sm-12">
+                    <button type="button" id="addRow" ng-click="AddRow()" class="btn">Add</button>
+                </div>
+            </div>
+
+            <div id="actionButtons" class="row" style="margin-top: 5px;">
+                <div id="btnCancel" class="col-sm-6">
+                    <button type="button" id="clearFields" ng-click="Cancel()" class="btn btn-lg btn-warning">Cancel</button>
+                </div>
+                <div id="btnSave" class="col-sm-6">
+                    <button type="button" ng-click="Save()" id="saveGifts" class="btn btn-lg btn-primary pull-right">Save</button>
+                </div>
             </div>
         </div>
-        <div id="actionButtons" class="row-fluid">
-            <div id="btnCancel" class="col-sm-6" style="padding-top: 50px">
-                <button type="button" id="clearFields" ng-click="Cancel()" class="btn btn-lg btn-warning">Cancel</button>
-            </div>
-            <div id="btnSave" class="col-sm-6" style="padding-top: 50px; padding-bottom: 200px">
-                <button type="button" ng-click="Save()" id="saveGiver" class="btn btn-lg btn-primary pull-right">Save</button>
-            </div>
-        </div>
+        
     </form>
 </div>
 
