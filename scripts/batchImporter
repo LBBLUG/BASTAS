@@ -220,7 +220,7 @@ while read line; do
 
   # Add gifts to the Gifts table
   NGIFTS=${#GIFTS[@]}
-  for NG in `seq 0 $((NGIFTS-1))`; do 
+  for NG in `seq 1 $((NGIFTS))`; do 
     queue+="INSERT INTO Gifts(gift_no,description,size,main_id) VALUES($NG,'${GIFTS[$NG]}','${SIZES[$NG]}',@mid);\n"
   done
   
