@@ -112,7 +112,7 @@ done
 ln=0
 queue="" # create an empty SQL command queue
 # add auto generation of id fields.
-queue+="SET IDENTITY_INSERT 'Recipients' ON"
+queue+="SET IDENTITY_INSERT 'Recipients' ON;\n"
 while read line; do 
   # store the CSV entries in an array
   declare -a data
@@ -229,7 +229,7 @@ while read line; do
 
 done < ${CSV}
 
-queue+="SET IDENTITY_INSERT 'Recipients' OFF"
+queue+="SET IDENTITY_INSERT 'Recipients' OFF;\n"
 
 
 if [[ -n "$dryRun" ]]; then
