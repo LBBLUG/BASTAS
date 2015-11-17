@@ -18,9 +18,11 @@
 # Street Address 2       - D
 # Home Phone             - H
 # Mobile Phone           - M
+# Zip code	         - Z
+# Main ID                - E
 # The format string represents the expected order of fields in the 
 # input CSV file.
-# For example, RLFGI1S1I2S2APDHM, is the default format.
+# For example, RLFGI1S1I2S2APDHMZE, is the default format.
 # Gift items and sizes are expected to be followed by a number
 
 # ----- Exit Codes ---------------
@@ -109,6 +111,8 @@ done
 # Read the input file line by line.
 ln=0
 queue="" # create an empty SQL command queue
+# add auto generation of id fields.
+queue+="SET IDENTITY_INSERT 'Recipients' ON"
 while read line; do 
   # store the CSV entries in an array
   declare -a data
@@ -176,6 +180,12 @@ while read line; do
       M)
 	MOBILE_PHONE=${data[$index]}
 	;; 
+      Z)
+	ZIP_CODE=${data[$index]}
+	;;
+      E)
+	MAIN_ID=${data[$index]}
+	;;
       *)
 	;; 
     esac
@@ -189,11 +199,12 @@ while read line; do
     echo "ROUTE: $ROUTE"
     echo "Address:  $FIRSTNAME $SURNAME"
     echo "          $ADDRESS1 $APT"
-    echo "          $ADDRESS2"
+    echo "          $ADDRESS2 ${ZIP_CODE}"
     echo "GIFTS: ${GIFTS[*]}"
     echo "SIZES: ${SIZES[*]}"
     echo "HOME_PHONE: ${HOME_PHONE}"
     echo "MOBILE_PHONE: ${MOBILE_PHONE}"
+    echo "MAIN_ID: ${MAIN_ID}"
     echo "--"
     echo ""
   fi
@@ -203,9 +214,9 @@ while read line; do
 
   # First set of commands add the recipient and recipient address
   # to the Recipients and Recip_Address tables respecively. 
-  queue+="INSERT INTO Recipients(lastname, firstname, gender, home_phone, cell_phone, route_no) VALUES('$SURNAME', '$FIRSTNAME', '$GENDER', '$HOME_PHONE', '$MOBILE_PHONE', '$ROUTE'); \n"
+  queue+="INSERT INTO Recipients(lastname, firstname, gender, home_phone, cell_phone, route_no, main_id) VALUES('$SURNAME', '$FIRSTNAME', '$GENDER', '$HOME_PHONE', '$MOBILE_PHONE', '$ROUTE', '$MAIN_ID'); \n"
   queue+="SET @mid = LAST_INSERT_ID();\n"
-  queue+="INSERT INTO Recip_Address(street_address, apt_no, neighborhood, main_id) VALUES('$ADDRESS1','$APT','$ADDRESS2',@mid);\n"
+  queue+="INSERT INTO Recip_Address(street_address, apt_no, neighborhood, main_id,zip_code) VALUES('$ADDRESS1','$APT','$ADDRESS2',@mid,'$ZIP_CODE');\n"
 
   # Add gifts to the Gifts table
   NGIFTS=${#GIFTS[@]}
@@ -217,6 +228,8 @@ while read line; do
   ln=$((ln+1))
 
 done < ${CSV}
+
+queue+="SET IDENTITY_INSERT 'Recipients' OFF"
 
 
 if [[ -n "$dryRun" ]]; then
