@@ -82,9 +82,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     gift_no int,
     description varchar(500) charset utf8,
     size varchar(20) charset utf8,
-    gift_pulled bit,
-    gift_received bit, 
-    gift_delivered bit,
+    gift_pulled bit NOT NULL,
+    gift_received bit NOT NULL, 
+    gift_delivered bit NOT NULL,
     main_id int, 
     giver_id int
     ) engine=InnoDB default charset latin1;";
