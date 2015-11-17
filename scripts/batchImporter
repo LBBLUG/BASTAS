@@ -22,7 +22,7 @@
 # Main ID                - E
 # The format string represents the expected order of fields in the 
 # input CSV file.
-# For example, RLFGI1S1I2S2APDHMZE, is the default format.
+# For example, ERLFGI1S1I2S2APDZHM, is the default format.
 # Gift items and sizes are expected to be followed by a number
 
 # ----- Exit Codes ---------------
@@ -41,7 +41,7 @@ function printUsage {
   echo -e "The file name of a CSV file must be provided."
 }
 
-format=RLFGI1S1I2S2APDHM
+format=ERLFGI1S1I2S2APDZHM
 SQLoptions="-u `whoami` -p"
 dryRun=""
 
