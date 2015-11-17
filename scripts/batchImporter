@@ -120,7 +120,7 @@ while read line; do
   while read arg; do
     data[$index]="$arg"
     index=$((index+1))
-  done < <(echo $line | gawk -F ',' '{ for ( i=1; i <= NF; i++ ) print $i }' ) 
+  done < <(echo $line | sed -e "s/\"//g;s/\'//g" | gawk -F ',' '{ for ( i=1; i <= NF; i++ ) print $i }' ) 
   #echo "line $line"
   #echo "data ${data[*]}"
 
