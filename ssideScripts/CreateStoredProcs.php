@@ -559,7 +559,7 @@ $createGift = "CREATE PROCEDURE `createGift`(
     IN giftRecvd bit,
     IN giftDelivered bit)
 BEGIN
-    INSERT INTO `gifts`
+    INSERT INTO `Gifts`
     (
         gift_no,
         description,
