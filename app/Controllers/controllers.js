@@ -64,8 +64,6 @@ angular.module('Bastas.Controllers')
         {
             $scope.PeopleCount = 0;
         }
-
-
     };
 
     recipientsService.GetRecipients().then(function(success){
@@ -148,7 +146,10 @@ angular.module('Bastas.Controllers')
                 giftId: "",
                 description: "",
                 details: "",
-                isDeleted: false
+                isDeleted: false,
+                isPulled: false,
+                isReceived: false,
+                isDelivered: false
             };
             $scope.gifts.push(gift);
         };
@@ -198,9 +199,9 @@ angular.module('Bastas.Controllers')
                     gift.description = currentValue.description;
                     gift.details = currentValue.size;
                     gift.giverId = currentValue.giver_id;
-                    gift.isPulled = currentValue.gift_pulled;
-                    gift.isReceived = currentValue.gift_received;
-                    gift.isDelivered = currentValue.gift_delivered;
+                    gift.isPulled = currentValue.gift_pulled === 0 ? false : true;
+                    gift.isReceived = currentValue.gift_received === 0 ? false : true;
+                    gift.isDelivered = currentValue.gift_delivered === 0 ? false : true;
                     gift.isDeleted = false;
                     $scope.gifts.push(gift);
                 });

@@ -39,7 +39,10 @@ angular.module('Bastas.Services')
                     giftDescription: gift.description,
                     giftSize: gift.details,
                     mainId: recipientId,
-                    giverId: gift.giverId
+                    giverId: gift.giverId,
+                    isPulled: !gift.isPulled || gift.isPulled === undefined ? false : true,
+                    isReceived: !gift.isReceived || gift.isReceived === undefined ? false : true,
+                    isDelivered: !gift.isDelivered || gift.isDelivered === undefined ? false : true
                   }
         }).then(function(response){
           return response.data.data[0];

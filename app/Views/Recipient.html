@@ -69,12 +69,12 @@
             <div id="gifts" class="row-fluid">
                 <h3><span style="padding-top: 30px">Gifts</span></h3>
                 <div class="span12">
-                    <div ng-repeat="gift in gifts" class="row-fluid">
-                        <div id="number" class="col-sm-3">
-                            <label>Gift Number:</label>
+                    <div ng-repeat="gift in gifts | filter:{isDeleted:false}" class="row-fluid">
+                        <div id="number" class="col-sm-1">
+                            <label>Gift #:</label>
                             <input type="text" ng-model="gift.giftNo" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
                         </div>
-                        <div id="description" class="col-sm-5">
+                        <div id="description" class="col-sm-3">
                             <label>Gift Description:</label>
                             <input type="text" ng-model="gift.description" class="form-control" id="size" maxlength="500" placeholder="Gift description" />
                         </div>
@@ -83,8 +83,17 @@
                             <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
                         </div>
 		                <div class="col-sm-1">
-			                <button type="button" id="deleteRow" ng-click="DeleteRow(gift.giftId)" class="btn"  style="margin-top: 25px" >Delete</button>
-			            </div>
+                            <input type="checkbox" class="checkbox" value="1" ng-model="gift.isPulled" ng-change="RunFilter()" class="form-control">Is Pulled
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="checkbox" class="checkbox" value="1" ng-model="gift.isReceived" ng-change="RunFilter()" class="form-control">Is Received
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="checkbox" class="checkbox" value="1" ng-model="gift.isDelivered" ng-change="RunFilter()" class="form-control">Is Delivered
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" id="deleteRow" ng-click="DeleteRow(gift.giftId)" class="btn"  style="margin-top: 25px" >Delete</button>
+                        </div>
 		            </div>
 		        </div>
             </div>

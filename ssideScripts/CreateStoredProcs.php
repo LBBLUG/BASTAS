@@ -394,6 +394,8 @@ BEGIN
     giver_id = giverId
 WHERE
     gift_id = giftNo;
+
+SELECT giftNo as Id;
 END;";
 
 if (!$conn->query($updateGift))
@@ -552,7 +554,10 @@ $createGift = "CREATE PROCEDURE `createGift`(
     IN giftDescription varchar(500), 
     IN giftSize varchar(20), 
     IN mainId int, 
-    IN giverId int)
+    IN giverId int,
+    IN giftPulled bit,
+    IN giftRecvd bit,
+    IN giftDelivered bit)
 BEGIN
     INSERT INTO `gifts`
     (
@@ -560,7 +565,10 @@ BEGIN
         description,
         size,
         main_id,
-        giver_id
+        giver_id,
+        gift_pulled,
+        gift_received,
+        gift_delivered
     )
     VALUES
     (
@@ -568,7 +576,10 @@ BEGIN
         giftDescription,
         giftSize,
         mainId,
-        giverId
+        giverId,
+        giftPulled,
+        giftRecvd,
+        giftDelivered
     );
 
     SELECT LAST_INSERT_ID() AS Id;
