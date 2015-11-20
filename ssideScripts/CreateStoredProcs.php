@@ -382,7 +382,7 @@ $updateGift = "CREATE PROCEDURE `updateGift`(
     IN giftRecvd bit,
     IN giftDelivered bit)
 BEGIN
-    UPDATE `gifts`
+    UPDATE `Gifts`
     SET
     gift_no = giftNo,
     description = giftDescription,
