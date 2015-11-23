@@ -21,6 +21,7 @@
 /*global $:false */ //this simply keeps the $ for jQuery from showing as an error in linter.
 
 $("document").ready(function () {
+
 $("#next_step").hide();
 $("#createAdmin").hide();
 $("#finishButton").hide();
@@ -52,7 +53,7 @@ $("#finishButton").hide();
         // page.
         //*********************************************************
         
-        $.ajax("ssideScripts/database_info.php", results {
+        $.ajax("ssideScripts/database_info.php" {
             data: {
                 server_name_input: serverName,
                 user_name_input: userName,
