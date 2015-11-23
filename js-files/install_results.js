@@ -53,7 +53,7 @@ $("#finishButton").hide();
         // page.
         //*********************************************************
         
-        $.ajax("ssideScripts/database_info.php" {
+        $.ajax("ssideScripts/database_info.php", {
             data: {
                 server_name_input: serverName,
                 user_name_input: userName,
