@@ -52,7 +52,7 @@ $("#finishButton").hide();
         // page.
         //*********************************************************
         
-        $.ajax("ssideScripts/database_info.php", {
+        $.ajax("ssideScripts/database_info.php", results {
             data: {
                 server_name_input: serverName,
                 user_name_input: userName,
@@ -66,10 +66,12 @@ $("#finishButton").hide();
                 console.log("An error occurred on ajax post.");
                 $("#Results").append($("An error occurred creating the database."));
             },
-            success: function () {
-                console.log("Post action successful.");
-                console.log("Calling to create Tables.");
-                $("#Results").append($("<div>Database created successfully. <br /></div>"));
+            success: function (results) {
+                var info = JSON.parse(results);
+                console.log(info.connection);
+                console.log(info.dbase);
+                console.log(info.config);
+                $("#Results").append($("<div>" + info.connection + "<br />" + info.dbase + "<br />" + info.config + "</div>"));
                 $("#server_name_input").val("");
                 $("#user_name_input").val("");
                 $("#user_pass_input").val("");

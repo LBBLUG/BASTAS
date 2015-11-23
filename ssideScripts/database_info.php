@@ -25,7 +25,6 @@ $db_user = $_POST['user_name_input'];
 $db_passwrd = $_POST['user_pass_input']; 
 
 $db_name="bastas";
-echo "Connecting to database...";
 
 $conn = new mysqli($db_server, $db_user, $db_passwrd);
 
@@ -34,30 +33,25 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
 // *****************************************************************
 
     if ($conn->connect_error) 
-    { 
+    {
+        var $result['connection'] = $conn->connect_error);
+        echo json_encode($result);
         die("Connection failed: " . $conn->connect_error); 
     } else { 
-        echo "Connected successfully"; 
-        echo "<br /><br />";
+        echo $result['connection'] = "Connected successfully";
     
 // *****************************************************************    
 // If the connection ability was good, create the Database
 // *****************************************************************
-        
-    echo "Stand by ..<br />"; 
-    echo "Creating the database, tables, and prefilling important data.<br />"; 
-    echo "<br />";
     
     $CreateDB="CREATE DATABASE IF NOT EXISTS bastas";
     
     if ($conn->query($CreateDB) === TRUE) {
-        echo "Database Created Successfully!";
+        $result['dbase'] = "bastas DB created Successfully.";
     } else {
-        echo "Error Creating Database: " . $conn->error;
-        echo "<br />";
+        $result['dbase'] = "Error creating database: " . $conn->error;
     }
-    
-    echo "<br /><br />";
+
     $conn->close();
 
         
@@ -79,10 +73,10 @@ fwrite($myfile, $userInfo);
 fwrite($myfile, $passInfo);
 fwrite($myfile, $databaseInfo);
 
-echo "Configuration file created successfully!";
+$result['config'] = "Configuration file created.";
+echo json_encode($result);
 
 fclose($myfile);
-
 
     }
 
