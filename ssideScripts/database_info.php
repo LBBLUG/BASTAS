@@ -26,6 +26,8 @@ $db_passwrd = $_POST['user_pass_input'];
 
 $db_name="bastas";
 
+$result['postInfo'] = "Made it to Post in database_info.php";
+
 $conn = new mysqli($db_server, $db_user, $db_passwrd);
 
 // *****************************************************************
