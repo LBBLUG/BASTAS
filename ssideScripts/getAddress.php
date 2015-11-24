@@ -1,3 +1,5 @@
+<?php
+
 /*
 
     BASTAS Web Management Application - Web Management of Be A Santa to A Senior and Similar generous programs
@@ -17,3 +19,5 @@
     along with this program.  If not, see https://github.com/LBBLUG/BASTAS/blob/master/GNUV3.0PublicLicenseSoftware.txt.
 
 */
+
+?>

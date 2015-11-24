@@ -1,3 +1,5 @@
+<?php
+
 /*
 
     BASTAS Web Management Application - Web Management of Be A Santa to A Senior and Similar generous programs
@@ -18,7 +20,6 @@
 
 */
 
-<?php
 
 
 // ************************************************************************
