@@ -35,11 +35,12 @@ $Database = $ini_array['Database'];
 $conn = new mysqli($ServerAddress, $Username, $Password, $Database);
 
 if ($conn->connect_error) 
-{ 
+{
+    $result['Connection'] = "Connection failed: " . $conn->connect_error;
+    echo json_encode($result);
     die("Connection failed: " . $conn->connect_error); 
 } else { 
-    echo "Connected successfully"; 
-    echo "<br /><br />";
+    $result['Connection'] = "Connected successfully";
 }
 
 $createrecipAndAddress = "CREATE PROCEDURE pop_recipAndAddress(
@@ -64,9 +65,9 @@ END;";
 
 if (!$conn->query($createrecipAndAddress))
 {
-    echo "Stored procedure creation of pop_recipAndAddress failed: (" . $conn->errno . ") " . $conn->error;
+    $result['CreateRecipAddress'] = "Stored procedure creation of pop_recipAndAddress failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored procedure created pop_recipAndAddress sucessfully!";
+    $result['CreateRecipAddress'] = "Stored procedure created pop_recipAndAddress sucessfully!";
 }
 
 // create an admin user initial
@@ -84,9 +85,9 @@ END;";
 
 if (!$conn->query($createAdminUser))
 {
-    echo "Stored Procedure createion of createAdminUser failed: (" . $conn->errno . ") " . $conn->error;
+    $result['CreateAdminUser'] =  "Stored Procedure createion of createAdminUser failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Precdure createAdminUser created successfully!";
+    $result['CreateAdminUser'] = "Stored Precdure createAdminUser created successfully!";
 }
 
 
@@ -117,9 +118,9 @@ END;";
 
 if (!$conn->query($createAdminGroupPermissions))
 {
-    echo "Stored procedure creation of createAdminGroupPermissions failed: (" . $conn->errno . ") " . $conn->error;
+    $result['CreateAdminGroupPermission'] = "Stored procedure creation of createAdminGroupPermissions failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored procedure creation of createAdminGroupPermissions Successful!";
+    $result['CreateAdminGroupPermission'] = "Stored procedure creation of createAdminGroupPermissions Successful!";
 }
 
 
@@ -138,9 +139,9 @@ END;";
 
 if (!$conn->query($addUser))
 {
-    echo "Stored procedure creation of createUser failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addUser'] = "Stored procedure creation of createUser failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored procedure creation of createUser Successful!";
+    $result['addUser'] = "Stored procedure creation of createUser Successful!";
 }
 
 
@@ -157,9 +158,9 @@ END;";
 
 if (!$conn->query($addPermission))
 {
-    echo "Stored procedure creation of addPermission failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addPermission'] = "Stored procedure creation of addPermission failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Procedure creation of addPermission successful!";
+    $result['addPermission'] = "Stored Procedure creation of addPermission successful!";
 }
 
 
@@ -173,9 +174,9 @@ END;";
 
 if (!$conn->query($addUserGroup))
 {
-    echo "Stored procedure creation of createUserGroup failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addUserGroup'] = "Stored procedure creation of createUserGroup failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored procedure createUserGroup created successfully!";
+    $result['addUserGroup'] = "Stored procedure createUserGroup created successfully!";
 }
 
 // create procedure to add a user to a group
@@ -190,9 +191,9 @@ END;";
 
 if (!$conn->query($addUserToGroup))
 {
-    echo "Stored Procedure creation of addUserToGroup failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addUserToGroup'] = "Stored Procedure creation of addUserToGroup failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Preocdure addUserToGroup created successfully!";
+    $result['addUserToGroup'] = "Stored Preocdure addUserToGroup created successfully!";
 }
 
 // create procedure to change a user's group
@@ -207,9 +208,9 @@ END;";
 
 if (!$conn->query($changeUserGroup))
 {
-    echo "Stored Procedure creation of changeUserGroup failed: (" . $conn->errno . ") " . $conn->error;
+    $result['changeUserGroup'] = "Stored Procedure creation of changeUserGroup failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Preocdure changeUserGroup created successfully!";
+    $result['changeUserGroup'] = "Stored Procedure changeUserGroup created successfully!";
 }
 
 // create procedure to add permissions to User Group
@@ -225,9 +226,9 @@ END;";
 
 if (!$conn->query($addGroupPerm))
 {
-    echo "Stored procedure creation of addGroupPerm failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addGroupPermission'] = "Stored procedure creation of addGroupPerm failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Procedure creation of addGroupPerm successful!";
+    $result['addGroupPermission'] = "Stored Procedure creation of addGroupPerm successful!";
 }
 
 
@@ -252,9 +253,9 @@ END;";
 
 if (!$conn->query($addGiver))
 {
-    echo "Stored Procedure creation of addGiver failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addGiver'] = "Stored Procedure creation of addGiver failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Procedure creation of addGiver successful!";
+    $result['addGiver'] = "Stored Procedure creation of addGiver successful!";
 }
 
 
@@ -263,9 +264,9 @@ $addGiftToGiver = "CREATE PROCEDURE addGiftToGiver (IN giftID int, IN giverID in
 
 if (!$conn->query($addGiftToGiver))
 {
-    echo "Stored Procedure creation of addGiftToGiver failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addGiftToGiver'] = "Stored Procedure creation of addGiftToGiver failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Preocdure addGiftToGiver created successfully!";
+    $result['addGiftToGiver'] = "Stored Procedure addGiftToGiver created successfully!";
 }
 
 // create procedure to change Gift Status
@@ -283,9 +284,9 @@ END;";
 
 if (!$conn->query($changeGiftStatus))
 {
-    echo "Stored Procedure creation of changeGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
+    $result['changeGiftStatus'] = "Stored Procedure creation of changeGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Preocdure changeGiftStatus created successfully!";
+    $result['changeGiftStatus'] = "Stored Procedure changeGiftStatus created successfully!";
 }
 
 // create procedure to add Delivery Information - used when a gift is sent out for delivery
@@ -301,9 +302,9 @@ END;";
 
 if (!$conn->query($addDeliveryInfo))
 {
-    echo "Stored Procedure creation of addDeliveryInfo failed: (" . $conn->errno . ") " . $conn->error;
+    $result['addDeliveryInfo'] = "Stored Procedure creation of addDeliveryInfo failed: (" . $conn->errno . ") " . $conn->error;
 } else {
-    echo "Stored Procedure addDeliveryInfo created successfully!";
+    $result['addDeliveryInfo'] = "Stored Procedure addDeliveryInfo created successfully!";
 }
 
 // pull back users and their group from database
@@ -323,9 +324,9 @@ END;";
 
 if (!$conn->query($getUsersAndGroups))
 {
-    echo "Stored Procedure getUsersAndGroups creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['getUsersAndGroups'] = "Stored Procedure getUsersAndGroups creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure getUsersAndGroups created successfully!";
+    $result['getUsersAndGroups'] = "Stored Procedure getUsersAndGroups created successfully!";
 }
 
 // retrieve a list of recipients and gifts
@@ -353,9 +354,9 @@ END;";
 
 if (!$conn->query($getRecipAndGifts))
 {
-    echo "Stored Procedure getRecipAndGifts creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['getRecipAndGifts'] = "Stored Procedure getRecipAndGifts creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure getRecipAndGifts created successfully!";
+    $result['getRecipAndGifts'] = "Stored Procedure getRecipAndGifts created successfully!";
 }
 
 
@@ -387,9 +388,9 @@ END;";
 
 if (!$conn->query($getRecipient))
 {
-    echo "Stored Procedure getRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['getRecipient'] = "Stored Procedure getRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure getRecipient created successfully!";
+    $result['getRecipient'] = "Stored Procedure getRecipient created successfully!";
 }
 
 $updateGift = "CREATE PROCEDURE `updateGift`(
@@ -421,9 +422,9 @@ END;";
 
 if (!$conn->query($updateGift))
 {
-    echo "Stored Procedure updateGift creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['updateGift'] = "Stored Procedure updateGift creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure updateGift created successfully!";
+    $result['updateGift'] = "Stored Procedure updateGift created successfully!";
 }
 
 
@@ -449,9 +450,9 @@ END;";
 
 if (!$conn->query($updateRecipient))
 {
-    echo "Stored Procedure updateRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['updateRecipient'] = "Stored Procedure updateRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure updateRecipient created successfully!";
+    $result['updateRecipient'] = "Stored Procedure updateRecipient created successfully!";
 }
 
 $updateAddress = "CREATE PROCEDURE `updateAddress`(
@@ -478,9 +479,9 @@ END;";
 
 if (!$conn->query($updateAddress))
 {
-    echo "Stored Procedure updateAddress creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['updateAddress'] = "Stored Procedure updateAddress creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure updateAddress created successfully!";
+    $result['updateAddress'] = "Stored Procedure updateAddress created successfully!";
 }
 
 $createRecipient = "CREATE PROCEDURE `createRecipient`(
@@ -512,9 +513,9 @@ END;";
 
 if (!$conn->query($createRecipient))
 {
-    echo "Stored Procedure createRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['createRecipient'] = "Stored Procedure createRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure createRecipient created successfully!";
+    $result['createRecipient'] = "Stored Procedure createRecipient created successfully!";
 }
 
 $deleteGift = "CREATE PROCEDURE `deleteGift`(IN giftId int)
@@ -526,9 +527,9 @@ END;";
 
 if (!$conn->query($deleteGift))
 {
-    echo "Stored Procedure deleteGift creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['deleteGift'] = "Stored Procedure deleteGift creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure deleteGift created successfully!";
+    $result['deleteGift'] = "Stored Procedure deleteGift created successfully!";
 }
 
 $createAddress = "CREATE PROCEDURE `createAddress`(
@@ -565,9 +566,9 @@ END;";
 
 if (!$conn->query($createAddress))
 {
-    echo "Stored Procedure createAddress creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['createAddress'] = "Stored Procedure createAddress creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure createAddress created successfully!";
+    $result['createAddress'] = "Stored Procedure createAddress created successfully!";
 }
 
 $createGift = "CREATE PROCEDURE `createGift`(
@@ -608,9 +609,9 @@ END;";
 
 if (!$conn->query($createGift))
 {
-    echo "Stored Procedure createGift creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['createGift'] = "Stored Procedure createGift creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure createGift created successfully!";
+    $result['createGift'] = "Stored Procedure createGift created successfully!";
 }
 
 $getGifts = "CREATE PROCEDURE `getGifts`(IN recipientId int)
@@ -631,9 +632,9 @@ END";
 
 if (!$conn->query($getGifts))
 {
-    echo "Stored Procedure getGifts creation failed : (" . $conn->errno . ")" . $conn->error;
+    $result['getGifts'] = "Stored Procedure getGifts creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
-    echo "Stored Procedure getGifts created successfully!";
+    $result['getGifts'] = "Stored Procedure getGifts created successfully!";
 }
 
 ?>

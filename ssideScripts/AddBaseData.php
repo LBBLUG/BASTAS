@@ -41,11 +41,12 @@ $Database = $ini_array['Database'];
 $make = new mysqli($ServerAddress, $Username, $Password, $Database);
 
 if ($make->connect_error) 
-{ 
+{
+    $result['Connection'] = "Error connecting to database: " . $make->connect_error;
+    echo json_encode($result);
     die("Connection failed: " . $make->connect_error);
 } else { 
-    echo "Connected successfully"; 
-    echo "<br /><br />";
+    $result['Connection'] = "Connected successfully";
 }
 
 // ************************************************************************
@@ -78,12 +79,12 @@ if ($make->connect_error)
 
 
         if ($make->multi_query($addData) === TRUE) {
-            echo "Default Records have been added successfully!<br /><br />";
+            $result['addData'] = "Default Records have been added successfully!<br /><br />";
         } else {
-            echo "Error adding default records: " . $make->error;
+            $result['addData'] = "Error adding default records: " . $make->error;
         }
 
-echo "<br /><br />";
+echo json_encode($result);
     $make->close();
 
 ?>

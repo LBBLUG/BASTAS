@@ -43,10 +43,11 @@ $make = new mysqli($ServerAddress, $Username, $Password, $Database);
 
 if ($make->connect_error) 
 { 
-    die("Connection failed: " . $make->connect_error); 
-} else { 
-    echo "Connected successfully"; 
-    echo "<br /><br />";
+    $result['Connection'] = "Connection failed: " . $make -> connect_error);
+    echo json_encode($result);
+    die("Connection failed: " . $make->connect_error);
+} else {
+    $result['Connection'] = "Connect to database successfully for Table Creation.";
 }
 
 // ************************************************************************
@@ -64,10 +65,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
     
     if ($make->query($createTableNotes) === TRUE) {
-        echo "Notes table created successfully!<br />";
+        $result['Notes'] = "Notes table created successfully!<br />";
     } else {
-        echo "Error creating Notes table: " . $make->error;
-        echo "<br />";
+        $result['Notes'] = "Error creating Notes table.";
     }
         
 
@@ -88,10 +88,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
         
         
     if ($make->query($createTableRecipients) === TRUE) {
-        echo "Recipients table created successfully!<br />";
+        $result['Recipients'] = "Recipients table created successfully!<br />";
     } else {
-        echo "Error creating Recipients table: " . $make->error;
-        echo "<br />";
+        $result['Recipietns'] = "Error creating Recipients table: " . $make->error;
     }
         
 // *****************************************************************
@@ -111,10 +110,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableGifts) === TRUE) {
-        echo "Gifts table created successfully!<br />";
+        $result['Gifts'] = "Gifts table created successfully!<br />";
     } else {
-        echo "Error creating Gifts table: " . $make->error;
-        echo "<br />";
+        $result['Gifts'] = "Error creating Gifts table: " . $make->error;
     }
         
 
@@ -134,10 +132,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableRecip_Address) === TRUE) {
-        echo "Recipient Address table created successfully!<br />";
+        $result['Recip_address'] = "Recipient Address table created successfully!<br />";
     } else {
-        echo "Error creating Recipient Address table: " . $make->error;
-        echo "<br />";
+        $result['Recip_address'] = "Error creating Recipient Address table: " . $make->error;
     }
 
 
@@ -153,10 +150,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableDelivery_Info) === TRUE) {
-        echo "Delivery Information table created successfully!<br />";
+        $result['Delivery_info'] = "Delivery Information table created successfully!<br />";
     } else {
-        echo "Error creating Delivery Information table: " . $make->error;
-        echo "<br />";
+        $result['Delivery_info'] = "Error creating Delivery Information table: " . $make->error;
     }
 
 
@@ -180,10 +176,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableGiver) === TRUE) {
-        echo "Giver table created successfully!<br />";
+        $result['Givers'] = "Giver table created successfully!<br />";
     } else {
-        echo "Error creating Giver table: " . $make->error;
-        echo "<br />";
+        $result['Givers'] = "Error creating Giver table: " . $make->error;
     }
 
 
@@ -203,10 +198,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableUsers) === TRUE) {
-        echo "Users table created successfully!<br />";
+        $result['Users'] = "Users table created successfully!<br />";
     } else {
-        echo "Error creating Users table: " . $make->error;
-        echo "<br />";
+        $result['Users'] = "Error creating Users table: " . $make->error;
     }
         
         
@@ -223,10 +217,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTablePermission_Mstr) === TRUE) {
-        echo "Permission Master table created successfully!<br />";
+        $result['Permissions'] = "Permission Master table created successfully!<br />";
     } else {
-        echo "Error creating Permission Master table: " . $make->error;
-        echo "<br />";
+        $result['Permissions'] = "Error creating Permission Master table: " . $make->error;
     }
         
         
@@ -240,10 +233,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTablePermission_Group) === TRUE) {
-        echo "Permission Group table created successfully!<br />";
+        $result['PermissionGroup'] = "Permission Group table created successfully!<br />";
     } else {
-        echo "Error creating Permission Group table: " . $make->error;
-        echo "<br />";
+        $result['PermissionGroup'] = "Error creating Permission Group table: " . $make->error;
     }
         
 
@@ -257,10 +249,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTablePermission_Type) === TRUE) {
-        echo "Permission Type table created successfully!<br />";
+        $result[PermissionType'] = "Permission Type table created successfully!<br />";
     } else {
-        echo "Error creating Permission Type table: " . $make->error;
-        echo "<br />";
+        $result[PermissionType'] = "Error creating Permission Type table: " . $make->error;
     }
         
         
@@ -274,10 +265,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableUser_Group) === TRUE) {
-        echo "User Group table created successfully!<br />";
+        $result['UserGroup'] = "User Group table created successfully!<br />";
     } else {
-        echo "Error creating User Group table: " . $make->error;
-        echo "<br />";
+        $result['UserGroup'] = "Error creating User Group table: " . $make->error;
     }
 
 // *****************************************************************
@@ -295,10 +285,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTableHomePage_Settings) === TRUE) {
-        echo "Home page settings table created successfully!<br />";
+        $result['HomePage'] = "Home page settings table created successfully!<br />";
     } else {
-        echo "Error creating Home Settings: " . $make->error;
-        echo "<br />";
+        $result['HomePage'] = "Error creating Home Settings: " . $make->error;
     }
 
 // *****************************************************************
@@ -318,14 +307,13 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
 
     if ($make->query($createActivityLogTable) === TRUE) {
-        echo "Activity Log table created successfully!<br />";
+        $result['ActivityLog'] = "Activity Log table created successfully!<br />";
     } else {
-        echo "Error creating Activity Log table: " . $make->error;
-        echo "<br />";
+        $result['ActivityLog'] = "Error creating Activity Log table: " . $make->error;
     }
 
 
-echo "<br /><br />";
+echo json_encode($result);
     $make->close();
 
 ?>
