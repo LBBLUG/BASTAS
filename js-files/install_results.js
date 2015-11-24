@@ -67,8 +67,8 @@ $("#finishButton").hide();
                 console.log("An error occurred on ajax post.");
                 $("#Results").append($("An error occurred creating the database."));
             },
-            success: function (results) {
-                var info = JSON.parse(results);
+            success: function(result) {
+                var info = JSON.parse(result);
                 console.log(info.connection);
                 console.log(info.dbase);
                 console.log(info.config);
