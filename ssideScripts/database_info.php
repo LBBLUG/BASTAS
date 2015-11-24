@@ -1,3 +1,5 @@
+<?php
+
 /*
 
     BASTAS Web Management Application - Web Management of Be A Santa to A Senior and Similar generous programs
@@ -18,13 +20,15 @@
 
 */
 
-<?php
+
 
 $db_server = $_POST['server_name_input']; 
 $db_user = $_POST['user_name_input']; 
 $db_passwrd = $_POST['user_pass_input']; 
 
 $db_name="bastas";
+
+$result['postInfo'] = "Made it to Post in database_info.php";
 
 $conn = new mysqli($db_server, $db_user, $db_passwrd);
 
@@ -34,11 +38,11 @@ $conn = new mysqli($db_server, $db_user, $db_passwrd);
 
     if ($conn->connect_error) 
     {
-        var $result['connection'] = $conn->connect_error);
+        $result['connection'] = $conn->connect_error;
         echo json_encode($result);
         die("Connection failed: " . $conn->connect_error); 
     } else { 
-        echo $result['connection'] = "Connected successfully";
+        $result['connection'] = "Connected successfully";
     
 // *****************************************************************    
 // If the connection ability was good, create the Database
