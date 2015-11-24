@@ -51,7 +51,7 @@
     	new StoredProcedureParameter("s", $city), 
     	new StoredProcedureParameter("s", $state), 
     	new StoredProcedureParameter("s", $zip), 
-    	new StoredProcedureParameter("i", $anonymous)); // boolearn converts to int in SQL 
+    	new StoredProcedureParameter("i", $anonymous)); // boolean converts to int in SQL
 
     if ($databaseUtil->GetExceptionOccured()) {
     	http_response_code(500);
