@@ -1,3 +1,5 @@
+<?php
+
 /*
 
     BASTAS Web Management Application - Web Management of Be A Santa to A Senior and Similar generous programs
@@ -18,7 +20,7 @@
 
 */
 
-<?php
+
 
 $db_server = $_POST['server_name_input']; 
 $db_user = $_POST['user_name_input']; 
