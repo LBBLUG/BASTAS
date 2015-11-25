@@ -34,7 +34,7 @@ angular.module('Bastas.Services')
             method: "GET",
             url: "ssideScripts/getGifts.php?recipientId=" + recipientId
         }).then(function(response){
-          return response.data.data;
+          return response.data;
         }, function(err){
           if (
           ! angular.isObject( err.data ) ||
