@@ -88,29 +88,47 @@
         <div id="giftsContainer" class="container">
             <div id="gifts" class="row-fluid">
                 <h3><span style="padding-top: 30px">Gifts</span></h3>
+                 
                 <div class="span12">
-                    <div ng-repeat="gift in gifts | filter:{isDeleted:false}" class="row-fluid">
+                    <div ng-repeat="gift in gifts | filter:{isDeleted:false}" class="row">
+                        <br /><br />
                         <div id="number" class="col-sm-2">
                             <label>Gift #:</label>
-                            <input type="text" ng-model="gift.giftNo" class="form-control" id="giftNumber" maxlength="11" placeholder="Gift Number" />
+                            <input type="text" ng-model="gift.giftNo" class="form-control" id="giftNumber" maxlength="5" placeholder="Gift Number" />
                         </div>
-                        <div id="description" class="col-sm-4">
-                            <label>Gift Description:</label>
-                            <input type="text" ng-model="gift.description" class="form-control" id="size" maxlength="500" placeholder="Gift description" />
-                            <br />
-                            <label>Size / Details:</label>
-                            <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
+                        <div id="descriptions" class="col-sm-4">
+                            <div id="giftDetailInfo" class="row">
+                                <div id="giftDesc" class="col-sm12">
+                                    <label>Gift Description:</label>
+                                    <input type="text" ng-model="gift.description" class="form-control" id="size" maxlength="500" placeholder="Gift description" />
+                                </div>
+                                <br />
+                                <div id="giftSize" class="col-sm12">
+                                    <label>Size / Details:</label>
+                                    <input type="text" ng-model="gift.details" class="form-control" id="size" maxlength="20" placeholder="Size or other info about the gift" />
+                                </div>
+                            </div>
                         </div>
-		                <div class="col-sm-4">
-                            <input type="checkbox" class="checkbox form-control" value="1" ng-model="gift.isPulled" ng-change="RunFilter()" class="form-control">Is Pulled
-                            <input type="checkbox" class="checkbox form-control" value="1" ng-model="gift.isReceived" ng-change="RunFilter()" class="form-control">Is Received
-                            <input type="checkbox" class="checkbox form-control" value="1" ng-model="gift.isDelivered" ng-change="RunFilter()" class="form-control">Is Delivered
+                        <div class="col-sm-4">
+                            <div id="checkbox1" style="float: left; margin: 3px;">
+                                <input type="checkbox" class="checkbox form-control" value="1" ng-model="gift.isPulled" ng-change="RunFilter()" class="form-control">Is Pulled
+                            </div>
+                            <div id="checkbox2" style="float: left; margin: 3px;">
+                                <input type="checkbox" class="checkbox form-control" style="float: right;" value="1" ng-model="gift.isReceived" ng-change="RunFilter()" class="form-control">Is Received
+                            </div>
+                            <div id="checkbox3" style="float: left; margin: 3px;">
+                                <input type="checkbox" class="checkbox form-control" value="1" ng-model="gift.isDelivered" ng-change="RunFilter()" class="form-control">Is Delivered
+                            </div>
                         </div>
                         <div class="col-sm-2">
+<<<<<<< HEAD
                             <button type="button" id="deleteRow" ng-click="DeleteRow(gift.index)" class="btn"  style="margin-top: 25px" >Delete</button>
+=======
+                            <button type="button" id="deleteRow" ng-click="DeleteRow(gift.giftId)" class="btn btn-lg" style="margin-top: 25px">Delete</button>
+>>>>>>> brian-testing
                         </div>
-		            </div>
-		        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="addContainer" class="container">

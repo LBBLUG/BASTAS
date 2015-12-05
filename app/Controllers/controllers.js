@@ -218,7 +218,7 @@ angular.module('Bastas.Controllers')
             giftService.GetGiftsByRecipientId($routeParams.id).then(function(data){
                 var gifts = data;
 
-                array.gifts.forEach(function(currentValue, index, array){
+                gifts.forEach(function(currentValue, index, array){
                     var gift = {};
                     gift.giftId = currentValue.gift_id;
                     gift.giftNo = currentValue.gift_no;

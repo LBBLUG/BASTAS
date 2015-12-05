@@ -43,7 +43,7 @@ $make = new mysqli($ServerAddress, $Username, $Password, $Database);
 
 if ($make->connect_error) 
 { 
-    $result['Connection'] = "Connection failed: " . $make -> connect_error);
+    $result['Connection'] = "Connection failed: " . $make -> connect_error;
     echo json_encode($result);
     die("Connection failed: " . $make->connect_error);
 } else {
@@ -249,9 +249,9 @@ $createTableNotes = "CREATE TABLE IF NOT EXISTS Notes (
     ) engine=InnoDB default charset latin1;";
         
     if ($make->query($createTablePermission_Type) === TRUE) {
-        $result[PermissionType'] = "Permission Type table created successfully!<br />";
+        $result['PermissionType'] = "Permission Type table created successfully!<br />";
     } else {
-        $result[PermissionType'] = "Error creating Permission Type table: " . $make->error;
+        $result['PermissionType'] = "Error creating Permission Type table: " . $make->error;
     }
         
         
