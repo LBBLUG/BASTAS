@@ -1,6 +1,27 @@
+/*
+
+    BASTAS Web Management Application - Web Management of Be A Santa to A Senior and Similar generous programs
+    Copyright (C) 2015  Lubbock Linux Users Group (Dan Ferguson, Christopher Cowden, Brian McGonagill)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see https://github.com/LBBLUG/BASTAS/blob/master/GNUV3.0PublicLicenseSoftware.txt.
+
+*/
+
 /*global $:false */ //this simply keeps the $ for jQuery from showing as an error in linter.
 
 $("document").ready(function () {
+
 $("#next_step").hide();
 $("#createAdmin").hide();
 $("#finishButton").hide();
@@ -46,10 +67,12 @@ $("#finishButton").hide();
                 console.log("An error occurred on ajax post.");
                 $("#Results").append($("An error occurred creating the database."));
             },
-            success: function () {
-                console.log("Post action successful.");
-                console.log("Calling to create Tables.");
-                $("#Results").append($("<div>Database created successfully. <br /></div>"));
+            success: function(result) {
+                var info = JSON.parse(result);
+                console.log(info.connection);
+                console.log(info.dbase);
+                console.log(info.config);
+                $("#Results").append($("<div>" + info.connection + "<br />" + info.dbase + "<br />" + info.config + "</div>"));
                 $("#server_name_input").val("");
                 $("#user_name_input").val("");
                 $("#user_pass_input").val("");

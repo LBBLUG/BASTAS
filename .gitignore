@@ -5,3 +5,12 @@ bower_components/*
 #Node Stuff
 node_modules/
 node_modules/*
+.idea/.name
+
+*.iml
+
+*.xml
+
+ssideScripts/php/src_files/config/config.php
+
+ssideScripts/php/src_files/config/config.php
