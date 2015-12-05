@@ -43,6 +43,15 @@ if ($conn->connect_error)
     $result['Connection'] = "Connected successfully";
 }
 
+$droprecipAndAddress = "DROP PROCEDURE IF EXISTS pop_recipAndAddress;";
+
+if (!$conn->query($droprecipAndAddress))
+{
+    $result['DropRecipAddress'] = "Stored procedure drop of pop_recipAndAddress failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropRecipAddress'] = "Stored procedure drop pop_recipAndAddress sucessfully!";
+}
+
 $createrecipAndAddress = "CREATE PROCEDURE pop_recipAndAddress(
 IN lastName varchar(30),
 IN firstName varchar(30),
@@ -71,6 +80,15 @@ if (!$conn->query($createrecipAndAddress))
 }
 
 // create an admin user initial
+$dropAdminUser = "DROP PROCEDURE IF EXISTS createAdminUser;";
+
+if (!$conn->query($dropAdminUser))
+{
+    $result['DropAdminUser'] = "Stored procedure drop of createAdminUser failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropAdminUser'] = "Stored procedure drop createAdminUser sucessfully!";
+}
+
 $createAdminUser = "CREATE PROCEDURE createAdminUser(
 IN lastName varchar(30),
 IN firstName varchar(30),
@@ -92,6 +110,15 @@ if (!$conn->query($createAdminUser))
 
 
 // create Admin Group Permissions
+$dropAdminGroupPermissions = "DROP PROCEDURE IF EXISTS pop_createAdminGroupPermissions;";
+
+if (!$conn->query($dropAdminGroupPermissions))
+{
+    $result['DropAdminGroupPermission'] = "Stored procedure drop of pop_createAdminGroupPermissions failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropAdminGroupPermission'] = "Stored procedure drop pop_createAdminGroupPermissions sucessfully!";
+}
+
 $createAdminGroupPermissions = "CREATE PROCEDURE pop_createAdminGroupPermissions()
 BEGIN
 DECLARE rowNumPermType INT DEFAULT 0;
@@ -125,6 +152,15 @@ if (!$conn->query($createAdminGroupPermissions))
 
 
 // create procedure to simply add a new user without any permissions set
+$dropaddUser = "DROP PROCEDURE IF EXISTS createUser;";
+
+if (!$conn->query($dropaddUser))
+{
+    $result['DropaddUser'] = "Stored procedure drop of createUser failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddUser'] = "Stored procedure drop createUser sucessfully!";
+}
+
 $addUser = "CREATE PROCEDURE createUser(
 IN lastName varchar(30),
 IN firstName varchar(30),
@@ -146,6 +182,15 @@ if (!$conn->query($addUser))
 
 
 // create procedure to add permissions to a user
+$dropaddPermission = "DROP PROCEDURE IF EXISTS addUserPermission;";
+
+if (!$conn->query($dropaddPermission))
+{
+    $result['DropaddPermission'] = "Stored procedure drop of addUserPermission failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddPermission'] = "Stored procedure drop addUserPermission sucessfully!";
+}
+
 $addPermission = "CREATE PROCEDURE addUserPermission(
 IN userID int,
 IN permTypeID int,
@@ -165,6 +210,15 @@ if (!$conn->query($addPermission))
 
 
 // create procedure to add user group
+$dropaddUserGroup = "DROP PROCEDURE IF EXISTS createUserGroup;";
+
+if (!$conn->query($dropaddUserGroup))
+{
+    $result['DropaddUserGroup'] = "Stored procedure drop of createUserGroup failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddUserGroup'] = "Stored procedure drop createUserGroup sucessfully!";
+}
+
 $addUserGroup = "CREATE PROCEDURE createUserGroup(
 IN groupName varchar(25))
 BEGIN
@@ -180,6 +234,15 @@ if (!$conn->query($addUserGroup))
 }
 
 // create procedure to add a user to a group
+$dropaddUserToGroup = "DROP PROCEDURE IF EXISTS addUserToGroup;";
+
+if (!$conn->query($dropaddUserToGroup))
+{
+    $result['DropaddUserToGroup'] = "Stored procedure drop of addUserToGroup failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddUserToGroup'] = "Stored procedure drop addUserToGroup sucessfully!";
+}
+
 $addUserToGroup = "CREATE PROCEDURE addUserToGroup(
 IN userId int,
 IN groupId int)
@@ -197,6 +260,15 @@ if (!$conn->query($addUserToGroup))
 }
 
 // create procedure to change a user's group
+$dropchangeUserGroup = "DROP PROCEDURE IF EXISTS changeUsersGroup;";
+
+if (!$conn->query($dropchangeUserGroup))
+{
+    $result['DropchangeUserGroup'] = "Stored procedure drop of changeUsersGroup failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropchangeUserGroup'] = "Stored procedure drop changeUsersGroup sucessfully!";
+}
+
 $changeUserGroup = "CREATE PROCEDURE changeUsersGroup(
 IN userId int,
 IN groupId int)
@@ -214,6 +286,15 @@ if (!$conn->query($changeUserGroup))
 }
 
 // create procedure to add permissions to User Group
+$dropaddGroupPerm = "DROP PROCEDURE IF EXISTS addGroupPerm;";
+
+if (!$conn->query($dropaddGroupPerm))
+{
+    $result['DropaddGroupPerm'] = "Stored procedure drop of addGroupPerm failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddGroupPerm'] = "Stored procedure drop addGroupPerm sucessfully!";
+}
+
 $addGroupPerm = "CREATE PROCEDURE addGroupPerm(
 IN userID int,
 IN permTypeID int,
@@ -233,6 +314,15 @@ if (!$conn->query($addGroupPerm))
 
 
 // create procedure to add a Giver
+$dropaddGiver = "DROP PROCEDURE IF EXISTS addGiver;";
+
+if (!$conn->query($dropaddGiver))
+{
+    $result['DropaddGiver'] = "Stored procedure drop of addGiver failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddGiver'] = "Stored procedure drop addGiver sucessfully!";
+}
+
 $addGiver = "CREATE PROCEDURE addGiver(
 IN lastName varchar(30),
 IN firstName varchar(30),
@@ -260,7 +350,24 @@ if (!$conn->query($addGiver))
 
 
 // create procedure to add a Gift to a Giver
-$addGiftToGiver = "CREATE PROCEDURE addGiftToGiver (IN giftID int, IN giverID int) BEGIN INSERT INTO Gifts (giver_id) VALUES (giverID) WHERE gift_id = giftID; END;";
+$dropaddGiftToGiver = "DROP PROCEDURE IF EXISTS addGiftToGiver;";
+
+if (!$conn->query($dropaddGiftToGiver))
+{
+    $result['DropaddGiftToGiver'] = "Stored procedure drop of addGiftToGiver failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddGiftToGiver'] = "Stored procedure drop addGiftToGiver sucessfully!";
+}
+
+$addGiftToGiver = "CREATE PROCEDURE addGiftToGiver (
+    IN giftID int, 
+    IN giverID int) 
+BEGIN 
+INSERT INTO Gifts 
+(giver_id) 
+VALUES 
+(giverID);
+END;";
 
 if (!$conn->query($addGiftToGiver))
 {
@@ -270,6 +377,15 @@ if (!$conn->query($addGiftToGiver))
 }
 
 // create procedure to change Gift Status
+$dropchangeGiftStatus = "DROP PROCEDURE IF EXISTS changeGiftStatus;";
+
+if (!$conn->query($dropchangeGiftStatus))
+{
+    $result['DropchangeGiftStatus'] = "Stored procedure drop of changeGiftStatus failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropchangeGiftStatus'] = "Stored procedure drop changeGiftStatus sucessfully!";
+}
+
 $changeGiftStatus = "CREATE PROCEDURE changeGiftStatus(
 IN giftID int,
 IN gifrPulled bit,
@@ -290,6 +406,15 @@ if (!$conn->query($changeGiftStatus))
 }
 
 // create procedure to add Delivery Information - used when a gift is sent out for delivery
+$dropaddDeliveryInfo = "DROP PROCEDURE IF EXISTS addDeliveryInfo;";
+
+if (!$conn->query($dropaddDeliveryInfo))
+{
+    $result['DropaddDeliveryInfo'] = "Stored procedure drop of addDeliveryInfo failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropaddDeliveryInfo'] = "Stored procedure drop addDeliveryInfo sucessfully!";
+}
+
 $addDeliveryInfo = "CREATE PROCEDURE addDeliveryInfo(
 IN deliveryId int,
 IN delivererName varchar(60),
@@ -308,6 +433,15 @@ if (!$conn->query($addDeliveryInfo))
 }
 
 // pull back users and their group from database
+$dropgetUsersAndGroups = "DROP PROCEDURE IF EXISTS getUsersAndGroups;";
+
+if (!$conn->query($dropgetUsersAndGroups))
+{
+    $result['DropgetUsersAndGroups'] = "Stored procedure drop of getUsersAndGroups failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropgetUsersAndGroups'] = "Stored procedure drop getUsersAndGroups sucessfully!";
+}
+
 $getUsersAndGroups = "CREATE PROCEDURE getUsersAndGroups()
 BEGIN
 SELECT
@@ -330,6 +464,15 @@ if (!$conn->query($getUsersAndGroups))
 }
 
 // retrieve a list of recipients and gifts
+$dropgetRecipAndGifts = "DROP PROCEDURE IF EXISTS getRecipAndGifts;";
+
+if (!$conn->query($dropgetRecipAndGifts))
+{
+    $result['DropgetRecipAndGifts'] = "Stored procedure drop of getRecipAndGifts failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropgetRecipAndGifts'] = "Stored procedure drop getRecipAndGifts sucessfully!";
+}
+
 $getRecipAndGifts = "CREATE PROCEDURE `getRecipAndGifts`()
 BEGIN 
 SELECT 
@@ -361,6 +504,15 @@ if (!$conn->query($getRecipAndGifts))
 
 
 // retrieve a recipients and gifts
+$dropgetRecipient = "DROP PROCEDURE IF EXISTS getRecipient;";
+
+if (!$conn->query($dropgetRecipient))
+{
+    $result['DropgetRecipient'] = "Stored procedure drop of getRecipient failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropgetRecipient'] = "Stored procedure drop getRecipient sucessfully!";
+}
+
 $getRecipient = "CREATE PROCEDURE `getRecipient`(IN recipientId int)
 BEGIN 
 SELECT 
@@ -391,6 +543,16 @@ if (!$conn->query($getRecipient))
     $result['getRecipient'] = "Stored Procedure getRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     $result['getRecipient'] = "Stored Procedure getRecipient created successfully!";
+}
+
+// update gift table stuff
+$dropupdateGift = "DROP PROCEDURE IF EXISTS updateGift;";
+
+if (!$conn->query($dropupdateGift))
+{
+    $result['DropupdateGift'] = "Stored procedure drop of updateGift failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropupdateGift'] = "Stored procedure drop updateGift sucessfully!";
 }
 
 $updateGift = "CREATE PROCEDURE `updateGift`(
@@ -427,6 +589,15 @@ if (!$conn->query($updateGift))
     $result['updateGift'] = "Stored Procedure updateGift created successfully!";
 }
 
+// update recipient table stuff
+$dropupdateRecipient = "DROP PROCEDURE IF EXISTS updateRecipient;";
+
+if (!$conn->query($dropupdateRecipient))
+{
+    $result['DropupdateRecipient'] = "Stored procedure drop of updateRecipient failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropupdateRecipient'] = "Stored procedure drop updateRecipient sucessfully!";
+}
 
 $updateRecipient = "CREATE PROCEDURE `updateRecipient`(
     IN id int,
@@ -453,6 +624,16 @@ if (!$conn->query($updateRecipient))
     $result['updateRecipient'] = "Stored Procedure updateRecipient creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     $result['updateRecipient'] = "Stored Procedure updateRecipient created successfully!";
+}
+
+// update address table stuff
+$dropupdateAddress = "DROP PROCEDURE IF EXISTS updateAddress;";
+
+if (!$conn->query($dropupdateAddress))
+{
+    $result['DropupdateAddress'] = "Stored procedure drop of updateAddress failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropupdateAddress'] = "Stored procedure drop updateAddress sucessfully!";
 }
 
 $updateAddress = "CREATE PROCEDURE `updateAddress`(
@@ -482,6 +663,16 @@ if (!$conn->query($updateAddress))
     $result['updateAddress'] = "Stored Procedure updateAddress creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     $result['updateAddress'] = "Stored Procedure updateAddress created successfully!";
+}
+
+// create recipient sutff
+$dropcreateRecipient = "DROP PROCEDURE IF EXISTS createRecipient;";
+
+if (!$conn->query($dropcreateRecipient))
+{
+    $result['DropcreateRecipient'] = "Stored procedure drop of createRecipient failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropcreateRecipient'] = "Stored procedure drop createRecipient sucessfully!";
 }
 
 $createRecipient = "CREATE PROCEDURE `createRecipient`(
@@ -518,6 +709,16 @@ if (!$conn->query($createRecipient))
     $result['createRecipient'] = "Stored Procedure createRecipient created successfully!";
 }
 
+// delete gift stuff
+$dropdeleteGift = "DROP PROCEDURE IF EXISTS deleteGift;";
+
+if (!$conn->query($dropdeleteGift))
+{
+    $result['DropdeleteGift'] = "Stored procedure drop of deleteGift failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropdeleteGift'] = "Stored procedure drop deleteGift sucessfully!";
+}
+
 $deleteGift = "CREATE PROCEDURE `deleteGift`(IN giftId int)
 BEGIN
     DELETE FROM `Gifts`
@@ -530,6 +731,16 @@ if (!$conn->query($deleteGift))
     $result['deleteGift'] = "Stored Procedure deleteGift creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     $result['deleteGift'] = "Stored Procedure deleteGift created successfully!";
+}
+
+// create address stuff
+$dropcreateAddress = "DROP PROCEDURE IF EXISTS createAddress;";
+
+if (!$conn->query($dropcreateAddress))
+{
+    $result['DropcreateAddress'] = "Stored procedure drop of createAddress failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropcreateAddress'] = "Stored procedure drop createAddress sucessfully!";
 }
 
 $createAddress = "CREATE PROCEDURE `createAddress`(
@@ -569,6 +780,16 @@ if (!$conn->query($createAddress))
     $result['createAddress'] = "Stored Procedure createAddress creation failed : (" . $conn->errno . ")" . $conn->error;
 } else {
     $result['createAddress'] = "Stored Procedure createAddress created successfully!";
+}
+
+// create gift stuff
+$dropcreateGift = "DROP PROCEDURE IF EXISTS createGift;";
+
+if (!$conn->query($dropcreateGift))
+{
+    $result['DropcreateGift'] = "Stored procedure drop of createGift failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropcreateGift'] = "Stored procedure drop createGift sucessfully!";
 }
 
 $createGift = "CREATE PROCEDURE `createGift`(
@@ -614,6 +835,16 @@ if (!$conn->query($createGift))
     $result['createGift'] = "Stored Procedure createGift created successfully!";
 }
 
+// get gift stuff
+$dropgetGifts = "DROP PROCEDURE IF EXISTS getGifts;";
+
+if (!$conn->query($dropgetGifts))
+{
+    $result['DropgetGifts'] = "Stored procedure drop of getGifts failed: (" . $conn->errno . ") " . $conn->error;
+} else {
+    $result['DropgetGifts'] = "Stored procedure drop getGifts sucessfully!";
+}
+
 $getGifts = "CREATE PROCEDURE `getGifts`(IN recipientId int)
 BEGIN
     SELECT 
@@ -636,5 +867,8 @@ if (!$conn->query($getGifts))
 } else {
     $result['getGifts'] = "Stored Procedure getGifts created successfully!";
 }
+
+$json = json_encode($result);
+echo json_encode(json_decode($json), JSON_PRETTY_PRINT);
 
 ?>
