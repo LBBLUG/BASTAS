@@ -26,8 +26,6 @@ $databaseUtil = new DatabaseUtility();
 
 $recordId = htmlspecialchars($_GET["recipientId"]);
 
-echo "Recipient id: " . $recordId;
-
 $resultSet = $databaseUtil->ExecuteStoredProcedure("getGifts",
 	new StoredProcedureParameter("i", $recordId));
 

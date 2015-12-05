@@ -415,9 +415,9 @@ BEGIN
     main_id = mainId,
     giver_id = giverId
 WHERE
-    gift_id = giftNo;
+    gift_id = giftId;
 
-SELECT giftNo as Id;
+SELECT giftId as Id;
 END;";
 
 if (!$conn->query($updateGift))

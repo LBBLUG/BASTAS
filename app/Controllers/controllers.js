@@ -169,15 +169,21 @@ angular.module('Bastas.Controllers')
                 isDeleted: false,
                 isPulled: false,
                 isReceived: false,
-                isDelivered: false
+                isDelivered: false,
+                index: $scope.gifts.length
             };
             $scope.gifts.push(gift);
         };
 
         $scope.DeleteRow = function(id){
             $scope.gifts.forEach(function(currentValue, index, array){
-                if (currentValue.giftId === id)
+                if (currentValue.index === id)
                 {
+                    if (currentValue.giftId === "" || currentValue.giftId === undefined)
+                    {
+                        array.splice(index, 1);
+                        return;
+                    }
                     currentValue.isDeleted = true;
                     return;
                 };
@@ -223,12 +229,11 @@ angular.module('Bastas.Controllers')
                     gift.isReceived = currentValue.gift_received === 0 ? false : true;
                     gift.isDelivered = currentValue.gift_delivered === 0 ? false : true;
                     gift.isDeleted = false;
+                    gift.index = $scope.gifts.length;
                     $scope.gifts.push(gift);
                 });
             })
         };
-
-
 }])
 
 
