@@ -213,7 +213,8 @@ while read line; do
   # First set of commands add the recipient and recipient address
   # to the Recipients and Recip_Address tables respecively. 
   queue+="INSERT INTO Recipients(lastname, firstname, gender, home_phone, cell_phone, route_no, main_id) VALUES('$SURNAME', '$FIRSTNAME', '$GENDER', '$HOME_PHONE', '$MOBILE_PHONE', '$ROUTE', '$MAIN_ID'); \n"
-  queue+="SET @mid = LAST_INSERT_ID();\n"
+  
+  queue+="SET @mid = $MAIN_ID;\n"
   queue+="INSERT INTO Recip_Address(street_address, apt_no, neighborhood, main_id,zip_code) VALUES('$ADDRESS1','$APT','$ADDRESS2',@mid,'$ZIP_CODE');\n"
 
   # Add gifts to the Gifts table
